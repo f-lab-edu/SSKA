@@ -14,3 +14,9 @@ jobs:
         uses: robvanderleek/create-issue-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Unit Test Results # test 후 result를 보기 위해 추가
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: ${{ always() }} # test가 실패해도 report를 남기기 위해 설정
+        with:
+          files: build/test-results/**/*.xml
