@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3308/sample?characterEncoding=utf8
+    username: skka
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver

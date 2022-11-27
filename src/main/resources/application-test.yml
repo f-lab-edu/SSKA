@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: test
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:Skka-for-test;MODE=MYSQL;
+    username: skka
+    password:
