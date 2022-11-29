@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  db:
+    image: mysql:8.0.30
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: skka
+      MYSQL_USER: skka
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3308:3306"
