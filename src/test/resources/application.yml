@@ -1,5 +1,3 @@
 spring:
   profiles:
-    active: test
-  config:
-    import: application-test.yml
+    include: test
