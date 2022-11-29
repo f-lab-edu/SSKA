@@ -23,7 +23,7 @@ dependencies {
 	// spring starter
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.5'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
