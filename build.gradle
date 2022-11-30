@@ -36,6 +36,8 @@ dependencies {
 	// mysql
 	implementation 'mysql:mysql-connector-java:8.0.30'
 
+	// flyway
+	implementation 'org.flywaydb:flyway-mysql'
 }
 
 tasks.named('test') {
