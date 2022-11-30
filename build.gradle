@@ -38,6 +38,9 @@ dependencies {
 
 	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// flyway
+	implementation 'org.flywaydb:flyway-mysql'
 }
 
 tasks.named('test') {

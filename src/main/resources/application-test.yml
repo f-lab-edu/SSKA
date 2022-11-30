@@ -19,3 +19,8 @@ spring:
         show_sql: true
         format_sql: true
     database: h2
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    user: skka
+    password:

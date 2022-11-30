@@ -20,3 +20,8 @@ spring:
         format_sql: true
         use_sql_comments: true
     database: mysql
+  flyway:
+    user: skka
+    password: 123456
+    url: jdbc:mysql://localhost:3308/sample?characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
