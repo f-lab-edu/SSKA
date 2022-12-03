@@ -43,7 +43,7 @@ public class Customer extends BaseEntity {
     private String tel;
 
     public Customer(
-        final Long id,
+        final long id,
         final String name,
         final String email,
         final String password,
@@ -58,14 +58,6 @@ public class Customer extends BaseEntity {
         this.email = email;
         this.password = password;
         this.tel = tel;
-    }
-
-    public Customer (
-        final String name,
-        final String email,
-        final String tel
-    ) {
-        this(null, name, email, null, tel);
     }
 
     private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {

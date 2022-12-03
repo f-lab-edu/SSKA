@@ -6,6 +6,9 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,11 +17,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @MappedSuperclass
 @Getter
 public class BaseEntity {
+
+    LocalDateTime now = LocalDateTime.now();
+
     @Column(nullable = false, updatable = false, name = "created_at")
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = now;
 
-    @Column(nullable = false, name = "updated_at")
+    @Column(nullable = false, name = "last_modified")
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = now;
 }
