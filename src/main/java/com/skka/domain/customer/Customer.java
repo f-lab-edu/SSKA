@@ -28,16 +28,9 @@ public class Customer extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", length = 20, nullable = false)
     private String name;
-
-    @Column(name = "email", length = 50, nullable = false)
     private String email;
-
-    @Column(name = "password", length = 100, nullable = false)
     private String password;
-
-    @Column(name = "tel", length = 20, nullable = false)
     private String tel;
 
     protected Customer() {
