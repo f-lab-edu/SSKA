@@ -9,18 +9,15 @@ import com.skka.adaptor.common.exception.ErrorType;
 import com.skka.domain.customer.error.InvalidCustomerException;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Getter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "customer")
-@ToString(callSuper = true)
 @Getter
 public class Customer extends BaseEntity {
 
