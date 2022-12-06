@@ -1,4 +1,4 @@
-package com.skka.domain.seat.error;
+package com.skka.domain.studyseat.error;
 
 import com.skka.adaptor.common.exception.BadRequestException;
 import com.skka.adaptor.common.exception.ErrorType;
