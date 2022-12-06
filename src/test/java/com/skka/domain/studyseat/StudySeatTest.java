@@ -58,20 +58,9 @@ class StudySeatTest {
             .hasMessage("좌석 차지 여부는 NULL일 수 없습니다.");
     }
 
-    @DisplayName("시작 시간이 현재보다 이전일 때 생성 되지 않는다.")
-    @Test
-    void test4() {
-        LocalDateTime time = LocalDateTime.now();
-
-        assertThatThrownBy(() -> studySeatConstructor(
-            time.minusMinutes(1L), time.plusHours(2L)))
-            .isInstanceOf(InvalidStudySeatException.class)
-            .hasMessage("시작 시간은 현재보다 이전일 수 없습니다.");
-    }
-
     @DisplayName("끝나는 시간은 시작 시간 보다 이전일 때 생성 되지 않는다.")
     @Test
-    void test5() {
+    void test4() {
         LocalDateTime time = LocalDateTime.now();
 
         assertThatThrownBy(() -> studySeatConstructor(
