@@ -16,7 +16,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
 @NoArgsConstructor
-@EqualsAndHashCode
 @Getter
 @ToString
 @Setter
