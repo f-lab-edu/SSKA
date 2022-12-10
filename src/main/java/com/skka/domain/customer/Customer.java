@@ -7,12 +7,14 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
 import com.skka.adaptor.common.domain.BaseEntity;
 import com.skka.adaptor.common.exception.ErrorType;
 import com.skka.domain.customer.error.InvalidCustomerException;
+import com.skka.domain.studyseat.StudySeat;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 
@@ -29,6 +31,9 @@ public class Customer extends BaseEntity {
     private String email;
     private String password;
     private String tel;
+
+    @OneToOne(mappedBy = "customer")
+    private StudySeat studySeat;
 
     protected Customer() {
         super(LocalDateTime.now(), LocalDateTime.now());

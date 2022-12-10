@@ -40,7 +40,6 @@ public class StudySeat {
     @Embedded
     private StartEndTime startEndTime;
 
-    @Setter
     @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
