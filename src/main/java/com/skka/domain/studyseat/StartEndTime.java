@@ -18,7 +18,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @Getter
 @ToString
-@Setter
 public class StartEndTime {
 
     @Column(name = "started_time")
