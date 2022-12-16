@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -34,7 +33,6 @@ public class StudySeat {
     private long id;
 
     private String seatNumber;
-    @Setter
     private String occupied;
 
     @Embedded
