@@ -8,12 +8,14 @@ import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
@@ -26,11 +28,6 @@ public class StartEndTime {
     @Column(name = "end_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
-
-    public StartEndTime(LocalDateTime startedTime, LocalDateTime endTime) {
-        this.startedTime = startedTime;
-        this.endTime = endTime;
-    }
 
     public static StartEndTime of(LocalDateTime startedTime, LocalDateTime endTime) {
 
