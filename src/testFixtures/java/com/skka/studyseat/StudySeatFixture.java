@@ -14,8 +14,7 @@ public class StudySeatFixture {
         1L,
         "1",
         "Y",
-        time, time.plusHours(3L),
-        CUSTOMER
+        new StartEndTime(time, time.plusHours(3L))
     );
 
     public static StudySeat studySeatConstructor(LocalDateTime startedTime, LocalDateTime endTime) {
@@ -25,8 +24,7 @@ public class StudySeatFixture {
             1L,
             "1",
             "Y",
-            startedTime, endTime,
-            CUSTOMER
+            new StartEndTime(startedTime, endTime)
         );
     }
 }

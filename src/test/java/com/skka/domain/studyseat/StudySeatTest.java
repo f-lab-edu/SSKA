@@ -16,13 +16,12 @@ class StudySeatTest {
     @DisplayName("생성된다")
     @Test
     void test1() {
-        assertDoesNotThrow(() -> new StudySeat(
+        assertDoesNotThrow(() -> StudySeat.of(
             STUDY_SEAT.getId(),
             STUDY_SEAT.getSeatNumber(),
             STUDY_SEAT.getOccupied(),
             STUDY_SEAT.getStartEndTime().getStartedTime(),
-            STUDY_SEAT.getStartEndTime().getEndTime(),
-            STUDY_SEAT.getCustomer()
+            STUDY_SEAT.getStartEndTime().getEndTime()
         ));
     }
 
@@ -30,13 +29,12 @@ class StudySeatTest {
     @Test
     void test2() {
 
-            assertThatThrownBy(() -> new StudySeat(
+            assertThatThrownBy(() -> StudySeat.of(
             STUDY_SEAT.getId(),
             null,
             STUDY_SEAT.getOccupied(),
             STUDY_SEAT.getStartEndTime().getStartedTime(),
-            STUDY_SEAT.getStartEndTime().getEndTime(),
-            STUDY_SEAT.getCustomer()
+            STUDY_SEAT.getStartEndTime().getEndTime()
         ))
             .isInstanceOf(InvalidStudySeatException.class)
             .hasMessage("올바르지 않은 좌석 번호 입니다.");
@@ -46,13 +44,12 @@ class StudySeatTest {
     @Test
     void test3() {
 
-        assertThatThrownBy(() -> new StudySeat(
+        assertThatThrownBy(() -> StudySeat.of(
             STUDY_SEAT.getId(),
             STUDY_SEAT.getSeatNumber(),
             null,
             STUDY_SEAT.getStartEndTime().getStartedTime(),
-            STUDY_SEAT.getStartEndTime().getEndTime(),
-            STUDY_SEAT.getCustomer()
+            STUDY_SEAT.getStartEndTime().getEndTime()
         ))
             .isInstanceOf(InvalidStudySeatException.class)
             .hasMessage("좌석 차지 여부는 NULL일 수 없습니다.");
