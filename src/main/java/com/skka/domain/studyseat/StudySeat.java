@@ -15,12 +15,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
 @Table(name = "study_seat")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
@@ -36,21 +38,17 @@ public class StudySeat {
     @Embedded
     private StartEndTime startEndTime;
 
-    public StudySeat(
+    public static StudySeat of(
         final long id,
         final String seatNumber,
         final String occupied,
         final LocalDateTime startedTime,
-        final LocalDateTime endTime,
-        final Customer customer
+        final LocalDateTime endTime
     ) {
         require(o -> seatNumber == null, seatNumber, INVALID_STUDY_SEAT_SEAT_NUMBER);
         require(o -> occupied == null, occupied, INVALID_STUDY_SEAT_OCCUPIED);
 
-        this.id = id;
-        this.seatNumber = seatNumber;
-        this.occupied = occupied;
-        this.startEndTime = new StartEndTime(startedTime, endTime);
+        return new StudySeat(id, seatNumber, occupied, new StartEndTime(startedTime, endTime));
     }
 
     private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {
