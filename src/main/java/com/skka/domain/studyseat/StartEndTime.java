@@ -15,7 +15,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Embeddable
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString

@@ -4,7 +4,6 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_OCC
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 
 import com.skka.adaptor.common.exception.ErrorType;
-import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.error.InvalidStudySeatException;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
@@ -22,7 +21,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "study_seat")
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
