@@ -51,7 +51,6 @@ public class StudySeat {
         this.seatNumber = seatNumber;
         this.occupied = occupied;
         this.startEndTime = new StartEndTime(startedTime, endTime);
-        this.customer = customer;
     }
 
     private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {
