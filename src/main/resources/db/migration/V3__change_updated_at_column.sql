@@ -1,0 +1,1 @@
+alter table `customer` RENAME COLUMN updated_at TO last_modified;

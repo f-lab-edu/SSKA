@@ -5,9 +5,7 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEA
 
 import com.skka.adaptor.common.exception.ErrorType;
 import com.skka.domain.studyseat.error.InvalidStudySeatException;
-import java.time.LocalDateTime;
 import java.util.function.Predicate;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,24 +28,18 @@ public class StudySeat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String seatNumber;
     private String occupied;
-
-    @Embedded
-    private StartEndTime startEndTime;
 
     public static StudySeat of(
         final long id,
         final String seatNumber,
-        final String occupied,
-        final LocalDateTime startedTime,
-        final LocalDateTime endTime
+        final String occupied
     ) {
         require(o -> seatNumber == null, seatNumber, INVALID_STUDY_SEAT_SEAT_NUMBER);
         require(o -> occupied == null, occupied, INVALID_STUDY_SEAT_OCCUPIED);
 
-        return new StudySeat(id, seatNumber, occupied, new StartEndTime(startedTime, endTime));
+        return new StudySeat(id, seatNumber, occupied);
     }
 
     private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {
