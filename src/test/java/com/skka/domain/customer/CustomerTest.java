@@ -14,7 +14,7 @@ class CustomerTest {
     @DisplayName("생성된다")
     @Test
     void test1() {
-        assertDoesNotThrow(() -> new Customer (
+        assertDoesNotThrow(() -> Customer.of (
             CUSTOMER.getId(),
             CUSTOMER.getName(),
             CUSTOMER.getEmail(),
@@ -26,7 +26,7 @@ class CustomerTest {
     @DisplayName("필수값 이름이 없을 때 생성 되지 않는다")
     @Test
     void test2() {
-        assertThatThrownBy(() -> new Customer (
+        assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), null, CUSTOMER.getEmail(), CUSTOMER.getPassword(), CUSTOMER.getTel()))
             .isInstanceOf(InvalidCustomerException.class)
             .hasMessage("올바르지 않은 이름입니다.");
@@ -35,7 +35,7 @@ class CustomerTest {
     @DisplayName("필수값 이메일이 없을 때 생성 되지 않는다")
     @Test
     void test3() {
-        assertThatThrownBy(() -> new Customer (
+        assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), CUSTOMER.getName(), null, CUSTOMER.getPassword(), CUSTOMER.getTel()))
             .isInstanceOf(InvalidCustomerException.class)
             .hasMessage("올바르지 않은 이메일입니다.");
@@ -44,7 +44,7 @@ class CustomerTest {
     @DisplayName("필수값 전화번호가 없을 때 생성 되지 않는다")
     @Test
     void test4() {
-        assertThatThrownBy(() -> new Customer (
+        assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), CUSTOMER.getName(), CUSTOMER.getEmail(), CUSTOMER.getPassword(), null))
             .isInstanceOf(InvalidCustomerException.class)
             .hasMessage("올바르지 않은 전화번호입니다.");

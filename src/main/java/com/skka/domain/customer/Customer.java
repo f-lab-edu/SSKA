@@ -14,10 +14,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "customer")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Customer extends BaseEntity {
 
@@ -30,11 +33,7 @@ public class Customer extends BaseEntity {
     private String password;
     private String tel;
 
-    protected Customer() {
-        super(LocalDateTime.now(), LocalDateTime.now());
-    }
-
-    public Customer(
+    private Customer(
         final long id,
         final String name,
         final String email,
@@ -43,15 +42,26 @@ public class Customer extends BaseEntity {
     ) {
         super(LocalDateTime.now(), LocalDateTime.now());
 
-        require(o -> name == null, name, INVALID_CUSTOMER_NAME);
-        require(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
-        require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
-
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.tel = tel;
+    }
+
+    public static Customer of(
+        final long id,
+        final String name,
+        final String email,
+        final String password,
+        final String tel
+    ) {
+
+        require(o -> name == null, name, INVALID_CUSTOMER_NAME);
+        require(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
+        require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
+
+        return new Customer(id, name, email, password, tel);
     }
 
     private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {
