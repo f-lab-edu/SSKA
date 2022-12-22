@@ -19,7 +19,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "study_seat")
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
