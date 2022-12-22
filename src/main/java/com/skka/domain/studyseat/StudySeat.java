@@ -30,6 +30,12 @@ public class StudySeat {
     private String seatNumber;
     private String occupied;
 
+    private StudySeat(long id, String seatNumber, String occupied) {
+        this.id = id;
+        this.seatNumber = seatNumber;
+        this.occupied = occupied;
+    }
+
     public static StudySeat of(
         final long id,
         final String seatNumber,
