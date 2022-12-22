@@ -17,3 +17,6 @@ https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType
 
 ### 브랜치 전략
 https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow
+
+### 트러블 슈팅
+https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting
