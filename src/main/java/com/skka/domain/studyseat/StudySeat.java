@@ -4,10 +4,14 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_OCC
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.util.Util.requireStudySeat;
 
+import com.skka.domain.schedule.Schedule;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +30,9 @@ public class StudySeat {
     private long id;
     private String seatNumber;
     private String occupied;
+
+    @OneToMany(mappedBy = "studySeat")
+    private List<Schedule> schedules = new ArrayList<>();
 
     private StudySeat(long id, String seatNumber, String occupied) {
         this.id = id;

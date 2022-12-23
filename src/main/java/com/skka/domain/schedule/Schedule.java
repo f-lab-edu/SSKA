@@ -1,8 +1,9 @@
 package com.skka.domain.schedule;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY_SEAT;
 import static com.skka.adaptor.util.Util.requireSchedule;
 
-import com.skka.adaptor.common.exception.ErrorType;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import java.time.LocalDateTime;
@@ -56,8 +57,8 @@ public class Schedule {
         final LocalDateTime startTime,
         final long addTime
     ) {
-        requireSchedule(o -> customer == null, customer, ErrorType.INVALID_SCHEDULE_CUSTOMER);
-        requireSchedule(o -> studySeat == null, studySeat, ErrorType.INVALID_SCHEDULE_STUDY_SEAT);
+        requireSchedule(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
+        requireSchedule(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
 
         return new Schedule(customer, studySeat, startTime, addTime);
     }
