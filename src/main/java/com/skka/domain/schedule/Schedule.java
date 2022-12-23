@@ -62,9 +62,4 @@ public class Schedule {
 
         return new Schedule(customer, studySeat, startTime, addTime);
     }
-
-    public void updateStudySeat(Customer customer, StudySeat studySeat) {
-        this.customer = customer;
-        this.studySeat = studySeat;
-    }
 }
