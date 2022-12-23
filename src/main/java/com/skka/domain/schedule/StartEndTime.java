@@ -29,7 +29,10 @@ public class StartEndTime {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
 
-    private StartEndTime(LocalDateTime startedTime, LocalDateTime endTime) {
+    private StartEndTime(
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
         this.startedTime = startedTime;
         this.endTime = endTime;
     }
