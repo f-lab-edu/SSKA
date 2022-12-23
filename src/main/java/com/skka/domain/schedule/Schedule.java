@@ -21,7 +21,6 @@ import lombok.ToString;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = {"studySeat", "customer"})
 @Getter
 public class Schedule {
 
