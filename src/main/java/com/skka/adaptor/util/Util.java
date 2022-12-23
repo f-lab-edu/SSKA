@@ -18,4 +18,10 @@ public class Util {
             throw new InvalidStudySeatException(msg);
         }
     }
+
+    public static <T> void requireSchedule(final Predicate<T> predicate, final T target, final ErrorType msg) {
+        if (predicate.test(target)) {
+            throw new InvalidScheduleException(msg);
+        }
+    }
 }
