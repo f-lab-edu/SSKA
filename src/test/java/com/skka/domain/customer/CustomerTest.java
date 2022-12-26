@@ -4,7 +4,6 @@ import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.skka.domain.customer.error.InvalidCustomerException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ class CustomerTest {
     void test2() {
         assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), null, CUSTOMER.getEmail(), CUSTOMER.getPassword(), CUSTOMER.getTel()))
-            .isInstanceOf(InvalidCustomerException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 이름입니다.");
     }
 
@@ -37,7 +36,7 @@ class CustomerTest {
     void test3() {
         assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), CUSTOMER.getName(), null, CUSTOMER.getPassword(), CUSTOMER.getTel()))
-            .isInstanceOf(InvalidCustomerException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 이메일입니다.");
     }
 
@@ -46,7 +45,7 @@ class CustomerTest {
     void test4() {
         assertThatThrownBy(() -> Customer.of (
             CUSTOMER.getId(), CUSTOMER.getName(), CUSTOMER.getEmail(), CUSTOMER.getPassword(), null))
-            .isInstanceOf(InvalidCustomerException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 전화번호입니다.");
     }
 }

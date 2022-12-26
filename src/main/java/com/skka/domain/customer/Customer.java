@@ -3,12 +3,10 @@ package com.skka.domain.customer;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_EMAIL;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_NAME;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
+import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.common.domain.BaseEntity;
-import com.skka.adaptor.common.exception.ErrorType;
-import com.skka.domain.customer.error.InvalidCustomerException;
 import java.time.LocalDateTime;
-import java.util.function.Predicate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,11 +60,5 @@ public class Customer extends BaseEntity {
         require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
 
         return new Customer(id, name, email, password, tel);
-    }
-
-    private static <T> void require(final Predicate<T> predicate, final T target, final ErrorType msg) {
-        if (predicate.test(target)) {
-            throw new InvalidCustomerException(msg);
-        }
     }
 }
