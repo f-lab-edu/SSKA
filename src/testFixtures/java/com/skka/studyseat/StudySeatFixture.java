@@ -7,7 +7,7 @@ public class StudySeatFixture {
     public static StudySeat STUDY_SEAT = StudySeat.of(
         1L,
         "1",
-        "Y"
+        true
     );
 
     public static StudySeat studySeatConstructor() {
@@ -15,7 +15,7 @@ public class StudySeatFixture {
         return StudySeat.of(
             1L,
             "1",
-            "Y"
+            true
         );
     }
 }
