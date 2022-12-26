@@ -2,7 +2,7 @@ package com.skka.domain.schedule;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY_SEAT;
-import static com.skka.adaptor.util.Util.requireSchedule;
+import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -56,8 +55,8 @@ public class Schedule {
         final LocalDateTime startTime,
         final long addTime
     ) {
-        requireSchedule(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
-        requireSchedule(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
+        require(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
+        require(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
 
         return new Schedule(customer, studySeat, startTime, addTime);
     }

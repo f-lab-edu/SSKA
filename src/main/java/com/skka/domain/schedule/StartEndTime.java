@@ -1,7 +1,7 @@
 package com.skka.domain.schedule;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
-import static com.skka.adaptor.util.Util.requireSchedule;
+import static com.skka.adaptor.util.Util.require;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -41,7 +41,7 @@ public class StartEndTime {
         final LocalDateTime startedTime,
         final LocalDateTime endTime
     ) {
-        requireSchedule(
+        require(
             o -> checkTimeDifference(startedTime, endTime) < 1,
             checkTimeDifference(startedTime, endTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)

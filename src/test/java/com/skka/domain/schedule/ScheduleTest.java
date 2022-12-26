@@ -4,7 +4,6 @@ import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import com.skka.domain.schedule.error.InvalidScheduleException;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +31,7 @@ class ScheduleTest {
             LocalDateTime.now(),
             2L
         ))
-            .isInstanceOf(InvalidScheduleException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 고객 입니다.");
     }
 
@@ -45,7 +44,7 @@ class ScheduleTest {
             LocalDateTime.now(),
             2L
         ))
-            .isInstanceOf(InvalidScheduleException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 좌석 입니다.");
     }
 
@@ -58,7 +57,7 @@ class ScheduleTest {
             LocalDateTime.now(),
             0L
         ))
-            .isInstanceOf(InvalidScheduleException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이용 시간은 최소 1시간 이상 입니다.");
     }
 }

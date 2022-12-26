@@ -3,7 +3,7 @@ package com.skka.domain.customer;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_EMAIL;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_NAME;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
-import static com.skka.adaptor.util.Util.requireCustomer;
+import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.common.domain.BaseEntity;
 import com.skka.domain.schedule.Schedule;
@@ -62,9 +62,9 @@ public class Customer extends BaseEntity {
         final String tel
     ) {
 
-        requireCustomer(o -> name == null, name, INVALID_CUSTOMER_NAME);
-        requireCustomer(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
-        requireCustomer(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
+        require(o -> name == null, name, INVALID_CUSTOMER_NAME);
+        require(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
+        require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
 
         return new Customer(id, name, email, password, tel);
     }

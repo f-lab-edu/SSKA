@@ -1,8 +1,7 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_OCCUPIED;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adaptor.util.Util.requireStudySeat;
+import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.schedule.Schedule;
 import java.util.ArrayList;
@@ -29,12 +28,12 @@ public class StudySeat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String seatNumber;
-    private String occupied;
+    private boolean occupied;
 
     @OneToMany(mappedBy = "studySeat")
     private List<Schedule> schedules = new ArrayList<>();
 
-    private StudySeat(long id, String seatNumber, String occupied) {
+    private StudySeat(long id, String seatNumber, boolean occupied) {
         this.id = id;
         this.seatNumber = seatNumber;
         this.occupied = occupied;
@@ -43,10 +42,9 @@ public class StudySeat {
     public static StudySeat of(
         final long id,
         final String seatNumber,
-        final String occupied
+        final boolean occupied
     ) {
-        requireStudySeat(o -> seatNumber == null, seatNumber, INVALID_STUDY_SEAT_SEAT_NUMBER);
-        requireStudySeat(o -> occupied == null, occupied, INVALID_STUDY_SEAT_OCCUPIED);
+        require(o -> seatNumber == null, seatNumber, INVALID_STUDY_SEAT_SEAT_NUMBER);
 
         return new StudySeat(id, seatNumber, occupied);
     }
