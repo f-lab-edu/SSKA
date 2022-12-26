@@ -10,7 +10,6 @@ import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString
-@Setter
 public class StartEndTime {
 
     @Column(name = "started_time")
