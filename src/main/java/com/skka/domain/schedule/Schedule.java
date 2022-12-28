@@ -49,23 +49,23 @@ public class Schedule {
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addTime
+        final long addHour
     ) {
         this.customer = customer;
         this.studySeat = studySeat;
         this.startedTime = startTime;
-        this.endTime = startTime.plusHours(addTime);
+        this.endTime = startTime.plusHours(addHour);
     }
 
     public static Schedule of(
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addTime
+        final long addHour
     ) {
         require(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
         require(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
 
-        return new Schedule(customer, studySeat, startTime, addTime);
+        return new Schedule(customer, studySeat, startTime, addHour);
     }
 }
