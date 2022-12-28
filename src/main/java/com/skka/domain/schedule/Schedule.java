@@ -7,6 +7,7 @@ import static com.skka.adaptor.util.Util.require;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,8 +37,13 @@ public class Schedule {
     @JoinColumn(name = "study_seat_id")
     private StudySeat studySeat;
 
-    @Embedded
-    private StartEndTime startEndTime;
+    @Column(name = "started_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime startedTime;
+
+    @Column(name = "end_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime endTime;
 
     private Schedule(
         final Customer customer,
@@ -46,7 +53,8 @@ public class Schedule {
     ) {
         this.customer = customer;
         this.studySeat = studySeat;
-        this.startEndTime = StartEndTime.of(startTime, startTime.plusHours(addTime));
+        this.startedTime = startTime;
+        this.endTime = startTime.plusHours(addTime);
     }
 
     public static Schedule of(
