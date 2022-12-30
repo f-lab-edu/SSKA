@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +63,7 @@ public class CustomerService {
         require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
     }
 
+    @Transactional
     public String moveSeat(final CommandMoveSeat command) {
 
         Customer customer = findByCustomerId(command.getCustomerId());
