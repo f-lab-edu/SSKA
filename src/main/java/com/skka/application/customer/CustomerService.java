@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class CustomerService {
     private final StudySeatRepository studySeatRepository;
     private final ScheduleRepository scheduleRepository;
 
+    @Transactional
     public String reserveSeat(final CommandReserveSeat command) {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
