@@ -58,7 +58,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusTime()),
+            command.getStartedTime().plusHours(command.getPlusHour()),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
@@ -94,7 +94,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusTime()),
+            command.getStartedTime().plusHours(command.getPlusHour()),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
