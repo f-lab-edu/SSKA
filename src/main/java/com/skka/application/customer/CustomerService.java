@@ -38,7 +38,6 @@ public class CustomerService {
             command.getPlusHour()
         );
 
-        studySeatRepository.save(studySeat);
         scheduleRepository.save(schedule);
 
         return "ok";
