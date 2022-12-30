@@ -1,6 +1,7 @@
 package com.skka.adaptor.controller;
 
 import com.skka.application.customer.CustomerService;
+import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,5 +17,10 @@ public class CustomerController {
     @PostMapping(value = "/reservation")
     public ResponseEntity reserveSeat(CommandReserveSeat seat) {
         return ResponseEntity.ok(customerService.reserveSeat(seat));
+    }
+
+    @PostMapping(value = "/reservation/change")
+    public ResponseEntity moveSeat(CommandMoveSeat command) {
+        return ResponseEntity.ok(customerService.moveSeat(command));
     }
 }

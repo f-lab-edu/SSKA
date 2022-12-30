@@ -83,4 +83,9 @@ public class Schedule {
         Duration diff = Duration.between(startedTime, endTime);
         return diff.toHours();
     }
+
+    public void updateStudySeat(Customer customer, StudySeat studySeat) {
+        this.customer = customer;
+        this.studySeat = studySeat;
+    }
 }

@@ -3,6 +3,7 @@ package com.skka.application.customer;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ALREADY_RESERVED;
 import static com.skka.adaptor.util.Util.require;
 
+import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -59,5 +60,37 @@ public class CustomerService {
             studySeatId
         );
         require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
+    }
+
+    public String moveSeat(final CommandMoveSeat command) {
+
+        Customer customer = findByCustomerId(command.getCustomerId());
+        StudySeat studySeat = findByStudySeatId(command.getMovingSeatNumber());
+
+        checkReservation(command.getStartedTime(), command.getEndTime(), command.getMovingSeatNumber());
+
+        Schedule foundSchedule = findScheduleByStartAndEndTime(
+            command.getStartedTime(), command.getEndTime()
+        );
+
+        foundSchedule.updateStudySeat(customer, studySeat);
+
+        scheduleRepository.save(foundSchedule);
+        return "ok";
+    }
+
+    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long movingStudySeatId) {
+        List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
+            startedTime,
+            endTime,
+            movingStudySeatId
+        );
+
+        require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
+    }
+
+    private Schedule findScheduleByStartAndEndTime(LocalDateTime startedTime,
+        LocalDateTime endTime) {
+        return scheduleRepository.findScheduleByStartAndEndTime(startedTime, endTime);
     }
 }

@@ -24,4 +24,18 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
         @Param("endTime") LocalDateTime endTime,
         @Param("studySeatId") long studySeatId
     );
+
+    @Query(
+        value =
+            "SELECT * FROM schedule s "
+                + "WHERE "
+                + "s.started_time = :startedTime "
+                + "AND s.end_time = :endTime "
+                + "LIMIT 1 "
+        , nativeQuery = true
+    )
+    Schedule findScheduleByStartAndEndTime(
+        @Param("startedTime") LocalDateTime startedTime,
+        @Param("endTime") LocalDateTime endTime
+    );
 }
