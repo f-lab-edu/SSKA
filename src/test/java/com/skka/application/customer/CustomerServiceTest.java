@@ -113,7 +113,7 @@ class CustomerServiceTest {
 
 
     @Test
-    @DisplayName("고객은 좌석을 옮길 수 있다.")
+    @DisplayName("유저는 좌석을 옮길 수 있다.")
     void moveSeat_test1() {
 
         // given
