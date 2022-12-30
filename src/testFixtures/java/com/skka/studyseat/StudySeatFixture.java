@@ -10,12 +10,9 @@ public class StudySeatFixture {
         true
     );
 
-    public static StudySeat studySeatConstructor() {
-
-        return StudySeat.of(
-            1L,
-            "1",
-            true
-        );
-    }
+    public static StudySeat MOVING_STUDY_SEAT = StudySeat.of(
+        2L,
+        "2",
+        true
+    );
 }

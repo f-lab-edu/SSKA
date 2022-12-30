@@ -6,11 +6,15 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.common.domain.BaseEntity;
+import com.skka.domain.schedule.Schedule;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,6 +34,9 @@ public class Customer extends BaseEntity {
     private String email;
     private String password;
     private String tel;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Schedule> schedules = new ArrayList<>();
 
     private Customer(
         final long id,
