@@ -13,7 +13,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PostMapping(value = "/customer")
+    @PostMapping(value = "/reservation")
     public ResponseEntity reserveSeat(CommandReserveSeat seat) {
         return ResponseEntity.ok(customerService.reserveSeat(seat));
     }
