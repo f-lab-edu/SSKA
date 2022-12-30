@@ -27,13 +27,13 @@ public class CustomerService {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
 
-        checkReservation(command.getStartedTime(), command.getPlusTime(), studySeat.getId());
+        checkReservation(command.getStartedTime(), command.getPlusHour(), studySeat.getId());
 
         Schedule schedule = Schedule.of(
             customer,
             studySeat,
             command.getStartedTime(),
-            command.getPlusTime()
+            command.getPlusHour()
         );
 
         studySeatRepository.save(studySeat);
