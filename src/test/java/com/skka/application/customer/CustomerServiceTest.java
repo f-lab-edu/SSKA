@@ -1,12 +1,14 @@
 package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
+import static com.skka.schedule.ScheduleFixture.MOVING_SCHEDULE;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.Schedule;
@@ -107,5 +109,83 @@ class CustomerServiceTest {
 
     private List<Schedule> getScheduleList() {
         return new ArrayList<>();
+    }
+
+
+    @Test
+    @DisplayName("고객은 좌석을 옮길 수 있다.")
+    void moveSeat_test1() {
+
+        // given
+        CommandMoveSeat command = new CommandMoveSeat(
+            1L,
+            2L,
+            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0, 0)
+        );
+
+        List<Schedule> scheduleList = getScheduleList();
+
+        // when
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(command.getMovingSeatNumber()))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        when(scheduleRepository.findAllSchedulesByStartedEndTime(
+            command.getStartedTime(),
+            command.getEndTime(),
+            command.getMovingSeatNumber()
+        ))
+            .thenReturn(scheduleList);
+
+        when(scheduleRepository.findScheduleByStartAndEndTime(
+            command.getStartedTime(),
+            command.getEndTime()
+        ))
+            .thenReturn(MOVING_SCHEDULE);
+
+        // then
+        String actual = customerService.moveSeat(command);
+        assertThat(actual).isEqualTo("ok");
+    }
+
+    @Test
+    @DisplayName(
+        "유저는 옮기려고 하는 좌석에 같은 시간대가 이미 예약 되어 있으면 좌석을 옮길 수 없다."
+    )
+    void moveSeat_test2() {
+
+        // given
+        CommandMoveSeat command = new CommandMoveSeat(
+            1L,
+            2L,
+            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0, 0)
+        );
+
+        List<Schedule> scheduleList = getScheduleList();
+        scheduleList.add(SCHEDULE);
+        scheduleList.add(MOVING_SCHEDULE);
+
+        // when
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(command.getMovingSeatNumber()))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        when(scheduleRepository.findAllSchedulesByStartedEndTime(
+            command.getStartedTime(),
+            command.getEndTime(),
+            command.getMovingSeatNumber()
+        ))
+            .thenReturn(scheduleList);
+
+        // given
+        assertThatThrownBy(() -> customerService.moveSeat(command))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("이미 예약된 좌석 입니다.");
     }
 }
