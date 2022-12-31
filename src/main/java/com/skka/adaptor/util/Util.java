@@ -14,7 +14,6 @@ public class Util {
     }
 
     public static void require(final boolean condition, final ErrorType msg) {
-        System.out.println("?! = " + condition);
         if (condition) {
             throw new IllegalArgumentException(msg.getMessage());
         }

@@ -38,4 +38,25 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
         @Param("startedTime") LocalDateTime startedTime,
         @Param("endTime") LocalDateTime endTime
     );
+
+    @Query(
+        value =
+            "SELECT * FROM schedule s "
+                + "WHERE s.study_seat_id = :studySeatId "
+                + "AND NOT(( "
+                + ":postponedTime <= s.started_time "
+                + ") "
+                + "OR ( "
+                + "s.end_time <= :endTime "
+                + "AND "
+                + ":endTime <= :postponedTime "
+                + ") "
+                + ") "
+        , nativeQuery = true
+    )
+    List<Schedule> findAllSchedulesFromEndTimeToPostponedEndTime(
+        @Param("endTime") LocalDateTime endTime,
+        @Param("postponedTime") LocalDateTime postponedTime,
+        @Param("studySeatId") long studySeatId
+    );
 }
