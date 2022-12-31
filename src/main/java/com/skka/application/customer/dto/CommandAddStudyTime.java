@@ -19,5 +19,5 @@ public class CommandAddStudyTime {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime endTime;
 
-    private final long plusTime;
+    private final long plusHour;
 }

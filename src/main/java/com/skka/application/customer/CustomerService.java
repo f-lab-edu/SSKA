@@ -111,11 +111,11 @@ public class CustomerService {
         checkStudySeatIdWithStudySeatId(schedule.getStudySeat().getId(), command.getSeatNumber());
         checkReservationForPostponingTime(
             command.getEndTime(),
-            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getEndTime().plusHours(command.getPlusHour()),
             command.getSeatNumber()
         );
 
-        schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusTime()));
+        schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusHour()));
 
         System.out.println(schedule);
         scheduleRepository.save(schedule);
