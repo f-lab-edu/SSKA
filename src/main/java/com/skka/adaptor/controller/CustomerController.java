@@ -1,6 +1,7 @@
 package com.skka.adaptor.controller;
 
 import com.skka.application.customer.CustomerService;
+import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,10 @@ public class CustomerController {
     @PostMapping(value = "/reservation/change")
     public ResponseEntity moveSeat(CommandMoveSeat command) {
         return ResponseEntity.ok(customerService.moveSeat(command));
+    }
+
+    @PostMapping(value = "/reservation/more_time")
+    public ResponseEntity addTime(CommandAddStudyTime seat) {
+        return ResponseEntity.ok(customerService.addStudyTime(seat));
     }
 }
