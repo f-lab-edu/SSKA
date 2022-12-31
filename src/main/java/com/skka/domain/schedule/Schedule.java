@@ -88,4 +88,8 @@ public class Schedule {
         this.customer = customer;
         this.studySeat = studySeat;
     }
+
+    public void updateEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }

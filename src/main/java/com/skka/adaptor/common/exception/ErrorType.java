@@ -20,7 +20,10 @@ public enum ErrorType {
     INVALID_SCHEDULE_CUSTOMER(4002, "올바르지 않은 고객 입니다."),
     INVALID_SCHEDULE_STUDY_SEAT(4003, "올바르지 않은 좌석 입니다."),
     INVALID_SCHEDULE_ALREADY_RESERVED(4004, "이미 예약된 좌석 입니다."),
-    INVALID_SCHEDULE_BEFORE_A_HOUR(4005, "이용 시간은 최소 1시간 이상 입니다.");
+    INVALID_SCHEDULE_BEFORE_A_HOUR(4005, "이용 시간은 최소 1시간 이상 입니다."),
+    INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED(4006, "다른 스케쥴과 겹치므로 다시 입력 하십시오."),
+    INVALID_SCHEDULE_MY_STUDY_SEAT(4007, "자신의 자리가 아닙니다."),
+    INVALID_SCHEDULE_ME(4008, "자신의 예약 정보가 아닙니다.");
 
     private final int code;
     private final String message;

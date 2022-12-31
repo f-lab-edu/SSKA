@@ -1,8 +1,12 @@
 package com.skka.application.customer;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ALREADY_RESERVED;
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ME;
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_MY_STUDY_SEAT;
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.require;
 
+import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import com.skka.domain.customer.Customer;
@@ -94,5 +98,47 @@ public class CustomerService {
     private Schedule findScheduleByStartAndEndTime(LocalDateTime startedTime,
         LocalDateTime endTime) {
         return scheduleRepository.findScheduleByStartAndEndTime(startedTime, endTime);
+    }
+
+    @Transactional
+    public String addStudyTime(final CommandAddStudyTime command) {
+
+        Schedule schedule = findScheduleByStartAndEndTime(
+            command.getStartedTime(), command.getEndTime()
+        );
+
+        checkBookerWithCustomerId(schedule.getCustomer().getId(), command.getCustomerId());
+        checkStudySeatIdWithStudySeatId(schedule.getStudySeat().getId(), command.getSeatNumber());
+        checkReservationForPostponingTime(
+            command.getEndTime(),
+            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getSeatNumber()
+        );
+
+        schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusTime()));
+
+        System.out.println(schedule);
+        scheduleRepository.save(schedule);
+        return "ok";
+    }
+
+    private void checkBookerWithCustomerId(long customerId, long comparingCustomerId) {
+
+        require(customerId != comparingCustomerId, INVALID_SCHEDULE_ME);
+    }
+
+    private void checkStudySeatIdWithStudySeatId(long studySeatId, long comparingStudySeatId) {
+
+        require(studySeatId != comparingStudySeatId, INVALID_SCHEDULE_MY_STUDY_SEAT);
+    }
+
+    private void checkReservationForPostponingTime(LocalDateTime endTime, LocalDateTime postponedEndTime, long studySeatId) {
+        List<Schedule> schedules = scheduleRepository.findAllSchedulesFromEndTimeToPostponedEndTime(
+            endTime,
+            postponedEndTime,
+            studySeatId
+        );
+
+        require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
     }
 }
