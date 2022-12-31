@@ -2,12 +2,14 @@ package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.MOVING_SCHEDULE;
+import static com.skka.schedule.ScheduleFixture.SCHEDUEL_ERROR;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -187,5 +189,133 @@ class CustomerServiceTest {
         assertThatThrownBy(() -> customerService.moveSeat(command))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이미 예약된 좌석 입니다.");
+    }
+
+    @Test
+    @DisplayName(
+        "유저는 시간을 연장할 수 있다."
+    )
+    void addStudyTime_test1() {
+
+        // given
+        CommandAddStudyTime command = new CommandAddStudyTime(
+            1L,
+            1L,
+            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0, 0),
+            2L
+        );
+
+        List<Schedule> scheduleList = getScheduleList();
+
+        // when
+        when(scheduleRepository.findScheduleByStartAndEndTime(
+            command.getStartedTime(),
+            command.getEndTime()
+        ))
+            .thenReturn(SCHEDULE);
+
+        when(scheduleRepository.findAllSchedulesFromEndTimeToPostponedEndTime(
+            command.getEndTime(),
+            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getSeatNumber()
+        ))
+            .thenReturn(scheduleList);
+
+        // then
+        String actual = customerService.addStudyTime(command);
+        assertThat(actual).isEqualTo("ok");
+    }
+
+    @Test
+    @DisplayName(
+        "유저 자신만이 시간을 연장할 수 있다."
+    )
+    void addStudyTime_test2() {
+
+        // given
+        CommandAddStudyTime command = new CommandAddStudyTime(
+            2L,
+            1L,
+            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0, 0),
+            2L
+        );
+
+        // when
+        when(scheduleRepository.findScheduleByStartAndEndTime(
+            command.getStartedTime(),
+            command.getEndTime()
+        ))
+            .thenReturn(SCHEDULE);
+
+        assertThatThrownBy(() -> customerService.addStudyTime(command))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("자신의 예약 정보가 아닙니다.");
+    }
+
+    @Test
+    @DisplayName(
+        "유저 자신의 자리만 시간을 연장할 수 있다."
+    )
+    void addStudyTime_test3() {
+
+        // given
+        CommandAddStudyTime command = new CommandAddStudyTime(
+            1L,
+            2L,
+            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0, 0),
+            2L
+        );
+
+        // when
+        when(scheduleRepository.findScheduleByStartAndEndTime(
+            command.getStartedTime(),
+            command.getEndTime()
+        ))
+            .thenReturn(SCHEDULE);
+
+        assertThatThrownBy(() -> customerService.addStudyTime(command))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("자신의 자리가 아닙니다.");
+    }
+
+    @Test
+    @DisplayName(
+        "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
+    )
+    void addStudyTime_test4() {
+
+        // given
+        CommandAddStudyTime command = new CommandAddStudyTime(
+            1L,
+            1L,
+            LocalDateTime.of(2021, 1, 10, 10, 0, 0),
+            LocalDateTime.of(2021, 1, 10, 12, 0, 0),
+            2L
+        );
+
+        List<Schedule> scheduleList = getScheduleList();
+        scheduleList.add(SCHEDUEL_ERROR);
+
+        // when
+        when(scheduleRepository.findScheduleByStartAndEndTime(
+            command.getStartedTime(),
+            command.getEndTime()
+        ))
+            .thenReturn(SCHEDULE);
+
+        when(scheduleRepository.findAllSchedulesFromEndTimeToPostponedEndTime(
+            command.getEndTime(),
+            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getSeatNumber()
+        ))
+            .thenReturn(scheduleList);
+
+        // then
+        assertThatThrownBy(() -> customerService.addStudyTime(command))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("다른 스케쥴과 겹치므로 다시 입력 하십시오.");
     }
 }

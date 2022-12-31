@@ -22,4 +22,11 @@ public class ScheduleFixture {
         LocalDateTime.now(),
         2L
     );
+
+    public static Schedule SCHEDUEL_ERROR = Schedule.of(
+        CUSTOMER,
+        STUDY_SEAT,
+        LocalDateTime.of(2021, 1, 10, 10, 10, 0),
+        1L
+    );
 }
