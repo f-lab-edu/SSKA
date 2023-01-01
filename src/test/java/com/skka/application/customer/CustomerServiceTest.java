@@ -217,7 +217,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesFromEndTimeToPostponedEndTime(
             command.getEndTime(),
-            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getEndTime().plusHours(command.getPlusHour()),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
@@ -308,7 +308,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesFromEndTimeToPostponedEndTime(
             command.getEndTime(),
-            command.getEndTime().plusHours(command.getPlusTime()),
+            command.getEndTime().plusHours(command.getPlusHour()),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
