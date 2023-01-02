@@ -40,7 +40,7 @@ public class CustomerService {
 
         scheduleRepository.save(schedule);
 
-        return "ok";
+        return command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.";
     }
 
     private Customer findByCustomerId(final long customerId) {

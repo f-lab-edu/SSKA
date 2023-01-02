@@ -65,7 +65,7 @@ class CustomerServiceTest {
 
         // then
         String actual = customerService.reserveSeat(command);
-        assertThat(actual).isEqualTo("ok");
+        assertThat(actual).isEqualTo(command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.");
     }
 
     @Test
