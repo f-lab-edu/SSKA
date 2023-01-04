@@ -1,6 +1,7 @@
 package com.skka.application.customer;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ALREADY_RESERVED;
+import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.application.customer.dto.CommandMoveSeat;
@@ -60,7 +61,7 @@ public class CustomerService {
             startedTime.plusHours(plusHours),
             studySeatId
         );
-        require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
+        check(!schedules.isEmpty(), INVALID_SCHEDULE_ALREADY_RESERVED);
     }
 
     @Transactional
@@ -88,7 +89,7 @@ public class CustomerService {
             movingStudySeatId
         );
 
-        require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
+        check(!schedules.isEmpty(), INVALID_SCHEDULE_ALREADY_RESERVED);
     }
 
     private Schedule findScheduleByStartAndEndTime(LocalDateTime startedTime,
