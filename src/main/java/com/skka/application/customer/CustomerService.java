@@ -81,16 +81,6 @@ public class CustomerService {
         return studySeat.getSeatNumber() + "에서 " + command.getMovingSeatNumber() + "로 자리 옮기기 성공";
     }
 
-    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long movingStudySeatId) {
-        List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
-            startedTime,
-            endTime,
-            movingStudySeatId
-        );
-
-        check(!schedules.isEmpty(), INVALID_SCHEDULE_ALREADY_RESERVED);
-    }
-
     private Schedule findScheduleByStartAndEndTime(LocalDateTime startedTime,
         LocalDateTime endTime) {
         return scheduleRepository.findScheduleByStartAndEndTime(startedTime, endTime);

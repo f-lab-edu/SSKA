@@ -42,7 +42,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
         , nativeQuery = true
     )
     Schedule findScheduleByStartAndEndTime(
-        @Param("startedTime") LocalDateTime startedTime,
-        @Param("endTime") LocalDateTime endTime
+        LocalDateTime startedTime,
+        LocalDateTime endTime
     );
 }
