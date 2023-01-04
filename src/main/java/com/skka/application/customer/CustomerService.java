@@ -25,23 +25,23 @@ public class CustomerService {
     private final StudySeatRepository studySeatRepository;
     private final ScheduleRepository scheduleRepository;
 
+    @Transactional
     public String reserveSeat(final CommandReserveSeat command) {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
 
-        checkReservation(command.getStartedTime(), command.getPlusHour(), studySeat.getId());
+        checkReservation(command.getStartedTime(), command.getEndTime(), studySeat.getId());
 
         Schedule schedule = Schedule.of(
             customer,
             studySeat,
             command.getStartedTime(),
-            command.getPlusHour()
+            command.getEndTime()
         );
 
-        studySeatRepository.save(studySeat);
         scheduleRepository.save(schedule);
 
-        return "ok";
+        return command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.";
     }
 
     private Customer findByCustomerId(final long customerId) {
@@ -54,10 +54,10 @@ public class CustomerService {
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
-    private void checkReservation(LocalDateTime startedTime, long plusHours, long studySeatId) {
+    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long studySeatId) {
         List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
             startedTime,
-            startedTime.plusHours(plusHours),
+            endTime,
             studySeatId
         );
         check(!schedules.isEmpty(), INVALID_SCHEDULE_ALREADY_RESERVED);

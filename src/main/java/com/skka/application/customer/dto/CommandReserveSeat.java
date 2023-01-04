@@ -16,5 +16,6 @@ public class CommandReserveSeat {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime startedTime;
 
-    private final long plusHour;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime endTime;
 }

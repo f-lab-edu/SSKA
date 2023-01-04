@@ -46,7 +46,7 @@ class CustomerServiceTest {
             1L,
             1L,
             LocalDateTime.now(),
-            1L
+            LocalDateTime.now().plusHours(1L)
         );
 
         List<Schedule> scheduleList = getScheduleList();
@@ -60,14 +60,14 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusHour()),
+            command.getEndTime(),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
 
         // then
         String actual = customerService.reserveSeat(command);
-        assertThat(actual).isEqualTo("ok");
+        assertThat(actual).isEqualTo(command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.");
     }
 
     @Test
@@ -81,7 +81,7 @@ class CustomerServiceTest {
             1L,
             1L,
             LocalDateTime.now(),
-            1L
+            LocalDateTime.now().plusHours(1L)
         );
 
         List<Schedule> scheduleList = getScheduleList();
@@ -96,7 +96,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusHour()),
+            command.getEndTime(),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);

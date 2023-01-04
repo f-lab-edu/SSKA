@@ -51,29 +51,29 @@ public class Schedule {
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addHour
+        final LocalDateTime endTime
     ) {
         this.customer = customer;
         this.studySeat = studySeat;
         this.startedTime = startTime;
-        this.endTime = startTime.plusHours(addHour);
+        this.endTime = endTime;
     }
 
     public static Schedule of(
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addHour
+        final LocalDateTime endTime
     ) {
         require(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
         require(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
         require(
-            o -> checkTimeDifference(startTime, startTime.plusHours(addHour)) < 1,
-            checkTimeDifference(startTime, startTime.plusHours(addHour)),
+            o -> checkTimeDifference(startTime, endTime) < 1,
+            checkTimeDifference(startTime, endTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
 
-        return new Schedule(customer, studySeat, startTime, addHour);
+        return new Schedule(customer, studySeat, startTime, endTime);
     }
 
     private static long checkTimeDifference(
