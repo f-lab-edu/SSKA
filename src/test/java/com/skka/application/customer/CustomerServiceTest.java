@@ -224,7 +224,7 @@ class CustomerServiceTest {
 
         // then
         String actual = customerService.addStudyTime(command);
-        assertThat(actual).isEqualTo("ok");
+        assertThat(actual).isEqualTo(command.getPlusHour() + "시간을 연장 하였습니다.");
     }
 
     @Test

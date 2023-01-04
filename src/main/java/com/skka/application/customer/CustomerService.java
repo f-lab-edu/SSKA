@@ -109,7 +109,7 @@ public class CustomerService {
 
         System.out.println(schedule);
         scheduleRepository.save(schedule);
-        return "ok";
+        return command.getPlusHour() + "시간을 연장 하였습니다.";
     }
 
     private void checkBookerWithCustomerId(long customerId, long comparingCustomerId) {
