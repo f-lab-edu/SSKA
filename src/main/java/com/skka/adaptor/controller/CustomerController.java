@@ -26,7 +26,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.moveSeat(command));
     }
 
-    @PostMapping(value = "/reservation/more_time")
+    @PatchMapping(value = "/reservation/more_time")
     public ResponseEntity addTime(CommandAddStudyTime seat) {
         return ResponseEntity.ok(customerService.addStudyTime(seat));
     }
