@@ -79,7 +79,7 @@ public class CustomerService {
         foundSchedule.updateStudySeat(customer, studySeat);
 
         scheduleRepository.save(foundSchedule);
-        return "ok";
+        return studySeat.getSeatNumber() + "에서 " + command.getMovingSeatNumber() + "로 자리 옮기기 성공";
     }
 
     private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long movingStudySeatId) {

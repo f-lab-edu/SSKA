@@ -148,7 +148,7 @@ class CustomerServiceTest {
 
         // then
         String actual = customerService.moveSeat(command);
-        assertThat(actual).isEqualTo("ok");
+        assertThat(actual).isEqualTo(STUDY_SEAT.getSeatNumber() + "에서 " + command.getMovingSeatNumber() + "로 자리 옮기기 성공");
     }
 
     @Test
