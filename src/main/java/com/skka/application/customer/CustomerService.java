@@ -29,13 +29,13 @@ public class CustomerService {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
 
-        checkReservation(command.getStartedTime(), command.getPlusHourToCalculateEndTime(), studySeat.getId());
+        checkReservation(command.getStartedTime(), command.getEndTime(), studySeat.getId());
 
         Schedule schedule = Schedule.of(
             customer,
             studySeat,
             command.getStartedTime(),
-            command.getPlusHourToCalculateEndTime()
+            command.getEndTime()
         );
 
         scheduleRepository.save(schedule);
@@ -53,10 +53,10 @@ public class CustomerService {
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
-    private void checkReservation(LocalDateTime startedTime, long plusHours, long studySeatId) {
+    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long studySeatId) {
         List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
             startedTime,
-            startedTime.plusHours(plusHours),
+            endTime,
             studySeatId
         );
         require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);

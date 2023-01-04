@@ -44,7 +44,7 @@ class CustomerServiceTest {
             1L,
             1L,
             LocalDateTime.now(),
-            1L
+            LocalDateTime.now().plusHours(1L)
         );
 
         List<Schedule> scheduleList = getScheduleList();
@@ -58,7 +58,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusHourToCalculateEndTime()),
+            command.getEndTime(),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
@@ -79,7 +79,7 @@ class CustomerServiceTest {
             1L,
             1L,
             LocalDateTime.now(),
-            1L
+            LocalDateTime.now().plusHours(1L)
         );
 
         List<Schedule> scheduleList = getScheduleList();
@@ -94,7 +94,7 @@ class CustomerServiceTest {
 
         when(scheduleRepository.findAllSchedulesByStartedEndTime(
             command.getStartedTime(),
-            command.getStartedTime().plusHours(command.getPlusHourToCalculateEndTime()),
+            command.getEndTime(),
             command.getSeatNumber()
         ))
             .thenReturn(scheduleList);
