@@ -5,6 +5,7 @@ import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.CommandReserveSeat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.reserveSeat(seat));
     }
 
-    @PostMapping(value = "/reservation/change")
+    @PatchMapping(value = "/reservation")
     public ResponseEntity moveSeat(CommandMoveSeat command) {
         return ResponseEntity.ok(customerService.moveSeat(command));
     }
