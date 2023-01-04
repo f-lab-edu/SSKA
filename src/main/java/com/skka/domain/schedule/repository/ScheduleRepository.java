@@ -11,12 +11,20 @@ import org.springframework.stereotype.Repository;
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     @Query(
-        value =
-            "SELECT * FROM schedule s "
-                + "WHERE s.started_time BETWEEN :startedTime AND :endTime "
-                + "OR s.end_time BETWEEN :startedTime AND :endTime "
-                + "HAVING s.study_seat_id = :studySeatId "
-        , nativeQuery = true
+        "SELECT s FROM schedule s "
+            + "LEFT JOIN s.studySeat ss "
+            + "LEFT JOIN s.customer c "
+            + "WHERE "
+                + "("
+                    + "NOT"
+                        + "( "
+                            + "(:endTime <= s.startedTime) "
+                                + "OR (s.startedTime <= :startedTime AND :startedTime <= :endTime) "
+                        + ") "
+                    + "OR (s.startedTime <= :startedTime AND :endTime <= s.endTime) "
+                    + "OR (s.endTime >= :startedTime AND s.endTime < :endTime)"
+            + ") "
+            + "AND s.studySeat.id = :studySeatId "
     )
     List<Schedule> findAllSchedulesByStartedEndTime(
         LocalDateTime startedTime,
