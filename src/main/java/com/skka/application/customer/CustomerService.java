@@ -91,7 +91,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public String addStudyTime(final CommandAddStudyTime command) {
+    public String addStudyTime(final CommandAddStudyTime command, final long scheduleId) {
 
         Schedule schedule = findScheduleByStartAndEndTime(
             command.getStartedTime(), command.getEndTime()

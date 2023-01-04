@@ -223,7 +223,7 @@ class CustomerServiceTest {
             .thenReturn(scheduleList);
 
         // then
-        String actual = customerService.addStudyTime(command);
+        String actual = customerService.addStudyTime(command, 1L);
         assertThat(actual).isEqualTo(command.getPlusHour() + "시간을 연장 하였습니다.");
     }
 
@@ -249,7 +249,7 @@ class CustomerServiceTest {
         ))
             .thenReturn(SCHEDULE);
 
-        assertThatThrownBy(() -> customerService.addStudyTime(command))
+        assertThatThrownBy(() -> customerService.addStudyTime(command, 1L))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("자신의 예약 정보가 아닙니다.");
     }
@@ -276,7 +276,7 @@ class CustomerServiceTest {
         ))
             .thenReturn(SCHEDULE);
 
-        assertThatThrownBy(() -> customerService.addStudyTime(command))
+        assertThatThrownBy(() -> customerService.addStudyTime(command, 1L))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("자신의 자리가 아닙니다.");
     }
@@ -314,7 +314,7 @@ class CustomerServiceTest {
             .thenReturn(scheduleList);
 
         // then
-        assertThatThrownBy(() -> customerService.addStudyTime(command))
+        assertThatThrownBy(() -> customerService.addStudyTime(command, 1L))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("다른 스케쥴과 겹치므로 다시 입력 하십시오.");
     }

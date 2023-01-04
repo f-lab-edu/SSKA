@@ -7,7 +7,9 @@ import com.skka.application.customer.dto.CommandReserveSeat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +28,8 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.moveSeat(command));
     }
 
-    @PatchMapping(value = "/reservation/more_time")
-    public ResponseEntity addTime(CommandAddStudyTime seat) {
-        return ResponseEntity.ok(customerService.addStudyTime(seat));
+    @PutMapping(value = "/reservation/more_time/{scheduleId}")
+    public ResponseEntity addTime(CommandAddStudyTime seat, @PathVariable long scheduleId) {
+        return ResponseEntity.ok(customerService.addStudyTime(seat, scheduleId));
     }
 }
