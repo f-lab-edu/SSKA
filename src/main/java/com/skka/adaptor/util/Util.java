@@ -13,7 +13,7 @@ public class Util {
         }
     }
 
-    public static void require(final boolean condition, final ErrorType msg) {
+    public static void check(final boolean condition, final ErrorType msg) {
         if (condition) {
             throw new IllegalArgumentException(msg.getMessage());
         }

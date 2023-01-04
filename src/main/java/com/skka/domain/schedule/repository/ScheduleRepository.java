@@ -5,24 +5,31 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     @Query(
-        value =
-            "SELECT * FROM schedule s "
-                + "WHERE s.started_time BETWEEN :startedTime AND :endTime "
-                + "OR s.end_time BETWEEN :startedTime AND :endTime "
-                + "HAVING s.study_seat_id = :studySeatId "
-        , nativeQuery = true
+        "SELECT s FROM schedule s "
+            + "LEFT JOIN s.studySeat ss "
+            + "LEFT JOIN s.customer c "
+            + "WHERE "
+                + "("
+                    + "NOT"
+                        + "( "
+                            + "(:endTime <= s.startedTime) "
+                                + "OR (s.startedTime <= :startedTime AND :startedTime <= :endTime) "
+                        + ") "
+                    + "OR (s.startedTime <= :startedTime AND :endTime <= s.endTime) "
+                    + "OR (s.endTime >= :startedTime AND s.endTime < :endTime)"
+            + ") "
+            + "AND s.studySeat.id = :studySeatId "
     )
     List<Schedule> findAllSchedulesByStartedEndTime(
-        @Param("startedTime") LocalDateTime startedTime,
-        @Param("endTime") LocalDateTime endTime,
-        @Param("studySeatId") long studySeatId
+        LocalDateTime startedTime,
+        LocalDateTime endTime,
+        long studySeatId
     );
 
     @Query(
@@ -35,8 +42,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
         , nativeQuery = true
     )
     Schedule findScheduleByStartAndEndTime(
-        @Param("startedTime") LocalDateTime startedTime,
-        @Param("endTime") LocalDateTime endTime
+        LocalDateTime startedTime,
+        LocalDateTime endTime
     );
 
     @Query(
@@ -44,19 +51,19 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "SELECT * FROM schedule s "
                 + "WHERE s.study_seat_id = :studySeatId "
                 + "AND NOT(( "
-                + ":postponedTime <= s.started_time "
-                + ") "
-                + "OR ( "
-                + "s.end_time <= :endTime "
-                + "AND "
-                + ":endTime <= :postponedTime "
-                + ") "
+                        + ":postponedTime <= s.started_time "
+                    + ") "
+                    + "OR ( "
+                            + "s.end_time <= :endTime "
+                            + "AND "
+                            + ":endTime <= :postponedTime "
+                    + ") "
                 + ") "
         , nativeQuery = true
     )
     List<Schedule> findAllSchedulesFromEndTimeToPostponedEndTime(
-        @Param("endTime") LocalDateTime endTime,
-        @Param("postponedTime") LocalDateTime postponedTime,
-        @Param("studySeatId") long studySeatId
+        LocalDateTime endTime,
+        LocalDateTime postponedTime,
+        long studySeatId
     );
 }
