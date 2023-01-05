@@ -1,7 +1,6 @@
 package com.skka.adaptor.controller;
 
 import com.skka.application.customer.CustomerService;
-import com.skka.application.customer.dto.CommandMoveSeat;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;

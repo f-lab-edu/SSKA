@@ -14,8 +14,6 @@ import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
-import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;
-import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
@@ -74,7 +72,7 @@ class CustomerServiceTest {
     void reserveSeat_test2() {
 
         // given
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+        ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(1L)
@@ -131,7 +129,7 @@ class CustomerServiceTest {
     void moveSeat_test2() {
 
         // given
-        CommandMoveSeatWebRequestV1 command = new CommandMoveSeatWebRequestV1(
+        MoveSeatRequest command = new MoveSeatRequest(
             1L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0)
