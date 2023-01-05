@@ -31,5 +31,4 @@ public class CustomerController {
             commandService, studySeatId
         ));
     }
-
 }
