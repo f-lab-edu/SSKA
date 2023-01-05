@@ -12,4 +12,10 @@ public class Util {
             throw new IllegalArgumentException(msg.getMessage());
         }
     }
+
+    public static void check(final boolean condition, final ErrorType msg) {
+        if (condition) {
+            throw new IllegalArgumentException(msg.getMessage());
+        }
+    }
 }

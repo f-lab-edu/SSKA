@@ -1,4 +1,4 @@
-package com.skka.application.customer.dto;
+package com.skka.application.customer.webrequest;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class CommandReserveSeat {
+public class CommandReserveSeatWebRequestV1 {
     private final long customerId;
-    private final long seatNumber;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime startedTime;

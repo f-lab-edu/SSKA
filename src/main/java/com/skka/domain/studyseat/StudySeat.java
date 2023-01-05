@@ -1,9 +1,12 @@
 package com.skka.domain.studyseat;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
+import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.schedule.Schedule;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -47,5 +50,40 @@ public class StudySeat {
         require(o -> seatNumber == null, seatNumber, INVALID_STUDY_SEAT_SEAT_NUMBER);
 
         return new StudySeat(id, seatNumber, occupied);
+    }
+
+    public void isReservable(
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        List<Schedule> overlappedSchedules = this.schedules.stream()
+            .filter(s -> checkAllOverlappedSchedules(
+                s.getStartedTime(),
+                s.getEndTime(),
+                startedTime,
+                endTime)
+            ).toList();
+        check(!overlappedSchedules.isEmpty(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
+    }
+
+    private boolean checkAllOverlappedSchedules(
+        final LocalDateTime dbStartedTime,
+        final LocalDateTime dbEndTime,
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        boolean flag = false;
+        if (
+            !(
+                dbStartedTime.isAfter(endTime)
+                    || (startedTime.isAfter(dbStartedTime) && endTime.isAfter(startedTime))
+            )
+                || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
+                || (dbEndTime.isAfter(startedTime) && endTime.isAfter(dbEndTime))
+        ) {
+            flag = true;
+        }
+
+        return flag;
     }
 }

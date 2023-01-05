@@ -3,7 +3,8 @@ package com.skka.application.customer;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ALREADY_RESERVED;
 import static com.skka.adaptor.util.Util.require;
 
-import com.skka.application.customer.dto.CommandReserveSeat;
+import com.skka.application.customer.response.CommandReserveSeatResponse;
+import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.Schedule;
@@ -24,12 +25,14 @@ public class CustomerService {
     private final StudySeatRepository studySeatRepository;
     private final ScheduleRepository scheduleRepository;
 
-    @Transactional
-    public String reserveSeat(final CommandReserveSeat command) {
-        Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
 
-        checkReservation(command.getStartedTime(), command.getEndTime(), studySeat.getId());
+    private String success = "success";
+
+    @Transactional
+    public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
+        Customer customer = findByCustomerId(command.getCustomerId());
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+        studySeat.isReservable(command.getStartedTime(), command.getEndTime());
 
         Schedule schedule = Schedule.of(
             customer,
@@ -40,7 +43,7 @@ public class CustomerService {
 
         scheduleRepository.save(schedule);
 
-        return command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.";
+        return new CommandReserveSeatResponse(success, studySeatId);
     }
 
     private Customer findByCustomerId(final long customerId) {
@@ -51,14 +54,5 @@ public class CustomerService {
     private StudySeat findByStudySeatId(final long studySeatId) {
         return studySeatRepository.findById(studySeatId)
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
-    }
-
-    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long studySeatId) {
-        List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
-            startedTime,
-            endTime,
-            studySeatId
-        );
-        require(o -> !schedules.isEmpty(), schedules, INVALID_SCHEDULE_ALREADY_RESERVED);
     }
 }
