@@ -2,21 +2,25 @@ package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.MOVING_SCHEDULE;
-import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.skka.application.customer.dto.CommandMoveSeat;
-import com.skka.application.customer.dto.CommandReserveSeat;
+import com.skka.application.customer.dto.MoveSeatRequest;
+import com.skka.application.customer.dto.ReserveSeatRequest;
+import com.skka.application.customer.response.CommandMoveSeatResponse;
+import com.skka.application.customer.response.CommandReserveSeatResponse;
+import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;
+import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
-import com.skka.domain.schedule.Schedule;
 import com.skka.domain.schedule.repository.ScheduleRepository;
+import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,32 +46,25 @@ class CustomerServiceTest {
     void reserveSeat_test1() {
 
         // given
-        CommandReserveSeat command = new CommandReserveSeat(
-            1L,
+        ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(1L)
         );
 
-        List<Schedule> scheduleList = getScheduleList();
+        long studySeatId = 1L;
 
         // when
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(Optional.ofNullable(CUSTOMER));
 
-        when(studySeatRepository.findById(command.getSeatNumber()))
+        when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
-        when(scheduleRepository.findAllSchedulesByStartedEndTime(
-            command.getStartedTime(),
-            command.getEndTime(),
-            command.getSeatNumber()
-        ))
-            .thenReturn(scheduleList);
-
         // then
-        String actual = customerService.reserveSeat(command);
-        assertThat(actual).isEqualTo(command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.");
+        CommandReserveSeatResponse actual = customerService.reserveSeat(command, studySeatId);
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getReservedSeatId()).isEqualTo(1L);
     }
 
     @Test
@@ -77,68 +74,43 @@ class CustomerServiceTest {
     void reserveSeat_test2() {
 
         // given
-        CommandReserveSeat command = new CommandReserveSeat(
-            1L,
+        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
             1L,
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(1L)
         );
 
-        List<Schedule> scheduleList = getScheduleList();
-        scheduleList.add(SCHEDULE);
-
         // when
-        when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+        StudySeat studySeat = mock(StudySeat.class);
 
-        when(studySeatRepository.findById(command.getSeatNumber()))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
-
-        when(scheduleRepository.findAllSchedulesByStartedEndTime(
-            command.getStartedTime(),
-            command.getEndTime(),
-            command.getSeatNumber()
-        ))
-            .thenReturn(scheduleList);
+        doThrow(new IllegalArgumentException("다른 스케쥴과 겹칩니다."))
+            .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThatThrownBy(() -> customerService.reserveSeat(command))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이미 예약된 좌석 입니다.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
+        });
     }
-
-    private List<Schedule> getScheduleList() {
-        return new ArrayList<>();
-    }
-
 
     @Test
     @DisplayName("유저는 좌석을 옮길 수 있다.")
     void moveSeat_test1() {
 
         // given
-        CommandMoveSeat command = new CommandMoveSeat(
+        MoveSeatRequest command = new MoveSeatRequest(
             1L,
-            2L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0)
         );
 
-        List<Schedule> scheduleList = getScheduleList();
+        long movingStudySeatId = 1L;
 
         // when
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(Optional.ofNullable(CUSTOMER));
 
-        when(studySeatRepository.findById(command.getMovingSeatNumber()))
+        when(studySeatRepository.findById(movingStudySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
-
-        when(scheduleRepository.findAllSchedulesByStartedEndTime(
-            command.getStartedTime(),
-            command.getEndTime(),
-            command.getMovingSeatNumber()
-        ))
-            .thenReturn(scheduleList);
 
         when(scheduleRepository.findScheduleByStartAndEndTime(
             command.getStartedTime(),
@@ -147,8 +119,9 @@ class CustomerServiceTest {
             .thenReturn(MOVING_SCHEDULE);
 
         // then
-        String actual = customerService.moveSeat(command);
-        assertThat(actual).isEqualTo(STUDY_SEAT.getSeatNumber() + "에서 " + command.getMovingSeatNumber() + "로 자리 옮기기 성공");
+        CommandMoveSeatResponse actual = customerService.moveSeat(command, movingStudySeatId);
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getMovedSeatId()).isEqualTo(1L);
     }
 
     @Test
@@ -158,34 +131,22 @@ class CustomerServiceTest {
     void moveSeat_test2() {
 
         // given
-        CommandMoveSeat command = new CommandMoveSeat(
+        CommandMoveSeatWebRequestV1 command = new CommandMoveSeatWebRequestV1(
             1L,
-            2L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0)
         );
 
-        List<Schedule> scheduleList = getScheduleList();
-        scheduleList.add(SCHEDULE);
-        scheduleList.add(MOVING_SCHEDULE);
-
         // when
-        when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+        StudySeat studySeat = mock(StudySeat.class);
 
-        when(studySeatRepository.findById(command.getMovingSeatNumber()))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+        doThrow(new IllegalArgumentException("다른 스케쥴과 겹칩니다."))
+            .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
-        when(scheduleRepository.findAllSchedulesByStartedEndTime(
-            command.getStartedTime(),
-            command.getEndTime(),
-            command.getMovingSeatNumber()
-        ))
-            .thenReturn(scheduleList);
-
-        // given
-        assertThatThrownBy(() -> customerService.moveSeat(command))
-            .isInstanceOf(IllegalArgumentException.class)
-            .hasMessage("이미 예약된 좌석 입니다.");
+        // then
+        assertThrows(IllegalArgumentException.class, () -> {
+            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
+        });
     }
+
 }

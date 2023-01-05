@@ -1,10 +1,10 @@
 package com.skka.application.customer;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_ALREADY_RESERVED;
-import static com.skka.adaptor.util.Util.check;
-
 import com.skka.application.customer.dto.CommandMoveSeat;
-import com.skka.application.customer.dto.CommandReserveSeat;
+import com.skka.application.customer.dto.MoveSeatRequest;
+import com.skka.application.customer.response.CommandMoveSeatResponse;
+import com.skka.application.customer.response.CommandReserveSeatResponse;
+import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.Schedule;
@@ -12,7 +12,6 @@ import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +24,14 @@ public class CustomerService {
     private final StudySeatRepository studySeatRepository;
     private final ScheduleRepository scheduleRepository;
 
-    @Transactional
-    public String reserveSeat(final CommandReserveSeat command) {
-        Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat studySeat = findByStudySeatId(command.getSeatNumber());
 
-        checkReservation(command.getStartedTime(), command.getEndTime(), studySeat.getId());
+    private String success = "success";
+
+    @Transactional
+    public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
+        Customer customer = findByCustomerId(command.getCustomerId());
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+        studySeat.isReservable(command.getStartedTime(), command.getEndTime());
 
         Schedule schedule = Schedule.of(
             customer,
@@ -41,7 +42,7 @@ public class CustomerService {
 
         scheduleRepository.save(schedule);
 
-        return command.getSeatNumber() + "번 자리에 " + "예약 되었습니다.";
+        return new CommandReserveSeatResponse(success, studySeatId);
     }
 
     private Customer findByCustomerId(final long customerId) {
@@ -54,35 +55,27 @@ public class CustomerService {
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
-    private void checkReservation(LocalDateTime startedTime, LocalDateTime endTime, long studySeatId) {
-        List<Schedule> schedules = scheduleRepository.findAllSchedulesByStartedEndTime(
-            startedTime,
-            endTime,
-            studySeatId
-        );
-        check(!schedules.isEmpty(), INVALID_SCHEDULE_ALREADY_RESERVED);
-    }
-
     @Transactional
-    public String moveSeat(final CommandMoveSeat command) {
+    public CommandMoveSeatResponse moveSeat(final MoveSeatRequest command, final long movingStudySeatId) {
 
         Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat studySeat = findByStudySeatId(command.getMovingSeatNumber());
-
-        checkReservation(command.getStartedTime(), command.getEndTime(), command.getMovingSeatNumber());
+        StudySeat movingStudySeat = findByStudySeatId(movingStudySeatId);
+        movingStudySeat.isReservable(command.getStartedTime(), command.getEndTime());
 
         Schedule foundSchedule = findScheduleByStartAndEndTime(
             command.getStartedTime(), command.getEndTime()
         );
 
-        foundSchedule.updateStudySeat(customer, studySeat);
+        foundSchedule.updateStudySeat(customer, movingStudySeat);
 
         scheduleRepository.save(foundSchedule);
-        return studySeat.getSeatNumber() + "에서 " + command.getMovingSeatNumber() + "로 자리 옮기기 성공";
+        return new CommandMoveSeatResponse(success, movingStudySeatId);
     }
 
-    private Schedule findScheduleByStartAndEndTime(LocalDateTime startedTime,
-        LocalDateTime endTime) {
+    private Schedule findScheduleByStartAndEndTime(
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
         return scheduleRepository.findScheduleByStartAndEndTime(startedTime, endTime);
     }
 }
