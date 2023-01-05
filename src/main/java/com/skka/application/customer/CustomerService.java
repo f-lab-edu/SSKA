@@ -1,9 +1,6 @@
 package com.skka.application.customer;
 
-import static com.skka.adaptor.util.Util.check;
-
 import com.skka.application.customer.dto.AddStudyTimeRequest;
-import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
@@ -84,20 +81,27 @@ public class CustomerService {
     }
 
     @Transactional
-    public CommandAddStudyTimeResponse addStudyTime(final AddStudyTimeRequest command) {
-        StudySeat studySeat = findByStudySeatId(command.getStudySeatId());
+    public CommandAddStudyTimeResponse addStudyTime(
+        final AddStudyTimeRequest command,
+        final long studySeatId,
+        final long scheduleId
+    ) {
+        StudySeat studySeat = findByStudySeatId(studySeatId);
         studySeat.isReservable(
             command.getEndTime(),
             command.getEndTime().plusHours(command.getPlusHour())
         );
 
-        Schedule schedule = findScheduleByStartAndEndTime(
-            command.getStartedTime(), command.getEndTime()
-        );
+        Schedule schedule = findByScheduleId(scheduleId);
 
         schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusHour()));
 
         scheduleRepository.save(schedule);
         return new CommandAddStudyTimeResponse(success, 1L, command.getPlusHour());
+    }
+
+    private Schedule findByScheduleId(final long scheduleId) {
+        return scheduleRepository.findById(scheduleId)
+            .orElseThrow(() -> new IllegalArgumentException("스케줄을 찾지 못했습니다."));
     }
 }

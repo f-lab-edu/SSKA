@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AddStudyTimeRequest {
     private final long customerId;
-    private final long studySeatId;
     private final LocalDateTime startedTime;
     private final LocalDateTime endTime;
     private final long plusHour;

@@ -2,7 +2,6 @@ package com.skka.adaptor.controller;
 
 import com.skka.application.customer.CustomerService;
 import com.skka.application.customer.dto.AddStudyTimeRequest;
-import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
@@ -55,18 +54,25 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.moveSeat(commandService, movingStudySeatId));
     }
 
-    @PutMapping(value = "/customer/more_time") // /seat/{studySeatId}/schedule/{scheduleId} 로 바뀔예정
+    @PutMapping(value = "/seat/{studySeatId}/schedule/{scheduleId}")
     public ResponseEntity<CommandAddStudyTimeResponse> addTime(
-        final CommandAddStudyTimeWebRequestV1 command
+        final CommandAddStudyTimeWebRequestV1 command,
+        @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId
     ) {
         AddStudyTimeRequest commandService = new AddStudyTimeRequest(
             command.getCustomerId(),
-            command.getStudySeatId(),
             command.getStartedTime(),
             command.getEndTime(),
             command.getPlusHour()
         );
 
-        return ResponseEntity.ok(customerService.addStudyTime(commandService));
+        return ResponseEntity.ok(customerService.addStudyTime(
+                commandService,
+                studySeatId,
+                scheduleId
+            )
+        );
     }
+
 }

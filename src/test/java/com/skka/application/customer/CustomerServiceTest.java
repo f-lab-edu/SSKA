@@ -2,7 +2,6 @@ package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.MOVING_SCHEDULE;
-import static com.skka.schedule.ScheduleFixture.SCHEDUEL_ERROR;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -13,15 +12,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.skka.application.customer.dto.AddStudyTimeRequest;
-import com.skka.application.customer.dto.CommandAddStudyTime;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
-import com.skka.application.customer.webrequest.CommandAddStudyTimeWebRequestV1;
-import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;
-import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
@@ -80,7 +75,7 @@ class CustomerServiceTest {
     void reserveSeat_test2() {
 
         // given
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+        ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(1L)
@@ -137,7 +132,7 @@ class CustomerServiceTest {
     void moveSeat_test2() {
 
         // given
-        CommandMoveSeatWebRequestV1 command = new CommandMoveSeatWebRequestV1(
+        MoveSeatRequest command = new MoveSeatRequest(
             1L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0)
@@ -164,29 +159,31 @@ class CustomerServiceTest {
         // given
         AddStudyTimeRequest command = new AddStudyTimeRequest(
             1L,
-            1L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0),
             2L
         );
 
+        long studySeatId = 1L;
+        long scheduleId = 1L;
+
         // when
-        when(studySeatRepository.findById(command.getStudySeatId()))
+        when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
-        when(scheduleRepository.findScheduleByStartAndEndTime(
-            command.getStartedTime(),
-            command.getEndTime()
-        ))
-            .thenReturn(SCHEDULE);
+        when(scheduleRepository.findById(scheduleId))
+            .thenReturn(Optional.ofNullable(SCHEDULE));
 
         // then
-        CommandAddStudyTimeResponse actual = customerService.addStudyTime(command);
+        CommandAddStudyTimeResponse actual = customerService.addStudyTime(
+            command, studySeatId, scheduleId
+        );
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getAddedStudySeatId()).isEqualTo(1L);
         assertThat(actual.getAddedHour()).isEqualTo(2L);
     }
+
 
     @Test
     @DisplayName(
@@ -195,8 +192,7 @@ class CustomerServiceTest {
     void addStudyTime_test2() {
 
         // given
-        CommandAddStudyTimeWebRequestV1 command = new CommandAddStudyTimeWebRequestV1(
-            1L,
+        AddStudyTimeRequest command = new AddStudyTimeRequest(
             1L,
             LocalDateTime.of(2021, 1, 10, 10, 0, 0),
             LocalDateTime.of(2021, 1, 10, 12, 0, 0),
