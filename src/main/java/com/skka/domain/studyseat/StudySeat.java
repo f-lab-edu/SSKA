@@ -9,6 +9,7 @@ import com.skka.domain.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,7 +63,7 @@ public class StudySeat {
                 s.getEndTime(),
                 startedTime,
                 endTime)
-            ).toList();
+            ).collect(Collectors.toList());
         check(!overlappedSchedules.isEmpty(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
     }
 
