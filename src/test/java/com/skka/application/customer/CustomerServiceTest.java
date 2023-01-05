@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
-import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
@@ -70,7 +69,7 @@ class CustomerServiceTest {
     void reserveSeat_test2() {
 
         // given
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+        ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
             LocalDateTime.now(),
             LocalDateTime.now().plusHours(1L)
