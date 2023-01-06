@@ -75,6 +75,6 @@ public class CustomerService {
         final LocalDateTime startedTime,
         final LocalDateTime endTime
     ) {
-        return scheduleRepository.findScheduleByStartAndEndTime(startedTime, endTime);
+        return scheduleRepository.findScheduleByStartedTimeAndEndTime(startedTime, endTime);
     }
 }
