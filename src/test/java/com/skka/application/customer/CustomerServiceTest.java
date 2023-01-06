@@ -113,7 +113,7 @@ class CustomerServiceTest {
         when(studySeatRepository.findById(movingStudySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
-        when(scheduleRepository.findScheduleByStartAndEndTime(
+        when(scheduleRepository.findScheduleByStartedTimeAndEndTime(
             command.getStartedTime(),
             command.getEndTime()
         ))
