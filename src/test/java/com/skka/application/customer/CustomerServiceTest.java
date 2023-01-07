@@ -84,13 +84,13 @@ class CustomerServiceTest {
         // when
         StudySeat studySeat = mock(StudySeat.class);
 
-        doThrow(new IllegalArgumentException("다른 스케쥴과 겹칩니다."))
+        doThrow(new IllegalStateException("다른 스케쥴과 겹칩니다."))
             .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
-            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
-        });
+        assertThrows(IllegalStateException.class,
+            () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
+        );
     }
 
     @Test
@@ -141,13 +141,13 @@ class CustomerServiceTest {
         // when
         StudySeat studySeat = mock(StudySeat.class);
 
-        doThrow(new IllegalArgumentException("다른 스케쥴과 겹칩니다."))
+        doThrow(new IllegalStateException("다른 스케쥴과 겹칩니다."))
             .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
-            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
-        });
+        assertThrows(IllegalStateException.class,
+            () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
+        );
     }
 
     @Test
@@ -184,7 +184,6 @@ class CustomerServiceTest {
         assertThat(actual.getAddedHour()).isEqualTo(2L);
     }
 
-
     @Test
     @DisplayName(
         "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
@@ -206,8 +205,8 @@ class CustomerServiceTest {
             .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
-            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
-        });
+        assertThrows(IllegalArgumentException.class,
+            () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
+        );
     }
 }
