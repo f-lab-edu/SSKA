@@ -81,11 +81,11 @@ class CustomerServiceTest {
         // when
         StudySeat studySeat = mock(StudySeat.class);
 
-        doThrow(new IllegalArgumentException("다른 스케쥴과 겹칩니다."))
+        doThrow(new IllegalStateException("다른 스케쥴과 겹칩니다."))
             .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalStateException.class, () -> {
             studySeat.isReservable(command.getStartedTime(), command.getEndTime());
         });
     }
