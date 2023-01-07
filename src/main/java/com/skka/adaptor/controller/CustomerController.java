@@ -4,6 +4,7 @@ import com.skka.application.customer.CustomerService;
 import com.skka.application.customer.dto.AddStudyTimeRequest;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
+import com.skka.application.customer.response.CommandCancelScheduleResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.webrequest.CommandAddStudyTimeWebRequestV1;
 import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;
@@ -75,4 +76,11 @@ public class CustomerController {
         );
     }
 
+    @PutMapping(value = "schedule/{scheduleId}/customer/{customerId}")
+    public ResponseEntity<CommandCancelScheduleResponse> cancelSchedule(
+        @PathVariable final long scheduleId,
+        @PathVariable final long customerId
+    ) {
+
+    }
 }
