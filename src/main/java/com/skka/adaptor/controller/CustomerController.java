@@ -81,6 +81,8 @@ public class CustomerController {
         @PathVariable final long scheduleId,
         @PathVariable final long customerId
     ) {
-
+        return ResponseEntity.ok(customerService.cancelSchedule(
+            scheduleId, customerId
+        ));
     }
 }

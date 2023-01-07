@@ -3,6 +3,7 @@ package com.skka.application.customer;
 import com.skka.application.customer.dto.AddStudyTimeRequest;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
+import com.skka.application.customer.response.CommandCancelScheduleResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.application.customer.dto.ReserveSeatRequest;
@@ -103,5 +104,19 @@ public class CustomerService {
     private Schedule findByScheduleId(final long scheduleId) {
         return scheduleRepository.findById(scheduleId)
             .orElseThrow(() -> new IllegalArgumentException("스케줄을 찾지 못했습니다."));
+    }
+
+    @Transactional
+    public CommandCancelScheduleResponse cancelSchedule(
+        final long scheduleId,
+        final long customerId
+    ) {
+        Schedule schedule = findByScheduleId(scheduleId);
+
+        schedule.checkIfRightCustomer(customerId);
+
+        schedule.cancel();
+
+        return new CommandCancelScheduleResponse(success, scheduleId);
     }
 }

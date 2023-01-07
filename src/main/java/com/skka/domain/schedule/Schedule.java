@@ -1,8 +1,10 @@
 package com.skka.domain.schedule;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY_SEAT;
+import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
@@ -97,5 +99,13 @@ public class Schedule {
 
     public void updateEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public void checkIfRightCustomer(long customerId) {
+        check(customerId != this.customer.getId(), INVALID_MY_SCHEDULE);
+    }
+
+    public void cancel() {
+        this.state = ScheduleState.CANCELED;
     }
 }
