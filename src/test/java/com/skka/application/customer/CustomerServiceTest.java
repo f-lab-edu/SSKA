@@ -85,9 +85,9 @@ class CustomerServiceTest {
             .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
 
         // then
-        assertThrows(IllegalStateException.class, () -> {
-            studySeat.isReservable(command.getStartedTime(), command.getEndTime());
-        });
+        assertThrows(IllegalStateException.class,
+            () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
+        );
     }
 
     @Test
