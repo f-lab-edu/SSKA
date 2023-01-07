@@ -15,9 +15,11 @@ import com.skka.application.customer.dto.AddStudyTimeRequest;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
+import com.skka.application.customer.response.CommandCancelScheduleResponse;
 import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
+import com.skka.domain.schedule.Schedule;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -208,5 +210,49 @@ class CustomerServiceTest {
         assertThrows(IllegalArgumentException.class,
             () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
         );
+    }
+
+
+    @Test
+    @DisplayName(
+        "유저는 스케줄을 취소할 수 있다."
+    )
+    void cancelSchedule_test1() {
+
+        // given
+        long scheduleId = 1L;
+        long customerId = 1L;
+
+        // when
+        when(scheduleRepository.findById(scheduleId))
+            .thenReturn(Optional.ofNullable(SCHEDULE));
+
+        // then
+        CommandCancelScheduleResponse actual = customerService.cancelSchedule(
+            scheduleId,
+            customerId
+        );
+
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getCanceledScheduleId()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName(
+        "유저 자신의 스케줄만 취소가 가능하다."
+    )
+    void cancelSchedule_test2() {
+        // given
+        long customerId = 1L;
+
+        // when
+        Schedule schedule = mock(Schedule.class);
+
+        doThrow(new IllegalStateException("자신의 예약 정보가 아닙니다."))
+            .when(schedule).checkIfRightCustomer(isA(Long.class));
+
+        // then
+        assertThrows(IllegalStateException.class,
+            () -> schedule.checkIfRightCustomer(customerId));
     }
 }
