@@ -6,6 +6,7 @@ import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.schedule.Schedule;
+import com.skka.domain.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,8 @@ public class StudySeat {
                 s.getStartedTime(),
                 s.getEndTime(),
                 startedTime,
-                endTime)
+                endTime,
+                s.getState())
             ).collect(Collectors.toList());
         check(!overlappedSchedules.isEmpty(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
     }
@@ -71,16 +73,20 @@ public class StudySeat {
         final LocalDateTime dbStartedTime,
         final LocalDateTime dbEndTime,
         final LocalDateTime startedTime,
-        final LocalDateTime endTime
+        final LocalDateTime endTime,
+        final ScheduleState scheduleState
     ) {
         boolean flag = false;
         if (
-            !(
-                dbStartedTime.isAfter(endTime)
-                    || (startedTime.isAfter(dbStartedTime) && endTime.isAfter(startedTime))
+            ScheduleState.RESERVED.equals(scheduleState)
+                && (
+                !(
+                    dbStartedTime.isAfter(endTime)
+                        || (startedTime.isAfter(dbStartedTime) && endTime.isAfter(startedTime))
+                )
+                    || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
+                    || (dbEndTime.isAfter(startedTime) && endTime.isAfter(dbEndTime))
             )
-                || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
-                || (dbEndTime.isAfter(startedTime) && endTime.isAfter(dbEndTime))
         ) {
             flag = true;
         }
