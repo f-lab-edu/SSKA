@@ -11,6 +11,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,6 +49,9 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
 
+    @Enumerated(value = EnumType.STRING)
+    private ScheduleState state;
+
     private Schedule(
         final Customer customer,
         final StudySeat studySeat,
@@ -57,6 +62,7 @@ public class Schedule {
         this.studySeat = studySeat;
         this.startedTime = startTime;
         this.endTime = endTime;
+        this.state = ScheduleState.RESERVED;
     }
 
     public static Schedule of(
