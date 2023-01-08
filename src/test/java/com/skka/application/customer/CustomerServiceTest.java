@@ -18,7 +18,6 @@ import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
-import com.skka.domain.schedule.Schedule;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
