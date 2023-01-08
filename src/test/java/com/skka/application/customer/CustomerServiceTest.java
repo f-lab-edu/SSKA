@@ -152,7 +152,6 @@ class CustomerServiceTest {
     )
     void addStudyTime_test1() {
 
-        // given
         AddStudyTimeRequest command = new AddStudyTimeRequest(
             1L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
@@ -163,14 +162,12 @@ class CustomerServiceTest {
         long studySeatId = 1L;
         long scheduleId = 1L;
 
-        // when
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         when(scheduleRepository.findById(scheduleId))
             .thenReturn(Optional.ofNullable(SCHEDULE));
 
-        // then
         CommandAddStudyTimeResponse actual = customerService.addStudyTime(
             command, studySeatId, scheduleId
         );
