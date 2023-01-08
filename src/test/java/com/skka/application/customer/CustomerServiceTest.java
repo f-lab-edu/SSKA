@@ -1,13 +1,11 @@
 package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
+import static com.skka.schedule.ScheduleFixture.SCHEDUEL_SERVICE_TEST;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.skka.application.customer.dto.ReserveSeatRequest;
@@ -15,10 +13,10 @@ import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
-import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +35,11 @@ class CustomerServiceTest {
     private StudySeatRepository studySeatRepository;
     @Mock
     private ScheduleRepository scheduleRepository;
+
+    @BeforeAll
+    static void init() {
+        STUDY_SEAT.getSchedules().add(SCHEDUEL_SERVICE_TEST);
+    }
 
     @Test
     @DisplayName("유저는 좌석을 예약할 수 있다.")
