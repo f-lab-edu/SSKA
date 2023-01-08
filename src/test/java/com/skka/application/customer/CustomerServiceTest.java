@@ -204,15 +204,12 @@ class CustomerServiceTest {
     )
     void cancelSchedule_test1() {
 
-        // given
         long scheduleId = 1L;
         long customerId = 1L;
 
-        // when
         when(scheduleRepository.findById(scheduleId))
             .thenReturn(Optional.ofNullable(SCHEDULE));
 
-        // then
         CommandCancelScheduleResponse actual = customerService.cancelSchedule(
             scheduleId,
             customerId
