@@ -48,7 +48,6 @@ class CustomerServiceTest {
     @DisplayName("유저는 좌석을 예약할 수 있다.")
     void reserveSeat_test1() {
 
-        // given
         ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
             LocalDateTime.now(),
@@ -57,14 +56,12 @@ class CustomerServiceTest {
 
         long studySeatId = 1L;
 
-        // when
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(Optional.ofNullable(CUSTOMER));
 
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
-        // then
         CommandReserveSeatResponse actual = customerService.reserveSeat(command, studySeatId);
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getReservedSeatId()).isEqualTo(1L);
