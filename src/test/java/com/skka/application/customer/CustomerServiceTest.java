@@ -47,8 +47,8 @@ class CustomerServiceTest {
 
         ReserveSeatRequest command = new ReserveSeatRequest(
             1L,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusHours(1L)
+            LocalDateTime.of(2023,1,10,17,0),
+            LocalDateTime.of(2023,1,10,20,0)
         );
 
         long studySeatId = 1L;
