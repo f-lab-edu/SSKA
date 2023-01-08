@@ -10,7 +10,6 @@ import com.skka.application.customer.webrequest.CommandAddStudyTimeWebRequestV1;
 import com.skka.application.customer.webrequest.CommandMoveSeatWebRequestV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
@@ -41,7 +40,7 @@ public class CustomerController {
         ));
     }
 
-    @PatchMapping(value = "/seat/{movingStudySeatId}")
+    @PutMapping(value = "/seat/{movingStudySeatId}")
     public ResponseEntity<CommandMoveSeatResponse> moveSeat(
         final CommandMoveSeatWebRequestV1 command,
         @PathVariable final long movingStudySeatId
