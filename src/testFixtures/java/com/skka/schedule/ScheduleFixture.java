@@ -22,4 +22,11 @@ public class ScheduleFixture {
         LocalDateTime.now(),
         LocalDateTime.now().plusHours(2L)
     );
+
+    public static Schedule SCHEDUEL_SERVICE_TEST = Schedule.of(
+        CUSTOMER,
+        STUDY_SEAT,
+        LocalDateTime.of(2023, 1, 10, 12, 10, 0),
+        LocalDateTime.of(2023, 1, 10, 15, 10, 0)
+    );
 }
