@@ -57,17 +57,20 @@ public class CustomerService {
     @Transactional
     public CommandMoveSeatResponse moveSeat(final MoveSeatRequest command, final long movingStudySeatId) {
 
-        Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat movingStudySeat = findByStudySeatId(movingStudySeatId);
-        movingStudySeat.isReservable(command.getStartedTime(), command.getEndTime());
-
-        Schedule foundSchedule = findScheduleByStartAndEndTime(
+        Schedule originalSchedule = findScheduleByStartAndEndTime(
             command.getStartedTime(), command.getEndTime()
         );
 
-        foundSchedule.updateStudySeat(customer, movingStudySeat);
+        scheduleRepository.delete(originalSchedule);
 
-        scheduleRepository.save(foundSchedule);
+        reserveSeat(
+            new ReserveSeatRequest(
+                command.getCustomerId(),
+                command.getStartedTime(),
+                command.getEndTime()
+            ),
+            movingStudySeatId
+        );
         return new CommandMoveSeatResponse(success, movingStudySeatId);
     }
 
