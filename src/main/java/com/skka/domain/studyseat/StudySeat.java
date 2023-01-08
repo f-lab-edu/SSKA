@@ -9,7 +9,7 @@ import com.skka.domain.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -57,14 +57,14 @@ public class StudySeat {
         final LocalDateTime startedTime,
         final LocalDateTime endTime
     ) {
-        List<Schedule> overlappedSchedules = this.schedules.stream()
+        Optional<Schedule> overlappedSchedules = this.schedules.stream()
             .filter(s -> checkAllOverlappedSchedules(
                 s.getStartedTime(),
                 s.getEndTime(),
                 startedTime,
                 endTime)
-            ).collect(Collectors.toList());
-        check(!overlappedSchedules.isEmpty(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
+            ).findFirst();
+        check(overlappedSchedules.isPresent(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
     }
 
     private boolean checkAllOverlappedSchedules(
@@ -73,18 +73,11 @@ public class StudySeat {
         final LocalDateTime startedTime,
         final LocalDateTime endTime
     ) {
-        boolean flag = false;
-        if (
-            !(
-                dbStartedTime.isAfter(endTime)
-                    || (startedTime.isAfter(dbStartedTime) && endTime.isAfter(startedTime))
-            )
-                || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
+        return (
+                (dbStartedTime.isAfter(startedTime) && endTime.isAfter(dbStartedTime))
                 || (dbEndTime.isAfter(startedTime) && endTime.isAfter(dbEndTime))
-        ) {
-            flag = true;
-        }
-
-        return flag;
+                || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
+                || startedTime.isEqual(dbStartedTime) || endTime.isEqual(dbEndTime)
+        );
     }
 }

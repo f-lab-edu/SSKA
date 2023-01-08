@@ -12,8 +12,8 @@ public class ScheduleFixture {
     public static Schedule SCHEDULE = Schedule.of(
         CUSTOMER,
         STUDY_SEAT,
-        LocalDateTime.now(),
-        LocalDateTime.now().plusHours(2L)
+        LocalDateTime.of(2023,1,10,12,0),
+        LocalDateTime.of(2023,1,10,15,0)
     );
 
     public static Schedule MOVING_SCHEDULE = Schedule.of(
@@ -23,10 +23,10 @@ public class ScheduleFixture {
         LocalDateTime.now().plusHours(2L)
     );
 
-    public static Schedule SCHEDUEL_ERROR = Schedule.of(
+    public static Schedule SCHEDUEL_SERVICE_TEST = Schedule.of(
         CUSTOMER,
         STUDY_SEAT,
-        LocalDateTime.of(2021, 1, 10, 10, 10, 0),
-        LocalDateTime.of(2021, 1, 10, 11, 10, 0)
+        LocalDateTime.of(2023, 1, 10, 12, 10, 0),
+        LocalDateTime.of(2023, 1, 10, 15, 10, 0)
     );
 }
