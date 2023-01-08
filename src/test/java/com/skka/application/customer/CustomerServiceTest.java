@@ -1,6 +1,7 @@
 package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
+import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import com.skka.application.customer.dto.ReserveSeatRequest;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
+import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.StudySeat;
@@ -68,22 +70,15 @@ class CustomerServiceTest {
     )
     void reserveSeat_test2() {
 
-        // given
-        ReserveSeatRequest command = new ReserveSeatRequest(
+        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
             1L,
-            LocalDateTime.now(),
-            LocalDateTime.now().plusHours(1L)
+            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,17,0)
         );
 
-        // when
-        StudySeat studySeat = mock(StudySeat.class);
-
-        doThrow(new IllegalStateException("다른 스케쥴과 겹칩니다."))
-            .when(studySeat).isReservable(isA(LocalDateTime.class), isA(LocalDateTime.class));
-
-        // then
         assertThrows(IllegalStateException.class,
-            () -> studySeat.isReservable(command.getStartedTime(), command.getEndTime())
-        );
+            () -> SCHEDULE.getStudySeat().isReservable(
+                command.getStartedTime(), command.getEndTime()
+            ), "다른 스케쥴과 겹칩니다.");
     }
 }
