@@ -10,5 +10,5 @@ public class AddStudyTimeRequest {
     private final long customerId;
     private final LocalDateTime startedTime;
     private final LocalDateTime endTime;
-    private final long plusHour;
+    private final LocalDateTime changingEndTime;
 }
