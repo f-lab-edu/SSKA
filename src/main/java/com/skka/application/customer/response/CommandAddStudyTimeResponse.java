@@ -1,5 +1,6 @@
 package com.skka.application.customer.response;
 
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,6 +8,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommandAddStudyTimeResponse {
     private final String message;
-    private final long addedStudySeatId;
-    private final long addedHour;
+    private final LocalDateTime changedEndTime;
 }

@@ -64,7 +64,7 @@ public class CustomerController {
             command.getCustomerId(),
             command.getStartedTime(),
             command.getEndTime(),
-            command.getPlusHour()
+            command.getChangingEndTime()
         );
 
         return ResponseEntity.ok(customerService.addStudyTime(
