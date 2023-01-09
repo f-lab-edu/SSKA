@@ -1,7 +1,6 @@
 package com.skka.application.customer;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
-import static com.skka.schedule.ScheduleFixture.SCHEDUEL_SERVICE_TEST;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static com.skka.studyseat.StudySeatFixture.MOVING_STUDY_SEAT;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
@@ -49,7 +48,7 @@ class CustomerServiceTest {
 
     @BeforeAll
     static void init() {
-        STUDY_SEAT.getSchedules().add(SCHEDUEL_SERVICE_TEST);
+        STUDY_SEAT.getSchedules().add(SCHEDULE);
     }
 
     @Test
@@ -155,9 +154,9 @@ class CustomerServiceTest {
 
         AddStudyTimeRequest command = new AddStudyTimeRequest(
             1L,
-            LocalDateTime.of(2021, 1, 1, 0, 0, 0),
-            LocalDateTime.of(2021, 1, 1, 2, 0, 0),
-            LocalDateTime.of(2021, 1, 1, 3, 0, 0)
+            LocalDateTime.of(2021, 1, 1, 0, 0),
+            LocalDateTime.of(2021, 1, 1, 2, 0),
+            LocalDateTime.of(2021, 1, 1, 3, 0)
         );
 
         long studySeatId = 1L;
@@ -175,7 +174,7 @@ class CustomerServiceTest {
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getChangedEndTime()).isEqualTo(
-            LocalDateTime.of(2021, 1, 1, 3, 0, 0)
+            LocalDateTime.of(2021, 1, 1, 3, 0)
         );
     }
 
@@ -228,8 +227,8 @@ class CustomerServiceTest {
         Schedule tempAddSchedule = Schedule.of(
             CUSTOMER,
             STUDY_SEAT,
-            LocalDateTime.of(2023, 1, 10, 15, 10, 0),
-            LocalDateTime.of(2023, 1, 10, 16, 10, 0)
+            LocalDateTime.of(2023, 1, 10, 15, 10),
+            LocalDateTime.of(2023, 1, 10, 16, 10)
         );
 
         STUDY_SEAT.getSchedules().add(
