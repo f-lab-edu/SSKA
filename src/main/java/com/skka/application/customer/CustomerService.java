@@ -1,5 +1,9 @@
 package com.skka.application.customer;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
+import static com.skka.adaptor.util.Util.checkTimeDifference;
+import static com.skka.adaptor.util.Util.require;
+
 import com.skka.application.customer.dto.AddStudyTimeRequest;
 import com.skka.application.customer.dto.MoveSeatRequest;
 import com.skka.application.customer.response.CommandAddStudyTimeResponse;
@@ -89,18 +93,26 @@ public class CustomerService {
         final long studySeatId,
         final long scheduleId
     ) {
+
+        require(
+            o -> checkTimeDifference(
+                command.getStartedTime(), command.getChangingEndTime()) < 1,
+            checkTimeDifference(command.getStartedTime(), command.getChangingEndTime()),
+            INVALID_SCHEDULE_BEFORE_A_HOUR)
+        ;
+
         StudySeat studySeat = findByStudySeatId(studySeatId);
         studySeat.isReservable(
             command.getEndTime(),
-            command.getEndTime().plusHours(command.getPlusHour())
+            command.getChangingEndTime()
         );
 
         Schedule schedule = findByScheduleId(scheduleId);
 
-        schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusHour()));
+        schedule.updateEndTime(command.getChangingEndTime());
 
         scheduleRepository.save(schedule);
-        return new CommandAddStudyTimeResponse(success, 1L, command.getPlusHour());
+        return new CommandAddStudyTimeResponse(success, command.getChangingEndTime());
     }
 
     private Schedule findByScheduleId(final long scheduleId) {

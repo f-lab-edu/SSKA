@@ -18,5 +18,6 @@ public class CommandAddStudyTimeWebRequestV1 {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime endTime;
 
-    private final long plusHour;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime changingEndTime;
 }
