@@ -96,24 +96,6 @@ class CustomerServiceTest {
             ), "다른 스케쥴과 겹칩니다.");
     }
 
-    @Test
-    @DisplayName(
-        "유저는 옮기려고 하는 좌석에 같은 시간대가 이미 예약 되어 있으면 좌석을 옮길 수 없다."
-    )
-    void moveSeat_test2() {
-
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023, 1, 10, 13, 0),
-            LocalDateTime.of(2023, 1, 10, 17, 0)
-        );
-
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
-
     private static Collection<Arguments> inputForTest() {
         Collection<Arguments> list = new ArrayList<>();
 
@@ -189,5 +171,23 @@ class CustomerServiceTest {
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getMovedSeatId()).isEqualTo(2L);
+    }
+
+    @Test
+    @DisplayName(
+        "유저는 옮기려고 하는 좌석에 같은 시간대가 이미 예약 되어 있으면 좌석을 옮길 수 없다."
+    )
+    void moveSeat_test2() {
+
+        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+            1L,
+            LocalDateTime.of(2023, 1, 10, 13, 0),
+            LocalDateTime.of(2023, 1, 10, 17, 0)
+        );
+
+        assertThrows(IllegalStateException.class,
+            () -> SCHEDULE.getStudySeat().isReservable(
+                command.getStartedTime(), command.getEndTime()
+            ), "다른 스케쥴과 겹칩니다.");
     }
 }
