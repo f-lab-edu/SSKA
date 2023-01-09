@@ -74,10 +74,26 @@ public class StudySeat {
         final LocalDateTime endTime
     ) {
         return (
-                (dbStartedTime.isAfter(startedTime) && endTime.isAfter(dbStartedTime))
-                || (dbEndTime.isAfter(startedTime) && endTime.isAfter(dbEndTime))
-                || (startedTime.isAfter(dbStartedTime) && dbEndTime.isAfter(endTime))
-                || startedTime.isEqual(dbStartedTime) || endTime.isEqual(dbEndTime)
+                comparingWithIsAfter(dbStartedTime, startedTime, endTime, dbStartedTime)
+                || comparingWithIsAfter(dbEndTime, startedTime, endTime, dbEndTime)
+                || comparingWithIsAfter(startedTime, dbStartedTime, dbEndTime, endTime)
+                || comparingWithIsEqual(startedTime, dbStartedTime) || comparingWithIsEqual(endTime, dbEndTime)
         );
+    }
+
+    private boolean comparingWithIsAfter(
+        final LocalDateTime a,
+        final LocalDateTime b,
+        final LocalDateTime c,
+        final LocalDateTime d
+    ) {
+        return a.isAfter(b) && c.isAfter(d);
+    }
+
+    private boolean comparingWithIsEqual(
+        final LocalDateTime a,
+        final LocalDateTime b
+    ) {
+        return a.isEqual(b);
     }
 }
