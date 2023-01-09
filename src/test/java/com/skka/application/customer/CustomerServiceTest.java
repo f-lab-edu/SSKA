@@ -15,11 +15,16 @@ import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -64,21 +69,63 @@ class CustomerServiceTest {
         assertThat(actual.getReservedSeatId()).isEqualTo(1L);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("inputForTest")
     @DisplayName(
         "유저는 등록 하고자 하는 좌석에 등록 하고자 하는 시간대에 이미 예약 되어 있으면 좌석을 예약할 수 없다."
     )
-    void reserveSeat_test2() {
+    void reserveSeat_test9_time_validation(LocalDateTime startedTime, LocalDateTime endTime) {
 
         CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
             1L,
-            LocalDateTime.of(2023,1,10,13,0),
-            LocalDateTime.of(2023,1,10,17,0)
+            startedTime,
+            endTime
         );
 
         assertThrows(IllegalStateException.class,
             () -> SCHEDULE.getStudySeat().isReservable(
                 command.getStartedTime(), command.getEndTime()
             ), "다른 스케쥴과 겹칩니다.");
+    }
+
+    private static Collection<Arguments> inputForTest() {
+        Collection<Arguments> list = new ArrayList<>();
+
+        list.add(Arguments.of( // case 1
+            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,17,0)
+        ));
+
+        list.add(Arguments.of( // case 2
+            LocalDateTime.of(2023,1,10,11,0),
+            LocalDateTime.of(2023,1,10,13,0)
+        ));
+
+        list.add(Arguments.of( // case 3
+            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,14,0)
+        ));
+
+        list.add(Arguments.of( // case 4
+            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,14,0)
+        ));
+
+        list.add(Arguments.of( // case 5
+            LocalDateTime.of(2023,1,10,12,0),
+            LocalDateTime.of(2023,1,10,14,0)
+        ));
+
+        list.add(Arguments.of( // case 6
+            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,15,0)
+        ));
+
+        list.add(Arguments.of( // case 7
+            LocalDateTime.of(2023,1,10,12,0),
+            LocalDateTime.of(2023,1,10,15,0)
+        ));
+
+        return list;
     }
 }
