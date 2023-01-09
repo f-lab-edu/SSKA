@@ -155,17 +155,11 @@ class CustomerServiceTest {
         ))
             .thenReturn(SCHEDULE);
 
-        assertDoesNotThrow(() -> scheduleRepository.delete(SCHEDULE));
-
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(Optional.ofNullable(CUSTOMER));
 
         when(studySeatRepository.findById(movingStudySeatId))
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
-
-        CustomerService customerServiceMock = mock(CustomerService.class);
-        lenient().when(customerServiceMock.reserveSeat(isA(ReserveSeatRequest.class), anyLong()))
-            .thenReturn(new CommandReserveSeatResponse("success", movingStudySeatId));
 
         CommandMoveSeatResponse actual = customerService.moveSeat(command, movingStudySeatId);
 
