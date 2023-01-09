@@ -22,6 +22,7 @@ import com.skka.application.customer.response.CommandMoveSeatResponse;
 import com.skka.application.customer.response.CommandReserveSeatResponse;
 import com.skka.application.customer.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
+import com.skka.domain.schedule.Schedule;
 import com.skka.domain.schedule.repository.ScheduleRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
@@ -156,7 +157,7 @@ class CustomerServiceTest {
             1L,
             LocalDateTime.of(2021, 1, 1, 0, 0, 0),
             LocalDateTime.of(2021, 1, 1, 2, 0, 0),
-            2L
+            LocalDateTime.of(2021, 1, 1, 3, 0, 0)
         );
 
         long studySeatId = 1L;
@@ -173,26 +174,72 @@ class CustomerServiceTest {
         );
 
         assertThat(actual.getMessage()).isEqualTo("success");
-        assertThat(actual.getAddedStudySeatId()).isEqualTo(1L);
-        assertThat(actual.getAddedHour()).isEqualTo(2L);
+        assertThat(actual.getChangedEndTime()).isEqualTo(
+            LocalDateTime.of(2021, 1, 1, 3, 0, 0)
+        );
+    }
+
+    @Test
+    @DisplayName(
+        "유저는 좌석을 최소 1시간을 이용 해야 한다."
+    )
+    void addStudyTime_test2() {
+
+        AddStudyTimeRequest command = new AddStudyTimeRequest(
+            1L,
+            LocalDateTime.of(2023,1,10,12,10),
+            LocalDateTime.of(2023,1,10,15,0),
+            LocalDateTime.of(2023, 1, 10, 12, 50)
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 1L;
+
+        assertThrows(IllegalArgumentException.class,
+            () -> customerService.addStudyTime(
+                command, studySeatId, scheduleId
+            ), "이용 시간은 최소 1시간 이상 입니다.");
     }
 
     @Test
     @DisplayName(
         "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
     )
-    void addStudyTime_test2() {
+    void addStudyTime_test3() {
+
+        Schedule temp = temporaryAddSchedule();
 
         AddStudyTimeRequest command = new AddStudyTimeRequest(
             1L,
-            LocalDateTime.of(2023,1,10,13,0),
+            LocalDateTime.of(2023,1,10,12,10),
             LocalDateTime.of(2023,1,10,15,0),
-            2L
+            LocalDateTime.of(2023, 1, 10, 16, 0)
         );
 
         assertThrows(IllegalStateException.class,
             () -> STUDY_SEAT.isReservable(
                 command.getStartedTime(), command.getEndTime()
             ), "다른 스케쥴과 겹칩니다.");
+
+        scheduleFixtureRecovery(temp);
+    }
+
+    private Schedule temporaryAddSchedule() {
+        Schedule tempAddSchedule = Schedule.of(
+            CUSTOMER,
+            STUDY_SEAT,
+            LocalDateTime.of(2023, 1, 10, 15, 10, 0),
+            LocalDateTime.of(2023, 1, 10, 16, 10, 0)
+        );
+
+        STUDY_SEAT.getSchedules().add(
+            tempAddSchedule
+        );
+
+        return tempAddSchedule;
+    }
+
+    private void scheduleFixtureRecovery(Schedule schedule) {
+        STUDY_SEAT.getSchedules().remove(schedule);
     }
 }
