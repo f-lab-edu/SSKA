@@ -92,15 +92,15 @@ public class CustomerService {
         StudySeat studySeat = findByStudySeatId(studySeatId);
         studySeat.isReservable(
             command.getEndTime(),
-            command.getEndTime().plusHours(command.getPlusHour())
+            command.getChangingEndTime()
         );
 
         Schedule schedule = findByScheduleId(scheduleId);
 
-        schedule.updateEndTime(command.getEndTime().plusHours(command.getPlusHour()));
+        schedule.updateEndTime(command.getChangingEndTime());
 
         scheduleRepository.save(schedule);
-        return new CommandAddStudyTimeResponse(success, 1L, command.getPlusHour());
+        return new CommandAddStudyTimeResponse(success, command.getChangingEndTime());
     }
 
     private Schedule findByScheduleId(final long scheduleId) {

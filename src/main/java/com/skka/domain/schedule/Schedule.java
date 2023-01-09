@@ -3,11 +3,11 @@ package com.skka.domain.schedule;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY_SEAT;
+import static com.skka.adaptor.util.Util.checkTimeDifference;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -74,19 +74,6 @@ public class Schedule {
         ;
 
         return new Schedule(customer, studySeat, startTime, endTime);
-    }
-
-    private static long checkTimeDifference(
-        final LocalDateTime startedTime,
-        final LocalDateTime endTime
-    ) {
-        Duration diff = Duration.between(startedTime, endTime);
-        return diff.toHours();
-    }
-
-    public void updateStudySeat(Customer customer, StudySeat studySeat) {
-        this.customer = customer;
-        this.studySeat = studySeat;
     }
 
     public void updateEndTime(LocalDateTime endTime) {
