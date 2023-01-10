@@ -18,7 +18,7 @@ class ScheduleTest {
             SCHEDULE.getCustomer(),
             SCHEDULE.getStudySeat(),
             LocalDateTime.now(),
-            1L
+            LocalDateTime.now().plusHours(1L)
         ));
     }
 
@@ -29,7 +29,7 @@ class ScheduleTest {
             null,
             SCHEDULE.getStudySeat(),
             LocalDateTime.now(),
-            2L
+            LocalDateTime.now().plusHours(2L)
         ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 고객 입니다.");
@@ -42,7 +42,7 @@ class ScheduleTest {
             SCHEDULE.getCustomer(),
             null,
             LocalDateTime.now(),
-            2L
+            LocalDateTime.now().plusHours(2L)
         ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 좌석 입니다.");
@@ -55,7 +55,7 @@ class ScheduleTest {
             SCHEDULE.getCustomer(),
             SCHEDULE.getStudySeat(),
             LocalDateTime.now(),
-            0L
+            LocalDateTime.now().plusHours(0L)
         ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("이용 시간은 최소 1시간 이상 입니다.");
