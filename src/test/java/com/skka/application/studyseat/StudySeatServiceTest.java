@@ -18,6 +18,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -69,147 +70,152 @@ class StudySeatServiceTest {
         assertThat(actual.getReservedSeatId()).isEqualTo(1L);
     }
 
-    @Test
-    @DisplayName("Case 1")
-    void reserveSeat_test_time_validation_1() {
+    @Nested
+    @DisplayName("9가지 경우의 수에 대한 시간 검증 테스트")
+    class time_validation_test {
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,13,0),
-            LocalDateTime.of(2023,1,10,14,0)
-        );
+        @Test
+        @DisplayName("Case 1")
+        void reserveSeat_test_time_validation_1 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 13, 0),
+                LocalDateTime.of(2023, 1, 10, 14, 0)
+            );
 
-    @Test
-    @DisplayName("Case 2")
-    void reserveSeat_test_time_validation_2() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,13,0),
-            LocalDateTime.of(2023,1,10,16,0)
-        );
+        @Test
+        @DisplayName("Case 2")
+        void reserveSeat_test_time_validation_2 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 13, 0),
+                LocalDateTime.of(2023, 1, 10, 16, 0)
+            );
 
-    @Test
-    @DisplayName("Case 3")
-    void reserveSeat_test_time_validation_3() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,11,0),
-            LocalDateTime.of(2023,1,10,14,0)
-        );
+        @Test
+        @DisplayName("Case 3")
+        void reserveSeat_test_time_validation_3 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 11, 0),
+                LocalDateTime.of(2023, 1, 10, 14, 0)
+            );
 
-    @Test
-    @DisplayName("Case 4")
-    void reserveSeat_test_time_validation_4() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,11,0),
-            LocalDateTime.of(2023,1,10,16,0)
-        );
+        @Test
+        @DisplayName("Case 4")
+        void reserveSeat_test_time_validation_4 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 11, 0),
+                LocalDateTime.of(2023, 1, 10, 16, 0)
+            );
 
-    @Test
-    @DisplayName("Case 5")
-    void reserveSeat_test_time_validation_5() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,12,0),
-            LocalDateTime.of(2023,1,10,14,0)
-        );
+        @Test
+        @DisplayName("Case 5")
+        void reserveSeat_test_time_validation_5 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 12, 0),
+                LocalDateTime.of(2023, 1, 10, 14, 0)
+            );
 
-    @Test
-    @DisplayName("Case 6")
-    void reserveSeat_test_time_validation_6() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,14,0),
-            LocalDateTime.of(2023,1,10,15,10)
-        );
+        @Test
+        @DisplayName("Case 6")
+        void reserveSeat_test_time_validation_6 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 14, 0),
+                LocalDateTime.of(2023, 1, 10, 15, 10)
+            );
 
-    @Test
-    @DisplayName("Case 7")
-    void reserveSeat_test_time_validation_7() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,12,10),
-            LocalDateTime.of(2023,1,10,15,10)
-        );
+        @Test
+        @DisplayName("Case 7")
+        void reserveSeat_test_time_validation_7 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 12, 10),
+                LocalDateTime.of(2023, 1, 10, 15, 10)
+            );
 
-    @Test
-    @DisplayName("Case 8")
-    void reserveSeat_test_time_validation_8() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,10,10),
-            LocalDateTime.of(2023,1,10,15,10)
-        );
+        @Test
+        @DisplayName("Case 8")
+        void reserveSeat_test_time_validation_8 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
-    }
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 10, 10),
+                LocalDateTime.of(2023, 1, 10, 15, 10)
+            );
 
-    @Test
-    @DisplayName("Case 9")
-    void reserveSeat_test_time_validation_9() {
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
 
-        CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
-            1L,
-            LocalDateTime.of(2023,1,10,12,10),
-            LocalDateTime.of(2023,1,10,17,10)
-        );
+        @Test
+        @DisplayName("Case 9")
+        void reserveSeat_test_time_validation_9 () {
 
-        assertThrows(IllegalStateException.class,
-            () -> SCHEDULE.getStudySeat().isReservable(
-                command.getStartedTime(), command.getEndTime()
-            ), "다른 스케쥴과 겹칩니다.");
+            CommandReserveSeatWebRequestV1 command = new CommandReserveSeatWebRequestV1(
+                1L,
+                LocalDateTime.of(2023, 1, 10, 12, 10),
+                LocalDateTime.of(2023, 1, 10, 17, 10)
+            );
+
+            assertThrows(IllegalStateException.class,
+                () -> SCHEDULE.getStudySeat().isReservable(
+                    command.getStartedTime(), command.getEndTime()
+                ), "다른 스케쥴과 겹칩니다.");
+        }
     }
 }
