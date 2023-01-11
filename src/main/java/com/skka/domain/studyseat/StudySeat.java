@@ -6,7 +6,6 @@ import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.schedule.Schedule;
-import com.skka.domain.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class StudySeat {
         return new StudySeat(id, seatNumber, occupied);
     }
 
-    public void isReservable(
+    public boolean isReservable(
         final LocalDateTime startedTime,
         final LocalDateTime endTime
     ) {
@@ -63,26 +62,22 @@ public class StudySeat {
                 s.getStartedTime(),
                 s.getEndTime(),
                 startedTime,
-                endTime,
-                s.getState())
+                endTime)
             ).findFirst();
-        check(overlappedSchedules.isPresent(), INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
+        return overlappedSchedules.isPresent();
     }
 
     private boolean checkAllOverlappedSchedules(
         final LocalDateTime dbStartedTime,
         final LocalDateTime dbEndTime,
         final LocalDateTime startedTime,
-        final LocalDateTime endTime,
-        final ScheduleState scheduleState
+        final LocalDateTime endTime
     ) {
-        return (ScheduleState.RESERVED.equals(scheduleState)
-            && (
+        return (
             (isBetween(dbStartedTime, startedTime, endTime, dbStartedTime))
-                || (isBetween(dbEndTime, startedTime, endTime, dbEndTime))
-                || (isBetween(startedTime, dbStartedTime, dbEndTime, endTime))
-                || startedTime.isEqual(dbStartedTime) || endTime.isEqual(dbEndTime)
-        )
+            || (isBetween(dbEndTime, startedTime, endTime, dbEndTime))
+            || (isBetween(startedTime, dbStartedTime, dbEndTime, endTime))
+            || startedTime.isEqual(dbStartedTime) || endTime.isEqual(dbEndTime)
         );
     }
 

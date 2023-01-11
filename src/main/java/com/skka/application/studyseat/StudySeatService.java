@@ -1,5 +1,8 @@
 package com.skka.application.studyseat;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
+import static com.skka.adaptor.util.Util.check;
+
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
@@ -25,7 +28,9 @@ public class StudySeatService {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.isReservable(command.getStartedTime(), command.getEndTime());
+        check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
+            , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
+        ;
 
         Schedule schedule = Schedule.of(
             customer,
