@@ -22,11 +22,13 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Where(clause = "state = 'RESERVED'")
 public class Schedule {
 
     @Id
