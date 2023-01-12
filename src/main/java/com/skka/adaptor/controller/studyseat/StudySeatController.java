@@ -1,9 +1,9 @@
-package com.skka.adaptor.controller;
+package com.skka.adaptor.controller.studyseat;
 
 import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
-import com.skka.application.studyseat.webrequest.CommandReserveSeatWebRequestV1;
+import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
-import com.skka.application.studyseat.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
