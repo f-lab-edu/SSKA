@@ -2,13 +2,16 @@ package com.skka.application.studyseat;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
+import static com.skka.studyseat.StudySeatFixture.MOVING_STUDY_SEAT;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -279,5 +282,36 @@ class StudySeatServiceTest {
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
+    }
+
+    @Test
+    @DisplayName("유저는 좌석을 옮길 수 있다.")
+    void moveSeat_test1() {
+
+        // given
+        MoveSeatRequest command = new MoveSeatRequest(
+            1L,
+            LocalDateTime.of(2023,1,10,17,0),
+            LocalDateTime.of(2023,1,10,20,0),
+            2L
+        );
+
+        long movingStudySeatId = 2L;
+
+        // when
+        when(studySeatRepository.findById(movingStudySeatId))
+            .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
+
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(movingStudySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        CommandMoveSeatResponse actual = studySeatService.moveSeat(command, movingStudySeatId);
+
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getMovedSeatId()).isEqualTo(2L);
     }
 }
