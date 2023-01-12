@@ -1,16 +1,18 @@
-package com.skka.domain.schedule;
+package com.skka.domain.studyseat.schedule;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY_SEAT;
+import static com.skka.adaptor.util.Util.checkTimeDifference;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +22,13 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Where(clause = "state = 'RESERVED'")
 public class Schedule {
 
     @Id
@@ -47,40 +51,36 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
 
+    @Enumerated(value = EnumType.STRING)
+    private ScheduleState state;
+
     private Schedule(
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addHour
+        final LocalDateTime endTime
     ) {
         this.customer = customer;
         this.studySeat = studySeat;
         this.startedTime = startTime;
-        this.endTime = startTime.plusHours(addHour);
+        this.endTime = endTime;
+        this.state = ScheduleState.RESERVED;
     }
 
     public static Schedule of(
         final Customer customer,
         final StudySeat studySeat,
         final LocalDateTime startTime,
-        final long addHour
+        final LocalDateTime endTime
     ) {
         require(o -> customer == null, customer, INVALID_SCHEDULE_CUSTOMER);
         require(o -> studySeat == null, studySeat, INVALID_SCHEDULE_STUDY_SEAT);
         require(
-            o -> checkTimeDifference(startTime, startTime.plusHours(addHour)) < 1,
-            checkTimeDifference(startTime, startTime.plusHours(addHour)),
+            o -> checkTimeDifference(startTime, endTime) < 1,
+            checkTimeDifference(startTime, endTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
 
-        return new Schedule(customer, studySeat, startTime, addHour);
-    }
-
-    private static long checkTimeDifference(
-        final LocalDateTime startedTime,
-        final LocalDateTime endTime
-    ) {
-        Duration diff = Duration.between(startedTime, endTime);
-        return diff.toHours();
+        return new Schedule(customer, studySeat, startTime, endTime);
     }
 }

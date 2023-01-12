@@ -1,0 +1,1 @@
+ALTER TABLE `schedule` ADD INDEX `idx-schedule-started_time` (started_time);
