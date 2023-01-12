@@ -81,12 +81,12 @@ public class StudySeat {
     }
 
     private boolean isBetween(
-        final LocalDateTime a,
-        final LocalDateTime b,
-        final LocalDateTime c,
-        final LocalDateTime d
+        final LocalDateTime time1,
+        final LocalDateTime time2,
+        final LocalDateTime time3,
+        final LocalDateTime time4
     ) {
-        return isAfterOrEquals(a, b) && isAfterOrEquals(c, d);
+        return isAfterOrEquals(time1, time2) && isAfterOrEquals(time3, time4);
     }
 
     private boolean isAfterOrEquals(
