@@ -28,7 +28,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Where(clause = "state = 'RESERVED'")
+@Where(clause = "state = 'RESERVED' && started_time >= NOW()")
 public class Schedule {
 
     @Id

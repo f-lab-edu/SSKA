@@ -3,7 +3,9 @@ package com.skka.application.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
 
+import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -49,5 +51,29 @@ public class StudySeatService {
     private StudySeat findByStudySeatId(final long studySeatId) {
         return studySeatRepository.findById(studySeatId)
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
+    }
+
+
+    @Transactional
+    public CommandMoveSeatResponse moveSeat(
+        final MoveSeatRequest command,
+        final long studySeatId
+    ) {
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+
+        studySeat.deleteSchedule(command.getStartedTime(), command.getEndTime());
+
+        studySeatRepository.save(studySeat);
+
+        reserveSeat(
+            new ReserveSeatRequest(
+                command.getCustomerId(),
+                command.getStartedTime(),
+                command.getEndTime()
+            ),
+            command.getMovingStudySeatId()
+        );
+
+        return new CommandMoveSeatResponse(success, command.getMovingStudySeatId());
     }
 }
