@@ -7,7 +7,6 @@ import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
-import com.skka.domain.studyseat.schedule.Schedule;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,14 +31,10 @@ public class StudySeatService {
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
         ;
 
-        Schedule schedule = Schedule.of(
-            customer,
-            studySeat,
-            command.getStartedTime(),
-            command.getEndTime()
+        studySeat.reserve(
+            customer, studySeat,
+            command.getStartedTime(), command.getEndTime()
         );
-
-        studySeat.reserve(schedule);
 
         studySeatRepository.save(studySeat);
 

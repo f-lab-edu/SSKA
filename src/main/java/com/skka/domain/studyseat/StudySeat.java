@@ -3,6 +3,7 @@ package com.skka.domain.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.util.Util.require;
 
+import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -96,7 +97,18 @@ public class StudySeat {
     }
 
 
-    public void reserve(Schedule schedule) {
+    public void reserve(
+        final Customer customer,
+        final StudySeat studySeat,
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        Schedule schedule = Schedule.of(
+            customer,
+            studySeat,
+            startedTime,
+            endTime
+        );
         schedules.add(schedule);
     }
 
