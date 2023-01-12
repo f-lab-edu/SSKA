@@ -3,9 +3,12 @@ package com.skka.domain.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.util.Util.require;
 
-import com.skka.domain.schedule.Schedule;
+import com.skka.domain.customer.Customer;
+import com.skka.domain.studyseat.schedule.Schedule;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,4 +51,65 @@ public class StudySeat {
 
         return new StudySeat(id, seatNumber, occupied);
     }
+
+    public boolean isReservable(
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        Optional<Schedule> overlappedSchedules = this.schedules.stream()
+            .filter(s -> checkAllOverlappedSchedules(
+                s.getStartedTime(),
+                s.getEndTime(),
+                startedTime,
+                endTime)
+            ).findFirst();
+        return overlappedSchedules.isPresent();
+    }
+
+    private boolean checkAllOverlappedSchedules(
+        final LocalDateTime dbStartedTime,
+        final LocalDateTime dbEndTime,
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        return (
+            (isBetween(dbStartedTime, startedTime, endTime, dbStartedTime))
+            || (isBetween(dbEndTime, startedTime, endTime, dbEndTime))
+            || (isBetween(startedTime, dbStartedTime, dbEndTime, endTime))
+            || startedTime.isEqual(dbStartedTime) || endTime.isEqual(dbEndTime)
+        );
+    }
+
+    private boolean isBetween(
+        final LocalDateTime time1,
+        final LocalDateTime time2,
+        final LocalDateTime time3,
+        final LocalDateTime time4
+    ) {
+        return isAfterOrEquals(time1, time2) && isAfterOrEquals(time3, time4);
+    }
+
+    private boolean isAfterOrEquals(
+        final LocalDateTime a,
+        final LocalDateTime b
+    ) {
+        return a.compareTo(b) > 0;
+    }
+
+
+    public void reserve(
+        final Customer customer,
+        final StudySeat studySeat,
+        final LocalDateTime startedTime,
+        final LocalDateTime endTime
+    ) {
+        Schedule schedule = Schedule.of(
+            customer,
+            studySeat,
+            startedTime,
+            endTime
+        );
+        schedules.add(schedule);
+    }
+
 }
