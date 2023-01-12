@@ -6,7 +6,7 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.common.domain.BaseEntity;
-import com.skka.domain.schedule.Schedule;
+import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

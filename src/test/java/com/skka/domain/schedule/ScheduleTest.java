@@ -4,6 +4,7 @@ import static com.skka.schedule.ScheduleFixture.SCHEDULE;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

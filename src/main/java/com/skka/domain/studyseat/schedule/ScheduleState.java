@@ -1,4 +1,4 @@
-package com.skka.domain.schedule;
+package com.skka.domain.studyseat.schedule;
 
 import lombok.AccessLevel;
 import lombok.Getter;

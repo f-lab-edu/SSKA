@@ -1,4 +1,4 @@
-package com.skka.domain.schedule;
+package com.skka.domain.studyseat.schedule;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_CUSTOMER;

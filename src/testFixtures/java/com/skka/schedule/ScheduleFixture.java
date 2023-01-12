@@ -3,7 +3,7 @@ package com.skka.schedule;
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 
-import com.skka.domain.schedule.Schedule;
+import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 
 public class ScheduleFixture {

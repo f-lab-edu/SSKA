@@ -7,7 +7,7 @@ import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
-import com.skka.domain.schedule.Schedule;
+import com.skka.domain.studyseat.schedule.Schedule;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import lombok.RequiredArgsConstructor;

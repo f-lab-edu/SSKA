@@ -1,11 +1,9 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
-import com.skka.domain.schedule.Schedule;
+import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
