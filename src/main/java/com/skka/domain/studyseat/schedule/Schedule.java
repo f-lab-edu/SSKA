@@ -22,12 +22,14 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString(exclude = {"studySeat", "customer"})
 @Where(clause = "state = 'RESERVED' && started_time >= NOW()")
 public class Schedule {
 
@@ -82,5 +84,9 @@ public class Schedule {
         ;
 
         return new Schedule(customer, studySeat, startTime, endTime);
+    }
+
+    public void updateEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

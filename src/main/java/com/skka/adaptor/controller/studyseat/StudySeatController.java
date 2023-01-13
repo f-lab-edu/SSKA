@@ -1,9 +1,12 @@
 package com.skka.adaptor.controller.studyseat;
 
+import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandMoveSeatWebRequestV1;
 import com.skka.application.studyseat.StudySeatService;
+import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
@@ -52,6 +55,25 @@ public class StudySeatController {
 
         return ResponseEntity.ok(customerService.moveSeat(
             commandService,
+            studySeatId
+        ));
+    }
+
+    @PutMapping(value = "schedule/{scheduleId}/seat/{studySeatId}")
+    public ResponseEntity<CommandChangeStudyTimeResponse> addTime(
+        final CommandChangeStudyTimeWebRequestV1 command,
+        @PathVariable final long scheduleId,
+        @PathVariable final long studySeatId
+    ) {
+        ChangeStudyTimeRequest commandService = new ChangeStudyTimeRequest(
+            command.getCustomerId(),
+            command.getStartedTime(),
+            command.getChangingEndTime()
+        );
+
+        return ResponseEntity.ok(customerService.changeStudyTime(
+            commandService,
+            scheduleId,
             studySeatId
         ));
     }

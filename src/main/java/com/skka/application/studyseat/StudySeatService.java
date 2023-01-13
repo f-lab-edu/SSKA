@@ -1,10 +1,15 @@
 package com.skka.application.studyseat;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
+import static com.skka.adaptor.util.Util.checkTimeDifference;
+import static com.skka.adaptor.util.Util.require;
 
+import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
@@ -75,5 +80,30 @@ public class StudySeatService {
         );
 
         return new CommandMoveSeatResponse(success, command.getMovingStudySeatId());
+    }
+
+
+    @Transactional
+    public CommandChangeStudyTimeResponse changeStudyTime(
+        final ChangeStudyTimeRequest command,
+        final long scheduleId,
+        final long studySeatId
+    ) {
+
+        require(o -> checkTimeDifference(
+                command.getStartedTime(), command.getChangingEndTime()) < 1,
+            checkTimeDifference(command.getStartedTime(), command.getChangingEndTime()),
+            INVALID_SCHEDULE_BEFORE_A_HOUR)
+        ;
+
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+
+        check(studySeat.isChangeable(command.getStartedTime(), command.getChangingEndTime())
+            , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
+
+        studySeat.change(scheduleId, command.getChangingEndTime());
+
+        studySeatRepository.save(studySeat);
+        return new CommandChangeStudyTimeResponse(success, command.getChangingEndTime());
     }
 }
