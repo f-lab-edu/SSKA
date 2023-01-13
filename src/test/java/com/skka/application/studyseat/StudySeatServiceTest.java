@@ -320,7 +320,7 @@ class StudySeatServiceTest {
 
 
     @Test
-    @DisplayName("유저는 시간을 연장할 수 있다.")
+    @DisplayName("유저는 시간을 변경할 수 있다.")
     void changeStudyTime_test1() {
 
         // given
@@ -374,7 +374,7 @@ class StudySeatServiceTest {
 
     @Test
     @DisplayName(
-        "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
+        "유저가 좌석 시간을 변경하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
     )
     void changeStudyTime_test3() {
 
