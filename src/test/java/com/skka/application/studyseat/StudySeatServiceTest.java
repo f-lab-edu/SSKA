@@ -2,6 +2,7 @@ package com.skka.application.studyseat;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
+import static com.skka.schedule.ScheduleFixture.SCHEDULE_2;
 import static com.skka.studyseat.StudySeatFixture.MOVING_STUDY_SEAT;
 import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -9,8 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -313,5 +316,85 @@ class StudySeatServiceTest {
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getMovedSeatId()).isEqualTo(2L);
+    }
+
+
+    @Test
+    @DisplayName("유저는 시간을 연장할 수 있다.")
+    void changeStudyTime_test1() {
+
+        // given
+        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+            1L,
+            LocalDateTime.of(2023, 1, 10, 12, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10)
+        );
+
+        long scheduleId = 0L;
+        long studySeatId = 1L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
+            command, scheduleId, studySeatId
+        );
+
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getChangedEndTime()).isEqualTo(
+            LocalDateTime.of(2023, 1, 10, 17, 10)
+        );
+    }
+
+    @Test
+    @DisplayName(
+        "유저는 좌석을 최소 1시간을 이용 해야 한다."
+    )
+    void changeStudyTime_test2() {
+
+        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+            1L,
+            LocalDateTime.of(2023,1,10,12,10),
+            LocalDateTime.of(2023, 1, 10, 12, 50)
+        );
+
+        long scheduleId = 0L;
+        long studySeatId = 1L;
+
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        assertThrows(IllegalArgumentException.class,
+            () -> studySeatService.changeStudyTime(
+                command, scheduleId, studySeatId
+            ), "이용 시간은 최소 1시간 이상 입니다.");
+    }
+
+    @Test
+    @DisplayName(
+        "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
+    )
+    void changeStudyTime_test3() {
+
+        STUDY_SEAT.getSchedules().add(SCHEDULE_2);
+
+        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+            1L,
+            LocalDateTime.of(2023,1,10,12,10),
+            LocalDateTime.of(2023, 1, 10, 16, 10)
+        );
+
+        long scheduleId = 0L;
+        long studySeatId = 1L;
+
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        assertThrows(IllegalStateException.class,
+            () -> studySeatService.changeStudyTime(
+                command, scheduleId, studySeatId
+            ), "다른 스케쥴과 겹칩니다.");
     }
 }
