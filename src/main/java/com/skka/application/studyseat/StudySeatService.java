@@ -9,6 +9,7 @@ import static com.skka.adaptor.util.Util.require;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
@@ -104,5 +105,20 @@ public class StudySeatService {
 
         studySeatRepository.save(studySeat);
         return new CommandChangeStudyTimeResponse(success, command.getChangingEndTime());
+    }
+
+    @Transactional
+    public CommandCancelScheduleResponse cancelSchedule(
+        final long scheduleId,
+        final long studySeatId,
+        final long customerId
+    ) {
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+
+        studySeat.checkIfRightCustomer(customerId, scheduleId);
+
+        studySeat.cancel(scheduleId);
+
+        return new CommandCancelScheduleResponse(success, scheduleId);
     }
 }

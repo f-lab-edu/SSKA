@@ -89,4 +89,8 @@ public class Schedule {
     public void updateEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
+    public void cancel() {
+        this.state = ScheduleState.CANCELED;
+    }
 }

@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
@@ -396,5 +397,45 @@ class StudySeatServiceTest {
             () -> studySeatService.changeStudyTime(
                 command, scheduleId, studySeatId
             ), "다른 스케쥴과 겹칩니다.");
+    }
+
+
+    @Test
+    @DisplayName("유저는 스케줄을 취소할 수 있다.")
+    void cancelSchedule_test1() {
+
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        // given
+        long scheduleId = 0L;
+        long studySeatId = 1L;
+        long customerId = 1L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        CommandCancelScheduleResponse actual = studySeatService.cancelSchedule(
+            scheduleId,
+            studySeatId,
+            customerId
+        );
+
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getCanceledScheduleId()).isEqualTo(0L);
+    }
+
+    @Test
+    @DisplayName("유저 자신의 스케줄만 취소가 가능하다.")
+    void cancelSchedule_test2() {
+
+        long customerId = 2L;
+        long scheduleId = 1L;
+
+        assertThrows(IllegalStateException.class,
+            () -> STUDY_SEAT.checkIfRightCustomer(customerId, scheduleId),
+            "자신의 예약 정보가 아닙니다."
+        );
     }
 }

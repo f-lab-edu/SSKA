@@ -6,6 +6,7 @@ import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
@@ -75,6 +76,17 @@ public class StudySeatController {
             commandService,
             scheduleId,
             studySeatId
+        ));
+    }
+
+    @PutMapping(value = "schedule/{scheduleId}/seat/{studySeatId}/customer/{customerId}")
+    public ResponseEntity<CommandCancelScheduleResponse> cancelSchedule(
+        @PathVariable final long scheduleId,
+        @PathVariable final long studySeatId,
+        @PathVariable final long customerId
+    ) {
+        return ResponseEntity.ok(customerService.cancelSchedule(
+            scheduleId, studySeatId, customerId
         ));
     }
 }

@@ -1,5 +1,6 @@
 package com.skka.domain.studyseat;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
 import static com.skka.adaptor.util.Util.check;
@@ -176,5 +177,20 @@ public class StudySeat {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
 
         return schedule.get();
+    }
+
+
+    public void checkIfRightCustomer(final long customerId, final long scheduleId) {
+        check(customerId != getCustomerIdFromSchedule(scheduleId), INVALID_MY_SCHEDULE);
+    }
+
+    private long getCustomerIdFromSchedule(final long scheduleId) {
+        Schedule schedule = findScheduleById(scheduleId);
+        return schedule.getCustomer().getId();
+    }
+
+    public void cancel(final long scheduleId) {
+        Schedule schedule = findScheduleById(scheduleId);
+        schedule.cancel();
     }
 }
