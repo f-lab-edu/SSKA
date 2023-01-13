@@ -1,8 +1,6 @@
 package com.skka.domain.studyseat;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
-import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
@@ -127,7 +125,6 @@ public class StudySeat {
             .ifPresent(schedule -> schedules.remove(schedule));
     }
 
-
     private boolean findMatchedScheduleByStartedTimeAndEndTime(
         final LocalDateTime requestStartedTime,
         final LocalDateTime requestEndTime,
@@ -135,46 +132,5 @@ public class StudySeat {
         final LocalDateTime scheduleEndTime
     ) {
         return (requestStartedTime.isEqual(scheduleStartedTime)) && (requestEndTime.isEqual(scheduleEndTime));
-    }
-
-    public boolean isChangeable(
-        final LocalDateTime startedTime,
-        final LocalDateTime changingEndTime
-    ) {
-        Optional<Schedule> overlappedSchedules = this.schedules.stream()
-            .filter(s -> checkAllOverlappedSchedules(
-                s.getStartedTime(),
-                s.getEndTime(),
-                getEndTimeByStartedTime(startedTime),
-                changingEndTime)
-            ).findFirst();
-        return overlappedSchedules.isPresent();
-    }
-
-    private LocalDateTime getEndTimeByStartedTime(LocalDateTime startedTime) {
-        Optional<Schedule> schedule = this.schedules.stream()
-            .filter(s -> s.getStartedTime().isEqual(startedTime))
-            .findFirst();
-
-        if (schedule.isEmpty()) {
-            throw new IllegalStateException("schedule is not existed");
-        }
-
-        return schedule.get().getEndTime();
-    }
-
-    public void change(final long scheduleId, final LocalDateTime changingEndTime) {
-        Schedule schedule = findScheduleById(scheduleId);
-        schedule.updateEndTime(changingEndTime);
-    }
-
-    private Schedule findScheduleById(final long scheduleId) {
-        Optional<Schedule> schedule = this.schedules.stream()
-            .filter(s -> s.getId() == scheduleId)
-            .findFirst();
-
-        check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
-
-        return schedule.get();
     }
 }
