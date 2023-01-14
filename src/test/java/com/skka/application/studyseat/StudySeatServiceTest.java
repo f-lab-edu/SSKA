@@ -430,12 +430,20 @@ class StudySeatServiceTest {
     @DisplayName("유저 자신의 스케줄만 취소가 가능하다.")
     void cancelSchedule_test2() {
 
+        long scheduleId = 0L;
+        long studySeatId = 1L;
         long customerId = 2L;
-        long scheduleId = 1L;
 
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
         assertThrows(IllegalStateException.class,
-            () -> STUDY_SEAT.checkIfRightCustomer(customerId, scheduleId),
-            "자신의 예약 정보가 아닙니다."
-        );
+            () -> studySeatService.cancelSchedule(
+                scheduleId,
+                studySeatId,
+                customerId
+            ), "자신의 예약 정보가 아닙니다.");
     }
 }

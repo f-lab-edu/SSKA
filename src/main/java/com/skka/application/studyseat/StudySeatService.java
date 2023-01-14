@@ -1,5 +1,6 @@
 package com.skka.application.studyseat;
 
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
@@ -115,7 +116,8 @@ public class StudySeatService {
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.checkIfRightCustomer(customerId, scheduleId);
+        check(studySeat.isRightCustomer(customerId, scheduleId)
+            , INVALID_MY_SCHEDULE);
 
         studySeat.cancel(scheduleId);
 

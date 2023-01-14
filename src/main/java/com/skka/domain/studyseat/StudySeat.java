@@ -180,8 +180,8 @@ public class StudySeat {
     }
 
 
-    public void checkIfRightCustomer(final long customerId, final long scheduleId) {
-        check(customerId != getCustomerIdFromSchedule(scheduleId), INVALID_MY_SCHEDULE);
+    public boolean isRightCustomer(final long customerId, final long scheduleId) {
+        return customerId != getCustomerIdFromSchedule(scheduleId);
     }
 
     private long getCustomerIdFromSchedule(final long scheduleId) {
