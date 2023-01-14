@@ -18,5 +18,5 @@ public class CommandMoveSeatWebRequestV1 {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime endTime;
 
-    final long movingStudySeatId;
+    private final long movingStudySeatId;
 }
