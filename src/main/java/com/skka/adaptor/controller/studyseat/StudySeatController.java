@@ -38,10 +38,11 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "/seat/{studySeatId}")
+    @PutMapping(value = "/seat/{studySeatId}/schedule/{scheduleId}")
     public ResponseEntity<CommandMoveSeatResponse> moveSeat(
         final CommandMoveSeatWebRequestV1 command,
-        @PathVariable final long studySeatId
+        @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId
     ) {
         MoveSeatRequest commandService = new MoveSeatRequest(
             command.getCustomerId(),
@@ -52,7 +53,8 @@ public class StudySeatController {
 
         return ResponseEntity.ok(customerService.moveSeat(
             commandService,
-            studySeatId
+            studySeatId,
+            scheduleId
         ));
     }
 }

@@ -57,11 +57,12 @@ public class StudySeatService {
     @Transactional
     public CommandMoveSeatResponse moveSeat(
         final MoveSeatRequest command,
-        final long studySeatId
+        final long studySeatId,
+        final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.deleteSchedule(command.getStartedTime(), command.getEndTime());
+        studySeat.extractScheduleWith(scheduleId);
 
         studySeatRepository.save(studySeat);
 
