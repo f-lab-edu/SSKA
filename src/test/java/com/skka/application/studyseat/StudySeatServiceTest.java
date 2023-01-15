@@ -384,7 +384,6 @@ class StudySeatServiceTest {
     }
 
 
-
     @Test
     @DisplayName("유저는 시간을 변경할 수 있다.")
     void changeStudyTime_test1() {
