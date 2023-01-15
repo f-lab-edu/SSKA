@@ -62,8 +62,8 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "schedules/{scheduleId}/seats/{studySeatId}")
-    public ResponseEntity<CommandChangeStudyTimeResponse> addTime(
+    @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}/adjustment")
+    public ResponseEntity<CommandChangeStudyTimeResponse> changeStudyTime(
         final CommandChangeStudyTimeWebRequestV1 command,
         @PathVariable final long scheduleId,
         @PathVariable final long studySeatId
@@ -81,14 +81,14 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "schedules/{scheduleId}/seats/{studySeatId}/customers/{customerId}")
+    @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}/customers/{customerId}")
     public ResponseEntity<CommandCancelScheduleResponse> cancelSchedule(
-        @PathVariable final long scheduleId,
         @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId,
         @PathVariable final long customerId
     ) {
         return ResponseEntity.ok(customerService.cancelSchedule(
-            scheduleId, studySeatId, customerId
+            studySeatId, scheduleId, customerId
         ));
     }
 }

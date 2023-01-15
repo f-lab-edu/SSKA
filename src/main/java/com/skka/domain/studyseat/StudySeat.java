@@ -1,9 +1,10 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
+import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
 import static com.skka.adaptor.util.Util.check;
+import static com.skka.adaptor.util.Util.checkTimeDifference;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
@@ -124,26 +125,12 @@ public class StudySeat {
         schedules.remove(schedule.get());
     }
 
-    private void checkIfScheduleEmpty(Optional<Schedule> schedule) {
+    private void checkIfScheduleEmpty(final Optional<Schedule> schedule) {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
 
-    public boolean isChangeable(
-        final LocalDateTime startedTime,
-        final LocalDateTime changingEndTime
-    ) {
-        Optional<Schedule> overlappedSchedules = this.schedules.stream()
-            .filter(s -> checkAllOverlappedSchedules(
-                s.getStartedTime(),
-                s.getEndTime(),
-                getEndTimeByStartedTime(startedTime),
-                changingEndTime)
-            ).findFirst();
-        return overlappedSchedules.isPresent();
-    }
-
-    private LocalDateTime getEndTimeByStartedTime(LocalDateTime startedTime) {
+    public LocalDateTime getEndTimeByStartedTime(final LocalDateTime startedTime) {
         Optional<Schedule> schedule = this.schedules.stream()
             .filter(s -> s.getStartedTime().isEqual(startedTime))
             .findFirst();
@@ -170,7 +157,6 @@ public class StudySeat {
         return schedule.get();
     }
 
-
     public boolean isRightCustomer(final long customerId, final long scheduleId) {
         return customerId != getCustomerIdFromSchedule(scheduleId);
     }
@@ -183,5 +169,16 @@ public class StudySeat {
     public void cancel(final long scheduleId) {
         Schedule schedule = findScheduleById(scheduleId);
         schedule.cancel();
+    }
+
+    public void checkBeneathOfAHour(
+        final LocalDateTime startedTime,
+        final LocalDateTime changingEndTime
+    ) {
+        require(o -> checkTimeDifference(
+                startedTime, changingEndTime) < 1,
+            checkTimeDifference(startedTime, changingEndTime),
+            INVALID_SCHEDULE_BEFORE_A_HOUR)
+        ;
     }
 }

@@ -1,11 +1,8 @@
 package com.skka.application.studyseat;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
-import static com.skka.adaptor.util.Util.checkTimeDifference;
-import static com.skka.adaptor.util.Util.require;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
@@ -18,6 +15,7 @@ import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,15 +90,13 @@ public class StudySeatService {
         final long studySeatId
     ) {
 
-        require(o -> checkTimeDifference(
-                command.getStartedTime(), command.getChangingEndTime()) < 1,
-            checkTimeDifference(command.getStartedTime(), command.getChangingEndTime()),
-            INVALID_SCHEDULE_BEFORE_A_HOUR)
-        ;
-
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        check(studySeat.isChangeable(command.getStartedTime(), command.getChangingEndTime())
+        studySeat.checkBeneathOfAHour(command.getStartedTime(), command.getChangingEndTime());
+
+        LocalDateTime endTime = studySeat.getEndTimeByStartedTime(command.getStartedTime());
+
+        check(studySeat.isReservable(endTime, command.getChangingEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
 
         studySeat.change(scheduleId, command.getChangingEndTime());
@@ -111,8 +107,8 @@ public class StudySeatService {
 
     @Transactional
     public CommandCancelScheduleResponse cancelSchedule(
-        final long scheduleId,
         final long studySeatId,
+        final long scheduleId,
         final long customerId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
