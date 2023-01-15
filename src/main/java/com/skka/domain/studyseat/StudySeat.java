@@ -1,6 +1,8 @@
 package com.skka.domain.studyseat;
 
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
+import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
+import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
@@ -112,4 +114,16 @@ public class StudySeat {
         schedules.add(schedule);
     }
 
+
+    public void extractScheduleWith(final long scheduleId) {
+        Optional<Schedule> schedule = this.schedules.stream()
+            .filter(s -> s.getId() == scheduleId).findFirst();
+
+        checkIfScheduleEmpty(schedule);
+        schedules.remove(schedule.get());
+    }
+
+    private void checkIfScheduleEmpty(Optional<Schedule> schedule) {
+        check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
+    }
 }
