@@ -472,8 +472,8 @@ class StudySeatServiceTest {
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
         // given
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
         long customerId = 1L;
 
         // when
@@ -482,8 +482,8 @@ class StudySeatServiceTest {
 
         // then
         CommandCancelScheduleResponse actual = studySeatService.cancelSchedule(
-            scheduleId,
             studySeatId,
+            scheduleId,
             customerId
         );
 
@@ -495,8 +495,8 @@ class StudySeatServiceTest {
     @DisplayName("유저 자신의 스케줄만 취소가 가능하다.")
     void cancelSchedule_test2() {
 
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
         long customerId = 2L;
 
         // when
@@ -506,8 +506,8 @@ class StudySeatServiceTest {
         // then
         assertThrows(IllegalStateException.class,
             () -> studySeatService.cancelSchedule(
-                scheduleId,
                 studySeatId,
+                scheduleId,
                 customerId
             ), "자신의 예약 정보가 아닙니다.");
     }
