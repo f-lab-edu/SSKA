@@ -24,7 +24,7 @@ public class StudySeatController {
 
     private final StudySeatService customerService;
 
-    @PostMapping(value = "/seat/{studySeatId}")
+    @PostMapping(value = "/seats/{studySeatId}")
     public ResponseEntity<CommandReserveSeatResponse> reserveSeat(
         final CommandReserveSeatWebRequestV1 command,
         @PathVariable final long studySeatId
@@ -41,10 +41,11 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "/seat/{studySeatId}")
+    @PutMapping(value = "/seats/{studySeatId}/schedules/{scheduleId}")
     public ResponseEntity<CommandMoveSeatResponse> moveSeat(
         final CommandMoveSeatWebRequestV1 command,
-        @PathVariable final long studySeatId
+        @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId
     ) {
         MoveSeatRequest commandService = new MoveSeatRequest(
             command.getCustomerId(),
@@ -55,7 +56,8 @@ public class StudySeatController {
 
         return ResponseEntity.ok(customerService.moveSeat(
             commandService,
-            studySeatId
+            studySeatId,
+            scheduleId
         ));
     }
 
