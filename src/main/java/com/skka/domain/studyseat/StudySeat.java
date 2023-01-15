@@ -116,25 +116,16 @@ public class StudySeat {
     }
 
 
-    public void deleteSchedule(
-        final LocalDateTime startedTime,
-        final LocalDateTime endTime
-    ) {
-        this.schedules.stream()
-            .filter(s -> findMatchedScheduleByStartedTimeAndEndTime(
-                startedTime, endTime,
-                s.getStartedTime(), s.getEndTime()
-            )).findFirst()
-            .ifPresent(schedule -> schedules.remove(schedule));
+    public void extractScheduleWith(final long scheduleId) {
+        Optional<Schedule> schedule = this.schedules.stream()
+            .filter(s -> s.getId() == scheduleId).findFirst();
+
+        checkIfScheduleEmpty(schedule);
+        schedules.remove(schedule.get());
     }
 
-    private boolean findMatchedScheduleByStartedTimeAndEndTime(
-        final LocalDateTime requestStartedTime,
-        final LocalDateTime requestEndTime,
-        final LocalDateTime scheduleStartedTime,
-        final LocalDateTime scheduleEndTime
-    ) {
-        return (requestStartedTime.isEqual(scheduleStartedTime)) && (requestEndTime.isEqual(scheduleEndTime));
+    private void checkIfScheduleEmpty(Optional<Schedule> schedule) {
+        check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
 
