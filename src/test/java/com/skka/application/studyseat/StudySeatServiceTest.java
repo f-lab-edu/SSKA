@@ -440,7 +440,7 @@ class StudySeatServiceTest {
 
     @Test
     @DisplayName(
-        "유저가 좌석 시간을 변경하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
+        "유저가 좌석 시간을 변경하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 스케줄을 변경하지 못한다."
     )
     void changeStudyTime_test3() {
 
