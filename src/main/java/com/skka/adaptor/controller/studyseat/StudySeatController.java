@@ -21,7 +21,7 @@ public class StudySeatController {
 
     private final StudySeatService customerService;
 
-    @PostMapping(value = "/seat/{studySeatId}")
+    @PostMapping(value = "/seats/{studySeatId}")
     public ResponseEntity<CommandReserveSeatResponse> reserveSeat(
         final CommandReserveSeatWebRequestV1 command,
         @PathVariable final long studySeatId
@@ -38,7 +38,7 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "/seat/{studySeatId}/schedule/{scheduleId}")
+    @PutMapping(value = "/seats/{studySeatId}/schedules/{scheduleId}")
     public ResponseEntity<CommandMoveSeatResponse> moveSeat(
         final CommandMoveSeatWebRequestV1 command,
         @PathVariable final long studySeatId,
