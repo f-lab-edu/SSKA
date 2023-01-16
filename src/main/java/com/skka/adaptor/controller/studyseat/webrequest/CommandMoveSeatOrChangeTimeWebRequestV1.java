@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class CommandMoveSeatWebRequestV1 {
+public class CommandMoveSeatOrChangeTimeWebRequestV1 {
     private final long customerId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")

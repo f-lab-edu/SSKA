@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class MoveSeatRequest {
+public class MoveSeatOrChangeTimeRequest {
     private final long customerId;
     private final LocalDateTime changingStartedTime;
     private final LocalDateTime changingEndTime;

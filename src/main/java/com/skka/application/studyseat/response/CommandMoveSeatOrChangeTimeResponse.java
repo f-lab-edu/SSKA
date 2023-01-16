@@ -4,13 +4,13 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class CommandMoveSeatResponse {
+public class CommandMoveSeatOrChangeTimeResponse {
     private String message;
     private Long movedSeatId;
     private LocalDateTime changingStartedTime;
     private LocalDateTime changingEndTime;
 
-    public CommandMoveSeatResponse(
+    public CommandMoveSeatOrChangeTimeResponse(
         final String message,
         final Long movedSeatId,
         final LocalDateTime changingStartedTime,
@@ -22,22 +22,22 @@ public class CommandMoveSeatResponse {
         this.changingEndTime = changingEndTime;
     }
 
-    public static CommandMoveSeatResponse of(
+    public static CommandMoveSeatOrChangeTimeResponse of(
         final String message,
         final Long movedSeatId
     ) {
-        return new CommandMoveSeatResponse(
+        return new CommandMoveSeatOrChangeTimeResponse(
             message, movedSeatId,
             null, null
         );
     }
 
-    public static CommandMoveSeatResponse of(
+    public static CommandMoveSeatOrChangeTimeResponse of(
         final String message,
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime
     ) {
-        return new CommandMoveSeatResponse(
+        return new CommandMoveSeatOrChangeTimeResponse(
             message, null,
             changingStartedTime, changingEndTime
         );

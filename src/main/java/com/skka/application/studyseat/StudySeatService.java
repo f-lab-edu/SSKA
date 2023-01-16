@@ -3,10 +3,9 @@ package com.skka.application.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
 
-import com.skka.application.studyseat.dto.MoveSeatRequest;
+import com.skka.application.studyseat.dto.MoveSeatOrChangeTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandMoveSeatOrChangeTimeResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -58,8 +57,8 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandMoveSeatResponse moveSeat(
-        final MoveSeatRequest command,
+    public CommandMoveSeatOrChangeTimeResponse moveSeatOrChangeTime(
+        final MoveSeatOrChangeTimeRequest command,
         final long studySeatId,
         final long scheduleId
     ) {
@@ -82,7 +81,7 @@ public class StudySeatService {
     }
 
     private void reserve(
-        final MoveSeatRequest command,
+        final MoveSeatOrChangeTimeRequest command,
         final StudySeat studySeat,
         final Schedule schedule
     ) {
@@ -111,7 +110,7 @@ public class StudySeatService {
         }
     }
 
-    private CommandMoveSeatResponse response(
+    private CommandMoveSeatOrChangeTimeResponse response(
         final StudySeat studySeat,
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime,
@@ -119,9 +118,9 @@ public class StudySeatService {
     ) {
         if (studySeat.isChangingTime(changingStartedTime, changingEndTime)
         ) {
-            return CommandMoveSeatResponse.of(success, changingStartedTime, changingEndTime);
+            return CommandMoveSeatOrChangeTimeResponse.of(success, changingStartedTime, changingEndTime);
         } else {
-            return CommandMoveSeatResponse.of(success, movingStudySeatId);
+            return CommandMoveSeatOrChangeTimeResponse.of(success, movingStudySeatId);
         }
     }
 }

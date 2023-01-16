@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.skka.application.studyseat.dto.MoveSeatRequest;
+import com.skka.application.studyseat.dto.MoveSeatOrChangeTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandMoveSeatOrChangeTimeResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -290,7 +290,7 @@ class StudySeatServiceTest {
     void moveSeat_test1() {
 
         // given
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             null, null,
             2L
@@ -310,7 +310,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         // then
-        CommandMoveSeatResponse actual = studySeatService.moveSeat(
+        CommandMoveSeatOrChangeTimeResponse actual = studySeatService.moveSeatOrChangeTime(
             command, studySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
@@ -326,7 +326,7 @@ class StudySeatServiceTest {
     void moveSeat_test2() {
         MOVING_STUDY_SEAT.getSchedules().add(SCHEDULE);
 
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             null, null,
             2L
@@ -346,7 +346,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.moveSeat(
+            () -> studySeatService.moveSeatOrChangeTime(
                 command, studySeatId, scheduleId),
             "다른 스케쥴과 겹칩니다.");
     }
@@ -357,7 +357,7 @@ class StudySeatServiceTest {
 
         STUDY_SEAT.getSchedules().clear();
 
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             LocalDateTime.of(2023,1,10,12,10),
             LocalDateTime.of(2023,1,10,15,10),
@@ -378,7 +378,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.moveSeat(
+            () -> studySeatService.moveSeatOrChangeTime(
                 command, studySeatId, scheduleId)
             , "스케줄이 존재하지 않습니다.");
     }
@@ -389,7 +389,7 @@ class StudySeatServiceTest {
     void changeStudyTime_test1() {
 
         // given
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             LocalDateTime.of(2023, 1, 10, 11, 10),
             LocalDateTime.of(2023, 1, 10, 17, 10),
@@ -410,7 +410,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandMoveSeatResponse actual = studySeatService.moveSeat(
+        CommandMoveSeatOrChangeTimeResponse actual = studySeatService.moveSeatOrChangeTime(
             command, studySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
@@ -428,7 +428,7 @@ class StudySeatServiceTest {
     void changeStudyTime_test2() {
 
         // given
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             LocalDateTime.of(2023, 1, 10, 11, 10),
             LocalDateTime.of(2023, 1, 10, 11, 50),
@@ -450,7 +450,7 @@ class StudySeatServiceTest {
 
         // then
         assertThrows(IllegalArgumentException.class,
-            () -> studySeatService.moveSeat(
+            () -> studySeatService.moveSeatOrChangeTime(
                 command, studySeatId, scheduleId),
             "이용 시간은 최소 1시간 이상 입니다.");
     }
@@ -463,7 +463,7 @@ class StudySeatServiceTest {
 
         STUDY_SEAT.getSchedules().add(SCHEDULE_2);
 
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             LocalDateTime.of(2023, 1, 10, 15, 10),
             LocalDateTime.of(2023, 1, 10, 17, 10),
@@ -484,7 +484,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.moveSeat(
+            () -> studySeatService.moveSeatOrChangeTime(
                 command, studySeatId, scheduleId),
             "다른 스케쥴과 겹칩니다.");
     }
