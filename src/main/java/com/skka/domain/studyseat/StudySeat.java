@@ -160,12 +160,16 @@ public class StudySeat {
     }
 
     public void checkBeneathOfAHour(
-        final LocalDateTime startedTime,
+        final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime
     ) {
+        if (!isChangingTime(changingStartedTime, changingEndTime)) {
+            return;
+        }
+
         require(o -> checkTimeDifference(
-                startedTime, changingEndTime) < 1,
-            checkTimeDifference(startedTime, changingEndTime),
+                changingStartedTime, changingEndTime) < 1,
+            checkTimeDifference(changingStartedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
     }
