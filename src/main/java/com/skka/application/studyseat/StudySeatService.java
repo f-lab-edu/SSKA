@@ -3,7 +3,6 @@ package com.skka.application.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
 
-import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
@@ -124,28 +123,5 @@ public class StudySeatService {
         } else {
             return CommandMoveSeatResponse.of(success, movingStudySeatId);
         }
-    }
-
-
-    @Transactional
-    public CommandChangeStudyTimeResponse changeStudyTime(
-        final ChangeStudyTimeRequest command,
-        final long scheduleId,
-        final long studySeatId
-    ) {
-
-        StudySeat studySeat = findByStudySeatId(studySeatId);
-
-        studySeat.checkBeneathOfAHour(command.getStartedTime(), command.getChangingEndTime());
-
-        LocalDateTime endTime = studySeat.getEndTimeByStartedTime(command.getStartedTime());
-
-        check(studySeat.isReservable(endTime, command.getChangingEndTime())
-            , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED);
-
-        studySeat.change(scheduleId, command.getChangingEndTime());
-
-        studySeatRepository.save(studySeat);
-        return new CommandChangeStudyTimeResponse(success, command.getChangingEndTime());
     }
 }
