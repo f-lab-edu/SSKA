@@ -9,14 +9,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class CommandMoveSeatOrChangeTimeWebRequestV1 {
+public class CommandChangeStudyTimeWebRequestV1 {
     private final long customerId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime changingStartedTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime changingEndTime;
-
-    private final long movingStudySeatId;
 }

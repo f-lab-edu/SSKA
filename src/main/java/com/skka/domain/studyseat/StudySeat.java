@@ -131,53 +131,14 @@ public class StudySeat {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
-
-    public LocalDateTime getEndTimeByStartedTime(final LocalDateTime startedTime) {
-        Optional<Schedule> schedule = this.schedules.stream()
-            .filter(s -> s.getStartedTime().isEqual(startedTime))
-            .findFirst();
-
-        if (schedule.isEmpty()) {
-            throw new IllegalStateException("schedule is not existed");
-        }
-
-        return schedule.get().getEndTime();
-    }
-
-    public void change(final long scheduleId, final LocalDateTime changingEndTime) {
-        Schedule schedule = findScheduleById(scheduleId);
-        schedule.updateEndTime(changingEndTime);
-    }
-
-    private Schedule findScheduleById(final long scheduleId) {
-        Optional<Schedule> schedule = this.schedules.stream()
-            .filter(s -> s.getId() == scheduleId)
-            .findFirst();
-
-        check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
-
-        return schedule.get();
-    }
-
     public void checkBeneathOfAHour(
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime
     ) {
-        if (!isChangingTime(changingStartedTime, changingEndTime)) {
-            return;
-        }
-
         require(o -> checkTimeDifference(
                 changingStartedTime, changingEndTime) < 1,
             checkTimeDifference(changingStartedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
-    }
-
-    public boolean isChangingTime(
-        final LocalDateTime changingStartedTime,
-        final LocalDateTime changingEndTime
-    ) {
-        return (changingStartedTime != null & changingEndTime != null);
     }
 }
