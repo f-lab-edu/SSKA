@@ -1,12 +1,9 @@
 package com.skka.adaptor.controller.studyseat;
 
-import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandMoveSeatWebRequestV1;
 import com.skka.application.studyseat.StudySeatService;
-import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.MoveSeatRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
