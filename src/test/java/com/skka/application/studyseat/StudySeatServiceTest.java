@@ -10,12 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
-import com.skka.application.studyseat.dto.MoveSeatRequest;
+import com.skka.application.studyseat.dto.MoveSeatOrChangeTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
-import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandMoveSeatOrChangeTimeResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -291,16 +289,18 @@ class StudySeatServiceTest {
     @Test
     @DisplayName("유저는 좌석을 옮길 수 있다.")
     void moveSeat_test1() {
-        MoveSeatRequest command = new MoveSeatRequest(
+
+        // given
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
-            LocalDateTime.of(2023, 1, 10, 12, 10),
-            LocalDateTime.of(2023, 1, 10, 15, 10),
+            null, null,
             2L
         );
 
         long studySeatId = 1L;
         long scheduleId = 0L;
 
+        // when
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
@@ -311,11 +311,13 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         // then
-        CommandMoveSeatResponse actual = studySeatService.moveSeat(
+        CommandMoveSeatOrChangeTimeResponse actual = studySeatService.moveSeatOrChangeTime(
             command, studySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getMovedSeatId()).isEqualTo(2L);
+        assertThat(actual.getChangingStartedTime()).isNull();
+        assertThat(actual.getChangingEndTime()).isNull();
     }
 
     @Test
@@ -323,18 +325,16 @@ class StudySeatServiceTest {
         "유저는 옮기려고 하는 좌석에 같은 시간대가 이미 예약 되어 있으면 좌석을 옮길 수 없다."
     )
     void moveSeat_test2() {
+        MOVING_STUDY_SEAT.getSchedules().add(SCHEDULE);
 
-        MOVING_STUDY_SEAT.getSchedules().add(SCHEDULE_2);
-
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
-            LocalDateTime.of(2023,1,10,12,10),
-            LocalDateTime.of(2023,1,10,15,10),
+            null, null,
             2L
         );
 
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
 
         // when
         when(studySeatRepository.findById(studySeatId))
@@ -347,9 +347,9 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.moveSeat(
-                command, studySeatId, scheduleId)
-            , "다른 스케쥴과 겹칩니다.");
+            () -> studySeatService.moveSeatOrChangeTime(
+                command, studySeatId, scheduleId),
+            "다른 스케쥴과 겹칩니다.");
     }
 
     @Test
@@ -358,7 +358,7 @@ class StudySeatServiceTest {
 
         STUDY_SEAT.getSchedules().clear();
 
-        MoveSeatRequest command = new MoveSeatRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
             LocalDateTime.of(2023,1,10,12,10),
             LocalDateTime.of(2023,1,10,15,10),
@@ -379,39 +379,47 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(MOVING_STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.moveSeat(
+            () -> studySeatService.moveSeatOrChangeTime(
                 command, studySeatId, scheduleId)
             , "스케줄이 존재하지 않습니다.");
     }
 
 
     @Test
-    @DisplayName("유저는 시간을 변경할 수 있다.")
+    @DisplayName("유저는 시간을 연장할 수 있다.")
     void changeStudyTime_test1() {
 
         // given
-        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
-            LocalDateTime.of(2023, 1, 10, 12, 10),
-            LocalDateTime.of(2023, 1, 10, 17, 10)
+            LocalDateTime.of(2023, 1, 10, 11, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10),
+            1L
         );
 
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
 
         // when
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(command.getMovingStudySeatId()))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
         // then
-        CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
-            command, scheduleId, studySeatId
-        );
+        CommandMoveSeatOrChangeTimeResponse actual = studySeatService.moveSeatOrChangeTime(
+            command, studySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
-        assertThat(actual.getChangedEndTime()).isEqualTo(
-            LocalDateTime.of(2023, 1, 10, 17, 10)
-        );
+        assertThat(actual.getMovedSeatId()).isNull();
+        assertThat(actual.getChangingStartedTime())
+            .isEqualTo(LocalDateTime.of(2023, 1, 10, 11, 10));
+        assertThat(actual.getChangingEndTime())
+            .isEqualTo(LocalDateTime.of(2023, 1, 10, 17, 10));
     }
 
     @Test
@@ -420,48 +428,66 @@ class StudySeatServiceTest {
     )
     void changeStudyTime_test2() {
 
-        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+        // given
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
-            LocalDateTime.of(2023,1,10,12,10),
-            LocalDateTime.of(2023, 1, 10, 12, 50)
+            LocalDateTime.of(2023, 1, 10, 11, 10),
+            LocalDateTime.of(2023, 1, 10, 11, 50),
+            1L
         );
 
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
 
+        // when
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(command.getMovingStudySeatId()))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
         assertThrows(IllegalArgumentException.class,
-            () -> studySeatService.changeStudyTime(
-                command, scheduleId, studySeatId
-            ), "이용 시간은 최소 1시간 이상 입니다.");
+            () -> studySeatService.moveSeatOrChangeTime(
+                command, studySeatId, scheduleId),
+            "이용 시간은 최소 1시간 이상 입니다.");
     }
 
     @Test
     @DisplayName(
-        "유저가 좌석 시간을 변경하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 스케줄을 변경하지 못한다."
+        "유저가 좌석 시간을 연장하고 싶어도 같은 좌석에 예약된 스케쥴과 겹치면 연장하지 못한다."
     )
     void changeStudyTime_test3() {
 
         STUDY_SEAT.getSchedules().add(SCHEDULE_2);
 
-        ChangeStudyTimeRequest command = new ChangeStudyTimeRequest(
+        MoveSeatOrChangeTimeRequest command = new MoveSeatOrChangeTimeRequest(
             1L,
-            LocalDateTime.of(2023,1,10,12,10),
-            LocalDateTime.of(2023, 1, 10, 16, 10)
+            LocalDateTime.of(2023, 1, 10, 15, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10),
+            1L
         );
 
-        long scheduleId = 0L;
         long studySeatId = 1L;
+        long scheduleId = 0L;
 
+        // when
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
+        when(customerRepository.findById(command.getCustomerId()))
+            .thenReturn(Optional.ofNullable(CUSTOMER));
+
+        when(studySeatRepository.findById(command.getMovingStudySeatId()))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.changeStudyTime(
-                command, scheduleId, studySeatId
-            ), "다른 스케쥴과 겹칩니다.");
+            () -> studySeatService.moveSeatOrChangeTime(
+                command, studySeatId, scheduleId),
+            "다른 스케쥴과 겹칩니다.");
     }
 
 
