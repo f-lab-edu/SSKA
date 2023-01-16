@@ -117,12 +117,14 @@ public class StudySeat {
     }
 
 
-    public void extractScheduleWith(final long scheduleId) {
+    public Schedule extractScheduleWith(final long scheduleId) {
         Optional<Schedule> schedule = this.schedules.stream()
             .filter(s -> s.getId() == scheduleId).findFirst();
 
         checkIfScheduleEmpty(schedule);
         schedules.remove(schedule.get());
+
+        return schedule.get();
     }
 
     private void checkIfScheduleEmpty(final Optional<Schedule> schedule) {
@@ -166,5 +168,12 @@ public class StudySeat {
             checkTimeDifference(startedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
+    }
+
+    public boolean isChangingTime(
+        final LocalDateTime changingStartedTime,
+        final LocalDateTime changingEndTime
+    ) {
+        return (changingStartedTime != null & changingEndTime != null);
     }
 }

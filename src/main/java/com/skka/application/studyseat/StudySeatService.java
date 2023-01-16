@@ -13,6 +13,7 @@ import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,21 +66,66 @@ public class StudySeatService {
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.extractScheduleWith(scheduleId);
+        Schedule extractedSchedule = studySeat.extractScheduleWith(scheduleId);
 
         studySeatRepository.save(studySeat);
 
-        reserveSeat(
-            new ReserveSeatRequest(
-                command.getCustomerId(),
-                command.getStartedTime(),
-                command.getEndTime()
-            ),
+        studySeat.checkBeneathOfAHour(command.getChangingStartedTime(), command.getChangingEndTime());
+
+        reserve(command, studySeat, extractedSchedule);
+
+        return response(
+            studySeat,
+            command.getChangingStartedTime(),
+            command.getChangingEndTime(),
             command.getMovingStudySeatId()
         );
-
-        return new CommandMoveSeatResponse(success, command.getMovingStudySeatId());
     }
+
+    private void reserve(
+        final MoveSeatRequest command,
+        final StudySeat studySeat,
+        final Schedule schedule
+    ) {
+        if (studySeat.isChangingTime(
+            command.getChangingStartedTime(),
+            command.getChangingEndTime()
+        )
+        ) {
+            reserveSeat(
+                new ReserveSeatRequest(
+                    command.getCustomerId(),
+                    command.getChangingStartedTime(),
+                    command.getChangingEndTime()
+                ),
+                command.getMovingStudySeatId()
+            );
+        } else {
+            reserveSeat(
+                new ReserveSeatRequest(
+                    command.getCustomerId(),
+                    schedule.getStartedTime(),
+                    schedule.getEndTime()
+                ),
+                command.getMovingStudySeatId()
+            );
+        }
+    }
+
+    private CommandMoveSeatResponse response(
+        final StudySeat studySeat,
+        final LocalDateTime changingStartedTime,
+        final LocalDateTime changingEndTime,
+        final long movingStudySeatId
+    ) {
+        if (studySeat.isChangingTime(changingStartedTime, changingEndTime)
+        ) {
+            return CommandMoveSeatResponse.of(success, changingStartedTime, changingEndTime);
+        } else {
+            return CommandMoveSeatResponse.of(success, movingStudySeatId);
+        }
+    }
+
 
     @Transactional
     public CommandChangeStudyTimeResponse changeStudyTime(

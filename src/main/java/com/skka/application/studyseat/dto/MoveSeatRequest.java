@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MoveSeatRequest {
     private final long customerId;
-    private final LocalDateTime startedTime;
-    private final LocalDateTime endTime;
+    private final LocalDateTime changingStartedTime;
+    private final LocalDateTime changingEndTime;
     final long movingStudySeatId;
 }
