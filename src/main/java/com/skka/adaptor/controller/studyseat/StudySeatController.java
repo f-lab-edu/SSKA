@@ -46,8 +46,8 @@ public class StudySeatController {
     ) {
         MoveSeatOrChangeTimeRequest commandService = new MoveSeatOrChangeTimeRequest(
             command.getCustomerId(),
-            command.getStartedTime(),
-            command.getEndTime(),
+            command.getChangingStartedTime(),
+            command.getChangingEndTime(),
             command.getMovingStudySeatId()
         );
 

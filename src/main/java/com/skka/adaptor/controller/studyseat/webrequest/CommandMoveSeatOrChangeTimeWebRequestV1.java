@@ -13,10 +13,10 @@ public class CommandMoveSeatOrChangeTimeWebRequestV1 {
     private final long customerId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private final LocalDateTime startedTime;
+    private final LocalDateTime changingStartedTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private final LocalDateTime endTime;
+    private final LocalDateTime changingEndTime;
 
     private final long movingStudySeatId;
 }
