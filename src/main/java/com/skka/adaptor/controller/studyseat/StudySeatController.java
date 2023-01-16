@@ -60,23 +60,4 @@ public class StudySeatController {
             scheduleId
         ));
     }
-
-    @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}/adjustment")
-    public ResponseEntity<CommandChangeStudyTimeResponse> changeStudyTime(
-        final CommandChangeStudyTimeWebRequestV1 command,
-        @PathVariable final long scheduleId,
-        @PathVariable final long studySeatId
-    ) {
-        ChangeStudyTimeRequest commandService = new ChangeStudyTimeRequest(
-            command.getCustomerId(),
-            command.getStartedTime(),
-            command.getChangingEndTime()
-        );
-
-        return ResponseEntity.ok(customerService.changeStudyTime(
-            commandService,
-            scheduleId,
-            studySeatId
-        ));
-    }
 }
