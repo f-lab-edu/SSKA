@@ -41,14 +41,16 @@ public class StudySeatController {
     }
 
     @DeleteMapping(value = "/seats/{studySeatId}/schedules/{scheduleId}")
-    public ResponseEntity<CommandMoveSeatResponse> extractSchedule(
+    public ResponseEntity<Object> extractSchedule(
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {
-        return ResponseEntity.ok(customerService.extractSchedule(
+        customerService.extractSchedule(
             studySeatId,
             scheduleId
-        ));
+        );
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
