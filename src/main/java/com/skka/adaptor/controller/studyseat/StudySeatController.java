@@ -54,7 +54,7 @@ public class StudySeatController {
     }
 
     @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
-    public ResponseEntity<CommandChangeStudyTimeResponse> changeStudyTime(
+    public ResponseEntity<CommandChangeStudyTimeResponse> updateSchedule(
         final CommandChangeStudyTimeWebRequestV1 command,
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
