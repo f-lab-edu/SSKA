@@ -131,25 +131,6 @@ public class StudySeat {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
-<<<<<<< HEAD
-
-    public LocalDateTime getEndTimeByStartedTime(final LocalDateTime startedTime) {
-        Optional<Schedule> schedule = this.schedules.stream()
-            .filter(s -> s.getStartedTime().isEqual(startedTime))
-            .findFirst();
-
-        if (schedule.isEmpty()) {
-            throw new IllegalStateException("schedule is not existed");
-        }
-
-        return schedule.get().getEndTime();
-    }
-
-    public void change(final long scheduleId, final LocalDateTime changingEndTime) {
-        Schedule schedule = findScheduleById(scheduleId);
-        schedule.updateEndTime(changingEndTime);
-    }
-
     private Schedule findScheduleById(final long scheduleId) {
         Optional<Schedule> schedule = this.schedules.stream()
             .filter(s -> s.getId() == scheduleId)
@@ -174,8 +155,7 @@ public class StudySeat {
         schedule.cancel();
     }
 
-=======
->>>>>>> origin
+
     public void checkBeneathOfAHour(
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime
