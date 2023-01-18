@@ -3,8 +3,9 @@ package com.skka.application.studyseat;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
 
-import com.skka.application.studyseat.dto.MoveSeatRequest;
+import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
@@ -55,8 +56,7 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandMoveSeatResponse moveSeat(
-        final MoveSeatRequest command,
+    public CommandMoveSeatResponse extractSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
@@ -66,15 +66,33 @@ public class StudySeatService {
 
         studySeatRepository.save(studySeat);
 
+        return new CommandMoveSeatResponse(success, scheduleId, studySeatId);
+    }
+
+
+    @Transactional
+    public CommandChangeStudyTimeResponse changeStudyTime(
+        final ChangeStudyTimeRequest command,
+        final long studySeatId,
+        final long scheduleId
+    ) {
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+
+        studySeat.checkBeneathOfAHour(command.getChangingStartedTime(), command.getChangingEndTime());
+
+        extractSchedule(studySeatId, scheduleId);
+
         reserveSeat(
             new ReserveSeatRequest(
                 command.getCustomerId(),
-                command.getStartedTime(),
-                command.getEndTime()
+                command.getChangingStartedTime(),
+                command.getChangingEndTime()
             ),
-            command.getMovingStudySeatId()
+            studySeatId
         );
 
-        return new CommandMoveSeatResponse(success, command.getMovingStudySeatId());
+        studySeatRepository.save(studySeat);
+
+        return new CommandChangeStudyTimeResponse(success, command.getChangingStartedTime(), command.getChangingEndTime());
     }
 }

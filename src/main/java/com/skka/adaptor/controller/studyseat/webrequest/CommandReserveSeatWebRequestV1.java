@@ -12,9 +12,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class CommandReserveSeatWebRequestV1 {
     private final long customerId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private final LocalDateTime startedTime;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private final LocalDateTime endTime;
 }

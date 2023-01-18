@@ -1,12 +1,13 @@
 package com.skka.application.studyseat.response;
 
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CommandMoveSeatResponse {
+public class CommandChangeStudyTimeResponse {
     private final String message;
-    private final long extractedScheduleId;
-    private final long studySeatIdExtractedSchedule;
+    private final LocalDateTime changedStartedTime;
+    private final LocalDateTime changedEndTime;
 }
