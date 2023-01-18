@@ -1,6 +1,5 @@
 package com.skka.application.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
 import static com.skka.adaptor.util.Util.check;
 
@@ -8,7 +7,7 @@ import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -58,7 +57,7 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandMoveSeatResponse extractSchedule(
+    public CommandExtractScheduleResponse extractSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
@@ -68,7 +67,7 @@ public class StudySeatService {
 
         studySeatRepository.save(studySeat);
 
-        return new CommandMoveSeatResponse(success, scheduleId, studySeatId);
+        return new CommandExtractScheduleResponse(success, scheduleId, studySeatId);
     }
 
 
@@ -98,16 +97,13 @@ public class StudySeatService {
         return new CommandChangeStudyTimeResponse(success, command.getChangingStartedTime(), command.getChangingEndTime());
     }
 
+
     @Transactional
     public CommandCancelScheduleResponse cancelSchedule(
         final long studySeatId,
-        final long scheduleId,
-        final long customerId
+        final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
-        check(studySeat.isRightCustomer(customerId, scheduleId)
-            , INVALID_MY_SCHEDULE);
 
         studySeat.cancel(scheduleId);
 

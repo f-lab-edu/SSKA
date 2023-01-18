@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -72,14 +73,13 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}/customers/{customerId}")
+    @PatchMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
     public ResponseEntity<CommandCancelScheduleResponse> cancelSchedule(
         @PathVariable final long studySeatId,
-        @PathVariable final long scheduleId,
-        @PathVariable final long customerId
+        @PathVariable final long scheduleId
     ) {
         return ResponseEntity.ok(customerService.cancelSchedule(
-            studySeatId, scheduleId, customerId
+            studySeatId, scheduleId
         ));
     }
 }

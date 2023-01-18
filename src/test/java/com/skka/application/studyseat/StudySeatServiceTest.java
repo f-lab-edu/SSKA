@@ -13,7 +13,7 @@ import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -299,7 +299,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandMoveSeatResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
+        CommandExtractScheduleResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getStudySeatIdExtractedSchedule()).isEqualTo(extractingStudySeatId);
@@ -430,7 +430,6 @@ class StudySeatServiceTest {
         // given
         long studySeatId = 1L;
         long scheduleId = 0L;
-        long customerId = 1L;
 
         // when
         when(studySeatRepository.findById(studySeatId))
@@ -439,8 +438,7 @@ class StudySeatServiceTest {
         // then
         CommandCancelScheduleResponse actual = studySeatService.cancelSchedule(
             studySeatId,
-            scheduleId,
-            customerId
+            scheduleId
         );
 
         assertThat(actual.getMessage()).isEqualTo("success");
@@ -448,12 +446,14 @@ class StudySeatServiceTest {
     }
 
     @Test
-    @DisplayName("유저 자신의 스케줄만 취소가 가능하다.")
+    @DisplayName("유저는 스케줄 번호가 올바르지 않으면 취소할 수 없다.")
     void cancelSchedule_test2() {
 
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
         long studySeatId = 1L;
-        long scheduleId = 0L;
-        long customerId = 2L;
+        long scheduleId = 2L;
 
         // when
         when(studySeatRepository.findById(studySeatId))
@@ -463,8 +463,7 @@ class StudySeatServiceTest {
         assertThrows(IllegalStateException.class,
             () -> studySeatService.cancelSchedule(
                 studySeatId,
-                scheduleId,
-                customerId
-            ), "자신의 예약 정보가 아닙니다.");
+                scheduleId
+            ), "스케줄이 존재하지 않습니다.");
     }
 }

@@ -86,10 +86,6 @@ public class Schedule {
         return new Schedule(customer, studySeat, startTime, endTime);
     }
 
-    public void updateEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
     public void cancel() {
         this.state = ScheduleState.CANCELED;
     }

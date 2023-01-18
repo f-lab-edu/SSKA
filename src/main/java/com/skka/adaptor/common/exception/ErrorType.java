@@ -22,8 +22,7 @@ public enum ErrorType {
     INVALID_SCHEDULE_ALREADY_RESERVED(4004, "이미 예약된 좌석 입니다."),
     INVALID_SCHEDULE_BEFORE_A_HOUR(4005, "이용 시간은 최소 1시간 이상 입니다."),
     INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED(4006, "다른 스케쥴과 겹칩니다."),
-    SCHEDULE_NOT_EXISTED(4007, "스케줄이 존재하지 않습니다."),
-    INVALID_MY_SCHEDULE(4008, "자신의 예약 정보가 아닙니다.");
+    SCHEDULE_NOT_EXISTED(4007, "스케줄이 존재하지 않습니다.");
 
     private final int code;
     private final String message;

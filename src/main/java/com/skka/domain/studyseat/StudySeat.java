@@ -141,15 +141,6 @@ public class StudySeat {
         return schedule.get();
     }
 
-    public boolean isRightCustomer(final long customerId, final long scheduleId) {
-        return customerId != getCustomerIdFromSchedule(scheduleId);
-    }
-
-    private long getCustomerIdFromSchedule(final long scheduleId) {
-        Schedule schedule = findScheduleById(scheduleId);
-        return schedule.getCustomer().getId();
-    }
-
     public void cancel(final long scheduleId) {
         Schedule schedule = findScheduleById(scheduleId);
         schedule.cancel();
