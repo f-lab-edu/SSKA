@@ -1,16 +1,17 @@
 package com.skka.adaptor.controller.studyseat;
 
-import com.skka.adaptor.controller.studyseat.webrequest.CommandMoveSeatOrChangeTimeWebRequestV1;
+import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
 import com.skka.application.studyseat.StudySeatService;
-import com.skka.application.studyseat.dto.MoveSeatOrChangeTimeRequest;
+import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatOrChangeTimeResponse;
+import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,20 +40,32 @@ public class StudySeatController {
         ));
     }
 
-    @PutMapping(value = "/seats/{studySeatId}/schedules/{scheduleId}")
-    public ResponseEntity<CommandMoveSeatOrChangeTimeResponse> moveSeatOrChangeTime(
-        final CommandMoveSeatOrChangeTimeWebRequestV1 command,
+    @DeleteMapping(value = "/seats/{studySeatId}/schedules/{scheduleId}")
+    public ResponseEntity<Object> extractSchedule(
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {
-        MoveSeatOrChangeTimeRequest commandService = new MoveSeatOrChangeTimeRequest(
-            command.getCustomerId(),
-            command.getStartedTime(),
-            command.getEndTime(),
-            command.getMovingStudySeatId()
+        customerService.extractSchedule(
+            studySeatId,
+            scheduleId
         );
 
-        return ResponseEntity.ok(customerService.moveSeatOrChangeTime(
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
+    public ResponseEntity<CommandChangeStudyTimeResponse> updateSchedule(
+        final CommandChangeStudyTimeWebRequestV1 command,
+        @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId
+    ) {
+        ChangeStudyTimeRequest commandService = new ChangeStudyTimeRequest(
+            command.getCustomerId(),
+            command.getChangingStartedTime(),
+            command.getChangingEndTime()
+        );
+
+        return ResponseEntity.ok(customerService.changeStudyTime(
             commandService,
             studySeatId,
             scheduleId

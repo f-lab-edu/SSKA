@@ -131,6 +131,7 @@ public class StudySeat {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
+<<<<<<< HEAD
 
     public LocalDateTime getEndTimeByStartedTime(final LocalDateTime startedTime) {
         Optional<Schedule> schedule = this.schedules.stream()
@@ -173,25 +174,16 @@ public class StudySeat {
         schedule.cancel();
     }
 
+=======
+>>>>>>> origin
     public void checkBeneathOfAHour(
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime
     ) {
-        if (!isChangingTime(changingStartedTime, changingEndTime)) {
-            return;
-        }
-
         require(o -> checkTimeDifference(
                 changingStartedTime, changingEndTime) < 1,
             checkTimeDifference(changingStartedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
-    }
-
-    public boolean isChangingTime(
-        final LocalDateTime changingStartedTime,
-        final LocalDateTime changingEndTime
-    ) {
-        return (changingStartedTime != null & changingEndTime != null);
     }
 }
