@@ -74,11 +74,11 @@ public class StudySeatController {
     }
 
     @PatchMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
-    public ResponseEntity<CommandCancelScheduleResponse> cancelSchedule(
+    public ResponseEntity<CommandCancelScheduleResponse> checkOutSchedule(
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {
-        return ResponseEntity.ok(customerService.cancelSchedule(
+        return ResponseEntity.ok(customerService.checkOutSchedule(
             studySeatId, scheduleId
         ));
     }

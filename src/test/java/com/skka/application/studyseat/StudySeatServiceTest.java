@@ -436,7 +436,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandCancelScheduleResponse actual = studySeatService.cancelSchedule(
+        CommandCancelScheduleResponse actual = studySeatService.checkOutSchedule(
             studySeatId,
             scheduleId
         );
@@ -461,7 +461,7 @@ class StudySeatServiceTest {
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.cancelSchedule(
+            () -> studySeatService.checkOutSchedule(
                 studySeatId,
                 scheduleId
             ), "스케줄이 존재하지 않습니다.");

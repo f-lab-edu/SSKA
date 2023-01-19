@@ -99,7 +99,7 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandCancelScheduleResponse cancelSchedule(
+    public CommandCancelScheduleResponse checkOutSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
