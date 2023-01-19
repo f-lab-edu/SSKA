@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
@@ -423,7 +423,7 @@ class StudySeatServiceTest {
 
     @Test
     @DisplayName("유저는 스케줄을 취소할 수 있다.")
-    void cancelSchedule_test1() {
+    void checkOutSchedule_test1() {
 
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
@@ -436,18 +436,18 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandCancelScheduleResponse actual = studySeatService.checkOutSchedule(
+        CommandCheckOutScheduleResponse actual = studySeatService.checkOutSchedule(
             studySeatId,
             scheduleId
         );
 
         assertThat(actual.getMessage()).isEqualTo("success");
-        assertThat(actual.getCanceledScheduleId()).isEqualTo(0L);
+        assertThat(actual.getCheckedOutScheduleId()).isEqualTo(0L);
     }
 
     @Test
     @DisplayName("유저는 스케줄 번호가 올바르지 않으면 취소할 수 없다.")
-    void cancelSchedule_test2() {
+    void checkOutSchedule_test2() {
 
         // given
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);

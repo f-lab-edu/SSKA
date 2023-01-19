@@ -141,9 +141,9 @@ public class StudySeat {
         return schedule.get();
     }
 
-    public void cancel(final long scheduleId) {
+    public void checkOut(final long scheduleId) {
         Schedule schedule = findScheduleById(scheduleId);
-        schedule.cancel();
+        schedule.checkOut();
     }
 
 

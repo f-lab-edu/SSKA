@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CommandCancelScheduleResponse {
+public class CommandCheckOutScheduleResponse {
     private final String message;
-    private final long canceledScheduleId;
+    private final long checkedOutScheduleId;
 }

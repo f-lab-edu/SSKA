@@ -8,6 +8,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ScheduleState {
     RESERVED,
-    CANCELED,
+    CHECKED_OUT,
     EXPIRED
 }

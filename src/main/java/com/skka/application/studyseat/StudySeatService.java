@@ -5,7 +5,7 @@ import static com.skka.adaptor.util.Util.check;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
@@ -99,14 +99,14 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandCancelScheduleResponse checkOutSchedule(
+    public CommandCheckOutScheduleResponse checkOutSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.cancel(scheduleId);
+        studySeat.checkOut(scheduleId);
 
-        return new CommandCancelScheduleResponse(success, scheduleId);
+        return new CommandCheckOutScheduleResponse(success, scheduleId);
     }
 }

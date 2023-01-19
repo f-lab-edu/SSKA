@@ -86,7 +86,7 @@ public class Schedule {
         return new Schedule(customer, studySeat, startTime, endTime);
     }
 
-    public void cancel() {
-        this.state = ScheduleState.CANCELED;
+    public void checkOut() {
+        this.state = ScheduleState.CHECKED_OUT;
     }
 }

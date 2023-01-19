@@ -4,7 +4,7 @@ import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWe
 import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
-import com.skka.application.studyseat.response.CommandCancelScheduleResponse;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
@@ -74,7 +74,7 @@ public class StudySeatController {
     }
 
     @PatchMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
-    public ResponseEntity<CommandCancelScheduleResponse> checkOutSchedule(
+    public ResponseEntity<CommandCheckOutScheduleResponse> checkOutSchedule(
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {
