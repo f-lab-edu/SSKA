@@ -99,13 +99,13 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandCheckOutScheduleResponse checkOutSchedule(
+    public CommandCheckOutScheduleResponse checkoutSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.checkOut(scheduleId);
+        studySeat.checkout(scheduleId);
 
         return new CommandCheckOutScheduleResponse(success, scheduleId);
     }

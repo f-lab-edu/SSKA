@@ -423,7 +423,7 @@ class StudySeatServiceTest {
 
     @Test
     @DisplayName("유저는 스케줄을 취소할 수 있다.")
-    void checkOutSchedule_test1() {
+    void checkoutSchedule_test1() {
 
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
@@ -436,7 +436,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandCheckOutScheduleResponse actual = studySeatService.checkOutSchedule(
+        CommandCheckOutScheduleResponse actual = studySeatService.checkoutSchedule(
             studySeatId,
             scheduleId
         );
@@ -447,7 +447,7 @@ class StudySeatServiceTest {
 
     @Test
     @DisplayName("유저는 스케줄 번호가 올바르지 않으면 취소할 수 없다.")
-    void checkOutSchedule_test2() {
+    void checkoutSchedule_test2() {
 
         // given
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
@@ -461,7 +461,7 @@ class StudySeatServiceTest {
 
         // then
         assertThrows(IllegalStateException.class,
-            () -> studySeatService.checkOutSchedule(
+            () -> studySeatService.checkoutSchedule(
                 studySeatId,
                 scheduleId
             ), "스케줄이 존재하지 않습니다.");
