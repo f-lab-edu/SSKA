@@ -430,7 +430,6 @@ class StudySeatServiceTest {
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
-            1L,
             "check-out"
         );
 
@@ -460,7 +459,6 @@ class StudySeatServiceTest {
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
-            1L,
             "check-out"
         );
 
@@ -488,7 +486,6 @@ class StudySeatServiceTest {
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
-            2L,
             "checkout"
         );
 
