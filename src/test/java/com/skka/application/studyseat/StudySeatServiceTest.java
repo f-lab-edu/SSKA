@@ -18,7 +18,6 @@ import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
-import com.skka.domain.studyseat.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -432,7 +431,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             1L,
-            ScheduleState.CHECKED_OUT
+            "check-out"
         );
 
         long studySeatId = 1L;
@@ -462,7 +461,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             1L,
-            ScheduleState.CHECKED_OUT
+            "check-out"
         );
 
         long studySeatId = 1L;
@@ -490,7 +489,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             2L,
-            ScheduleState.CHECKED_OUT
+            "check-out"
         );
 
         long studySeatId = 1L;
@@ -507,5 +506,33 @@ class StudySeatServiceTest {
                 studySeatId,
                 scheduleId
             ), "자신의 예약 정보가 아닙니다.");
+    }
+
+    @Test
+    @DisplayName("유저는 잘못된 스케줄 상태를 입력하면 취소할 수 없다.")
+    void checkoutSchedule_test4() {
+
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            2L,
+            "checkout"
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 2L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        assertThrows(IllegalStateException.class,
+            () -> studySeatService.checkoutSchedule(
+                command,
+                studySeatId,
+                scheduleId
+            ), "잘못된 스케줄 상태 입니다.");
     }
 }
