@@ -82,7 +82,6 @@ public class StudySeatController {
         @PathVariable final long scheduleId
     ) {
         CheckoutScheduleRequest commandService = new CheckoutScheduleRequest(
-            command.getCustomerId(),
             command.getScheduleState()
         );
 

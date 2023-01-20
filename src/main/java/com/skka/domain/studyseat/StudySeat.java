@@ -1,6 +1,5 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_MY_SCHEDULE;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
 import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
 import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
@@ -10,7 +9,6 @@ import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
-import com.skka.domain.studyseat.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,16 +145,6 @@ public class StudySeat {
     public void checkout(final long scheduleId, final String scheduleState) {
         Schedule schedule = findScheduleById(scheduleId);
         schedule.checkout(scheduleState);
-    }
-
-    public void checkRightCustomer(final long customerId, final long scheduleId) {
-        check(customerId != getCustomerIdFromSchedule(scheduleId)
-            , INVALID_MY_SCHEDULE);
-    }
-
-    private long getCustomerIdFromSchedule(final long scheduleId) {
-        Schedule schedule = findScheduleById(scheduleId);
-        return schedule.getCustomer().getId();
     }
 
     public void checkBeneathOfAHour(

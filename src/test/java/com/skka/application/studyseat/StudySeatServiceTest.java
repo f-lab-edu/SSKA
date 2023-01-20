@@ -479,38 +479,10 @@ class StudySeatServiceTest {
                 scheduleId
             ), "스케줄이 존재하지 않습니다.");
     }
-    
-    @Test
-    @DisplayName("유저는 자신의 스케줄이 아니면 취소할 수 없다.")
-    void checkoutSchedule_test3() {
-
-        // given
-        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
-
-        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
-            2L,
-            "check-out"
-        );
-
-        long studySeatId = 1L;
-        long scheduleId = 2L;
-
-        // when
-        when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
-
-        // then
-        assertThrows(IllegalStateException.class,
-            () -> studySeatService.checkoutSchedule(
-                command,
-                studySeatId,
-                scheduleId
-            ), "자신의 예약 정보가 아닙니다.");
-    }
 
     @Test
     @DisplayName("유저는 잘못된 스케줄 상태를 입력하면 취소할 수 없다.")
-    void checkoutSchedule_test4() {
+    void checkoutSchedule_test3() {
 
         // given
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);

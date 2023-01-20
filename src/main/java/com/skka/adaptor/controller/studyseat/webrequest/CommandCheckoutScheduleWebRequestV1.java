@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommandCheckoutScheduleWebRequestV1 {
 
-    private final long customerId;
     private final String scheduleState;
 }

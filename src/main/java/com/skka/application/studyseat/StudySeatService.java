@@ -107,8 +107,6 @@ public class StudySeatService {
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
 
-        studySeat.checkRightCustomer(command.getCustomerId(), scheduleId);
-
         studySeat.checkout(scheduleId, command.getScheduleState());
 
         return new CommandCheckOutScheduleResponse(success, scheduleId);
