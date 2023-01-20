@@ -86,7 +86,7 @@ public class Schedule {
         return new Schedule(customer, studySeat, startTime, endTime);
     }
 
-    public void checkout() {
-        this.state = ScheduleState.CHECKED_OUT;
+    public void checkout(final String scheduleState) {
+        this.state = ScheduleState.from(scheduleState);
     }
 }

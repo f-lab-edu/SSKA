@@ -83,8 +83,7 @@ public class StudySeatController {
     ) {
         CheckoutScheduleRequest commandService = new CheckoutScheduleRequest(
             command.getCustomerId(),
-            command.getChangingStartedTime(),
-            command.getChangingEndTime()
+            command.getScheduleState()
         );
 
         return ResponseEntity.ok(customerService.checkoutSchedule(

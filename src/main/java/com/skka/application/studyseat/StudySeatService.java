@@ -109,7 +109,7 @@ public class StudySeatService {
 
         studySeat.checkRightCustomer(command.getCustomerId(), scheduleId);
 
-        studySeat.checkout(scheduleId);
+        studySeat.checkout(scheduleId, command.getScheduleState());
 
         return new CommandCheckOutScheduleResponse(success, scheduleId);
     }

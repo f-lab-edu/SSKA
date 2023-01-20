@@ -10,6 +10,7 @@ import static com.skka.adaptor.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
+import com.skka.domain.studyseat.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -143,9 +144,9 @@ public class StudySeat {
     }
 
 
-    public void checkout(final long scheduleId) {
+    public void checkout(final long scheduleId, final String scheduleState) {
         Schedule schedule = findScheduleById(scheduleId);
-        schedule.checkout();
+        schedule.checkout(scheduleState);
     }
 
     public void checkRightCustomer(final long customerId, final long scheduleId) {

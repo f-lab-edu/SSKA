@@ -1,6 +1,6 @@
 package com.skka.application.studyseat.dto;
 
-import java.time.LocalDateTime;
+import com.skka.domain.studyseat.schedule.ScheduleState;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +8,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CheckoutScheduleRequest {
     private final long customerId;
-    private final LocalDateTime changingStartedTime;
-    private final LocalDateTime changingEndTime;
+    private final String scheduleState;
 }

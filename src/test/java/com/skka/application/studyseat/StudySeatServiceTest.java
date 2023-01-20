@@ -18,6 +18,7 @@ import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import com.skka.domain.studyseat.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -431,8 +432,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             1L,
-            LocalDateTime.of(2023, 1, 10, 15, 10),
-            LocalDateTime.of(2023, 1, 10, 17, 10)
+            ScheduleState.CHECKED_OUT
         );
 
         long studySeatId = 1L;
@@ -462,8 +462,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             1L,
-            LocalDateTime.of(2023, 1, 10, 15, 10),
-            LocalDateTime.of(2023, 1, 10, 17, 10)
+            ScheduleState.CHECKED_OUT
         );
 
         long studySeatId = 1L;
@@ -491,8 +490,7 @@ class StudySeatServiceTest {
 
         CheckoutScheduleRequest command = new CheckoutScheduleRequest(
             2L,
-            LocalDateTime.of(2023, 1, 10, 15, 10),
-            LocalDateTime.of(2023, 1, 10, 17, 10)
+            ScheduleState.CHECKED_OUT
         );
 
         long studySeatId = 1L;
