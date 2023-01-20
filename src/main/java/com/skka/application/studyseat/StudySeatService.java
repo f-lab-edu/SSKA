@@ -4,6 +4,7 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESER
 import static com.skka.adaptor.util.Util.check;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
+import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
@@ -100,10 +101,13 @@ public class StudySeatService {
 
     @Transactional
     public CommandCheckOutScheduleResponse checkoutSchedule(
+        final CheckoutScheduleRequest command,
         final long studySeatId,
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
+
+        studySeat.checkRightCustomer(command.getCustomerId(), scheduleId);
 
         studySeat.checkout(scheduleId);
 

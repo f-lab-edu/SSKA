@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
+import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
@@ -425,9 +426,15 @@ class StudySeatServiceTest {
     @DisplayName("유저는 스케줄을 취소할 수 있다.")
     void checkoutSchedule_test1() {
 
+        // given
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
-        // given
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            1L,
+            LocalDateTime.of(2023, 1, 10, 15, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10)
+        );
+
         long studySeatId = 1L;
         long scheduleId = 0L;
 
@@ -437,6 +444,7 @@ class StudySeatServiceTest {
 
         // then
         CommandCheckOutScheduleResponse actual = studySeatService.checkoutSchedule(
+            command,
             studySeatId,
             scheduleId
         );
@@ -452,6 +460,12 @@ class StudySeatServiceTest {
         // given
         SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
 
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            1L,
+            LocalDateTime.of(2023, 1, 10, 15, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10)
+        );
+
         long studySeatId = 1L;
         long scheduleId = 2L;
 
@@ -462,8 +476,38 @@ class StudySeatServiceTest {
         // then
         assertThrows(IllegalStateException.class,
             () -> studySeatService.checkoutSchedule(
+                command,
                 studySeatId,
                 scheduleId
             ), "스케줄이 존재하지 않습니다.");
+    }
+    
+    @Test
+    @DisplayName("유저는 자신의 스케줄이 아니면 취소할 수 없다.")
+    void checkoutSchedule_test3() {
+
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            2L,
+            LocalDateTime.of(2023, 1, 10, 15, 10),
+            LocalDateTime.of(2023, 1, 10, 17, 10)
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 2L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        assertThrows(IllegalStateException.class,
+            () -> studySeatService.checkoutSchedule(
+                command,
+                studySeatId,
+                scheduleId
+            ), "자신의 예약 정보가 아닙니다.");
     }
 }
