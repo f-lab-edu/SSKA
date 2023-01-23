@@ -63,7 +63,6 @@ public class StudySeatService {
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
         studySeat.extractScheduleWith(scheduleId);
 
         studySeatRepository.save(studySeat);
@@ -79,7 +78,6 @@ public class StudySeatService {
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
         studySeat.checkBeneathOfAHour(command.getChangingStartedTime(), command.getChangingEndTime());
 
         extractSchedule(studySeatId, scheduleId);
@@ -106,7 +104,6 @@ public class StudySeatService {
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
         studySeat.checkout(scheduleId, command.getScheduleState());
 
         return new CommandCheckOutScheduleResponse(success, scheduleId);
