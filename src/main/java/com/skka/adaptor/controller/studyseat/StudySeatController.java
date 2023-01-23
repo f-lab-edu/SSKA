@@ -1,17 +1,20 @@
 package com.skka.adaptor.controller.studyseat;
 
 import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
+import com.skka.adaptor.controller.studyseat.webrequest.CommandCheckoutScheduleWebRequestV1;
 import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
+import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,6 +72,21 @@ public class StudySeatController {
             commandService,
             studySeatId,
             scheduleId
+        ));
+    }
+
+    @PatchMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
+    public ResponseEntity<CommandCheckOutScheduleResponse> checkoutSchedule(
+        final CommandCheckoutScheduleWebRequestV1 command,
+        @PathVariable final long studySeatId,
+        @PathVariable final long scheduleId
+    ) {
+        CheckoutScheduleRequest commandService = new CheckoutScheduleRequest(
+            command.getScheduleState()
+        );
+
+        return ResponseEntity.ok(customerService.checkoutSchedule(
+            commandService, studySeatId, scheduleId
         ));
     }
 }

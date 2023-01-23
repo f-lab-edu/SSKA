@@ -4,9 +4,11 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESER
 import static com.skka.adaptor.util.Util.check;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
+import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
@@ -56,17 +58,16 @@ public class StudySeatService {
 
 
     @Transactional
-    public CommandMoveSeatResponse extractSchedule(
+    public CommandExtractScheduleResponse extractSchedule(
         final long studySeatId,
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
         studySeat.extractScheduleWith(scheduleId);
 
         studySeatRepository.save(studySeat);
 
-        return new CommandMoveSeatResponse(success, scheduleId, studySeatId);
+        return new CommandExtractScheduleResponse(success, scheduleId, studySeatId);
     }
 
 
@@ -77,7 +78,6 @@ public class StudySeatService {
         final long scheduleId
     ) {
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
         studySeat.checkBeneathOfAHour(command.getChangingStartedTime(), command.getChangingEndTime());
 
         extractSchedule(studySeatId, scheduleId);
@@ -94,5 +94,18 @@ public class StudySeatService {
         studySeatRepository.save(studySeat);
 
         return new CommandChangeStudyTimeResponse(success, command.getChangingStartedTime(), command.getChangingEndTime());
+    }
+
+
+    @Transactional
+    public CommandCheckOutScheduleResponse checkoutSchedule(
+        final CheckoutScheduleRequest command,
+        final long studySeatId,
+        final long scheduleId
+    ) {
+        StudySeat studySeat = findByStudySeatId(studySeatId);
+        studySeat.checkout(scheduleId, command.getScheduleState());
+
+        return new CommandCheckOutScheduleResponse(success, scheduleId);
     }
 }

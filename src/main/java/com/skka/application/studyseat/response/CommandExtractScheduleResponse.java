@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class CommandMoveSeatResponse {
+public class CommandExtractScheduleResponse {
     private final String message;
     private final long extractedScheduleId;
     private final long studySeatIdExtractedSchedule;

@@ -131,6 +131,22 @@ public class StudySeat {
         check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
     }
 
+    private Schedule findScheduleById(final long scheduleId) {
+        Optional<Schedule> schedule = this.schedules.stream()
+            .filter(s -> s.getId() == scheduleId)
+            .findFirst();
+
+        check(schedule.isEmpty(), SCHEDULE_NOT_EXISTED);
+
+        return schedule.get();
+    }
+
+
+    public void checkout(final long scheduleId, final String scheduleState) {
+        Schedule schedule = findScheduleById(scheduleId);
+        schedule.checkout(scheduleState);
+    }
+
     public void checkBeneathOfAHour(
         final LocalDateTime changingStartedTime,
         final LocalDateTime changingEndTime

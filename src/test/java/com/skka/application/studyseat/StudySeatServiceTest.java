@@ -10,9 +10,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
+import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
-import com.skka.application.studyseat.response.CommandMoveSeatResponse;
+import com.skka.application.studyseat.response.CommandExtractScheduleResponse;
 import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
@@ -298,7 +300,7 @@ class StudySeatServiceTest {
             .thenReturn(Optional.ofNullable(STUDY_SEAT));
 
         // then
-        CommandMoveSeatResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
+        CommandExtractScheduleResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
 
         assertThat(actual.getMessage()).isEqualTo("success");
         assertThat(actual.getStudySeatIdExtractedSchedule()).isEqualTo(extractingStudySeatId);
@@ -417,5 +419,89 @@ class StudySeatServiceTest {
             () -> studySeatService.changeStudyTime(
                 command, studySeatId, scheduleId),
             "다른 스케쥴과 겹칩니다.");
+    }
+
+
+    @Test
+    @DisplayName("유저는 스케줄을 취소할 수 있다.")
+    void checkoutSchedule_test1() {
+
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            "check-out"
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 0L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        CommandCheckOutScheduleResponse actual = studySeatService.checkoutSchedule(
+            command,
+            studySeatId,
+            scheduleId
+        );
+
+        assertThat(actual.getMessage()).isEqualTo("success");
+        assertThat(actual.getCheckedOutScheduleId()).isEqualTo(0L);
+    }
+
+    @Test
+    @DisplayName("유저는 스케줄 번호가 올바르지 않으면 취소할 수 없다.")
+    void checkoutSchedule_test2() {
+
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            "check-out"
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 2L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        assertThrows(IllegalStateException.class,
+            () -> studySeatService.checkoutSchedule(
+                command,
+                studySeatId,
+                scheduleId
+            ), "스케줄이 존재하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("유저는 잘못된 스케줄 상태를 입력하면 취소할 수 없다.")
+    void checkoutSchedule_test3() {
+
+        // given
+        SCHEDULE.getCustomer().getSchedules().add(SCHEDULE);
+
+        CheckoutScheduleRequest command = new CheckoutScheduleRequest(
+            "checkout"
+        );
+
+        long studySeatId = 1L;
+        long scheduleId = 2L;
+
+        // when
+        when(studySeatRepository.findById(studySeatId))
+            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+
+        // then
+        assertThrows(IllegalStateException.class,
+            () -> studySeatService.checkoutSchedule(
+                command,
+                studySeatId,
+                scheduleId
+            ), "잘못된 스케줄 상태 입니다.");
     }
 }

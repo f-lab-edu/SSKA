@@ -86,7 +86,7 @@ public class Schedule {
         return new Schedule(customer, studySeat, startTime, endTime);
     }
 
-    public void updateEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
+    public void checkout(final String scheduleState) {
+        this.state = ScheduleState.from(scheduleState);
     }
 }
