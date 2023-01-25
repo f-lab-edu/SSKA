@@ -56,7 +56,6 @@ public class StudySeatService {
             .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
-
     @Transactional
     public CommandExtractScheduleResponse extractSchedule(
         final long studySeatId,
@@ -69,7 +68,6 @@ public class StudySeatService {
 
         return new CommandExtractScheduleResponse(success, scheduleId, studySeatId);
     }
-
 
     @Transactional
     public CommandChangeStudyTimeResponse changeStudyTime(
@@ -95,7 +93,6 @@ public class StudySeatService {
 
         return new CommandChangeStudyTimeResponse(success, command.getChangingStartedTime(), command.getChangingEndTime());
     }
-
 
     @Transactional
     public CommandCheckOutScheduleResponse checkoutSchedule(
