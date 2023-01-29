@@ -18,4 +18,4 @@
 ### [트러블 슈팅](https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting)
 
 ### [인프라 구축](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story)
- - #### [CI/CD](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story#cicd-%EC%A0%81%EC%9A%A9)  <-- 해당 PR
+ - #### [CI/CD](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story#cicd-%EC%A0%81%EC%9A%A9)  <-- 캐리님 여기를 확인해 주세요
