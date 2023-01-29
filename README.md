@@ -10,13 +10,27 @@
 - H2 *(v.2.1.214)*
 
 ### 유즈 케이스
-https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case
+[링크](https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case)
+
+<br>
 
 ### 프로토타입
-https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType
+[링크](https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType)
+
+<br>
 
 ### 브랜치 전략
-https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow
+[링크](https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow)
+
+<br>
 
 ### 트러블 슈팅
-https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting
+[링크](https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting)
+
+<br>
+
+### 인프라 구축
+
+[링크](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story)
+
+#### ci/cd
