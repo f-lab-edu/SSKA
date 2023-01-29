@@ -22,11 +22,4 @@ public class ScheduleFixture {
         LocalDateTime.of(2023, 1, 10, 13, 10),
         LocalDateTime.of(2023, 1, 10, 18, 10)
     );
-
-    public static Schedule SCHEDULE_3 = Schedule.of(
-        CUSTOMER,
-        MOVING_STUDY_SEAT,
-        LocalDateTime.of(2023, 1, 10, 13, 10),
-        LocalDateTime.of(2023, 1, 10, 18, 10)
-    );
 }
