@@ -19,3 +19,4 @@
 
 ### [인프라 구축](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story)
  - #### [CI/CD](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story#cicd-%EC%A0%81%EC%9A%A9)  <-- 캐리님 여기를 확인해 주세요
+ - #### [Auto Scaling](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building-story#auto-scaling)
