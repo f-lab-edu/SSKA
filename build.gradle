@@ -16,7 +16,6 @@ configurations {
 	}
 }
 
-
 repositories {
 	mavenCentral()
 }
@@ -64,20 +63,6 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
-}
-
-task createDocument(type: Copy) {
-	dependsOn asciidoctor
-
-	from file("build/asciidoc/html5/index.html")
-	into file("src/main/resources/static")
-}
-
-task buildDocument(type: Copy) {
-	dependsOn createDocument
-
-	from file("build/asciidoc/html5/index.html")
-	into file("build/resources/main/static")
 }
 
 bootJar {
