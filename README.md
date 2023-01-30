@@ -50,4 +50,4 @@ https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow
 https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting
 
 
-![footer](https://capsule-render.vercel.app/api?type=waving&customColorList=10,11,12,13,14,15&height=300&section=footer)
+![footer](https://capsule-render.vercel.app/api?type=waving&customColorList=10,11,12,13,14,15&height=200&section=footer)
