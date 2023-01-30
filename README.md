@@ -37,17 +37,16 @@
   <img src="https://img.shields.io/badge/Spring%20REST%20Docs-006643?style=flat&logo=Spring%20REST%20Docs&logoColor=white" />
 </div>
 
-### 유즈 케이스
-https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case
+<br><br>
 
-### 프로토타입
-https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType
+<div align="center">
 
-### 브랜치 전략
-https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow
-
-### 트러블 슈팅
-https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting
-
+| 내용             | 내용 링크                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| 유즈 케이스 | https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case |
+| 프로토타입 | https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType |
+| 브랜치 전략 | https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow |
+| 트러블 슈팅 | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
+</div>
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=200&section=footer)
