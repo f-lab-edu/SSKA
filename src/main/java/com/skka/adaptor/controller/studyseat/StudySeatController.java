@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,7 +29,7 @@ public class StudySeatController {
 
     @PostMapping(value = "/seats/{studySeatId}")
     public ResponseEntity<CommandReserveSeatResponse> reserveSeat(
-        final CommandReserveSeatWebRequestV1 command,
+        @RequestBody final CommandReserveSeatWebRequestV1 command,
         @PathVariable final long studySeatId
     ) {
         ReserveSeatRequest commandService = new ReserveSeatRequest(
@@ -58,7 +59,7 @@ public class StudySeatController {
 
     @PutMapping(value = "seats/{studySeatId}/schedules/{scheduleId}")
     public ResponseEntity<CommandChangeStudyTimeResponse> updateSchedule(
-        final CommandChangeStudyTimeWebRequestV1 command,
+        @RequestBody final CommandChangeStudyTimeWebRequestV1 command,
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {

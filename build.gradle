@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.6'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "java-test-fixtures"
+	id 'org.asciidoctor.convert' version '1.5.9.2'
 }
 
 group = 'com'
@@ -15,8 +16,13 @@ configurations {
 	}
 }
 
+
 repositories {
 	mavenCentral()
+}
+
+ext {
+	set('snippetsDir', file("build/generated-snippets"))
 }
 
 dependencies {
@@ -44,8 +50,36 @@ dependencies {
 
 	// actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Spring Rest Docs
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.5.RELEASE'
 }
 
 tasks.named('test') {
+	outputs.dir snippetsDir
 	useJUnitPlatform()
+}
+
+tasks.named('asciidoctor') {
+	inputs.dir snippetsDir
+	dependsOn test
+}
+
+task createDocument(type: Copy) {
+	dependsOn asciidoctor
+
+	from file("build/asciidoc/html5/index.html")
+	into file("src/main/resources/static")
+}
+
+task buildDocument(type: Copy) {
+	dependsOn createDocument
+
+	from file("build/asciidoc/html5/index.html")
+	into file("build/resources/main/static")
+}
+
+bootJar {
+	dependsOn asciidoctor
 }
