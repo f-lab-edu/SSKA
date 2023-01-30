@@ -9,6 +9,10 @@
 - MySql *(v.8.0.30)*
 - H2 *(v.2.1.214)*
 
+### API 문서
+
+https://taewoongjung.github.io/SKKA_RestDocs.github.io/
+
 ### 유즈 케이스
 https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case
 
