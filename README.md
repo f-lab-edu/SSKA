@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=SKKA&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&customColorList=10,11,12,13,14,15&height=300&section=header&text=SKKA&fontSize=90)
 
 
 <div align="center">
@@ -48,3 +48,6 @@ https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow
 
 ### 트러블 슈팅
 https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting
+
+
+![footer](https://capsule-render.vercel.app/api?type=waving&customColorList=10,11,12,13,14,15&height=300&section=footer)
