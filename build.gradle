@@ -3,7 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id "java-test-fixtures"
-	id 'org.asciidoctor.convert' version '1.5.9.2'
+	id 'org.asciidoctor.jvm.convert' version "3.3.2"
 }
 
 group = 'com'
@@ -14,6 +14,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExtensions
 }
 
 repositories {
@@ -21,7 +22,7 @@ repositories {
 }
 
 ext {
-	set('snippetsDir', file("build/generated-snippets"))
+	snippetsDir = file("${buildDir}/generated-snippets")
 }
 
 dependencies {
@@ -52,7 +53,7 @@ dependencies {
 
 	// Spring Rest Docs
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 tasks.named('test') {
@@ -63,6 +64,7 @@ tasks.named('test') {
 asciidoctor {
 	inputs.dir snippetsDir
 	dependsOn test
+	configurations 'asciidoctorExtensions'
 }
 
 bootJar {
