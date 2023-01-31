@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: deploy
+  datasource:
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    username: skka
+    password: Wjdxodnd1@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    database: mysql
+  flyway:
+    user: skka
+    password: Wjdxodnd1@
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health
