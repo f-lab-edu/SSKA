@@ -2,7 +2,7 @@
 
 # [인프라 전체 구성도](https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building#%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%A0%84%EC%B2%B4-%EA%B5%AC%EC%84%B1%EB%8F%84)
 
-![image](https://user-images.githubusercontent.com/70272679/215351989-120d15b5-9e53-4d40-8808-49bfcc11062d.png)
+![image](https://user-images.githubusercontent.com/70272679/215760650-d780cafc-a282-4bb9-bb85-9a86241d1744.png)
 
 ### 사용 기술 및 환경
 - JAVA *(v.11)*
