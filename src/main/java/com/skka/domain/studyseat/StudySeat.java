@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +38,7 @@ public class StudySeat {
     private String seatNumber;
     private boolean occupied;
 
-    @OneToMany(mappedBy = "studySeat")
+    @OneToMany(mappedBy = "studySeat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
     private StudySeat(long id, String seatNumber, boolean occupied) {
