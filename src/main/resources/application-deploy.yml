@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${port}
 
 spring:
   config:
@@ -7,8 +7,8 @@ spring:
       on-profile: deploy
   datasource:
     url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
-    username: skka
-    password: Wjdxodnd1@
+    username: ${cloud-db-user-id}
+    password: ${cloud-db-user-password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -24,8 +24,8 @@ spring:
         use_sql_comments: true
     database: mysql
   flyway:
-    user: skka
-    password: Wjdxodnd1@
+    user: ${cloud-db-user-id}
+    password: ${cloud-db-user-password}
     url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
