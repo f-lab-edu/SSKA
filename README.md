@@ -45,10 +45,12 @@
 
 | 내용             | 내용 링크                                                                |
 | ----------------- | ------------------------------------------------------------------ |
+| API 문서 | https://taewoongjung.github.io/SKKA_RestDocs.github.io/ |
 | 유즈 케이스 | https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case |
 | 프로토타입 | https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType |
 | 브랜치 전략 | https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow |
 | 트러블 슈팅 | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
+| 예약 시스템 9가지 경우의 수 검증 | https://github.com/f-lab-edu/SSKA/wiki/05.-Validation |
 </div>
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=200&section=footer)

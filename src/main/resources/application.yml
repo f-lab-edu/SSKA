@@ -5,9 +5,9 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     username: skka
-    password: 123456
+    password: Wjdxodnd1@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -24,10 +24,9 @@ spring:
     database: mysql
   flyway:
     user: skka
-    password: 123456
-    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+    password: Wjdxodnd1@
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
-
 management:
   endpoints:
     web:
