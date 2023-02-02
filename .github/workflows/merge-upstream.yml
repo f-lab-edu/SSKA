@@ -1,0 +1,33 @@
+name: Manual Merge Remote Action
+on: 
+  workflow_dispatch:
+    inputs:
+      upstream:
+        description: 'Upstream repository owner/name. Eg. exions/merge-upstream'
+        required: true
+        default: 'Taewoongjung/SSKA'       # set the upstream repo
+      upstream:
+        description: 'Upstream branch to merge from. Eg. master'
+        required: true
+        default: 'develop'           # set the upstream branch to merge from
+      branch:
+        description: 'Branch to merge to'
+        required: true
+        default: 'develop'         # set the branch to merge to
+
+jobs:
+  merge-upstream:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: develop
+          fetch-depth: 0 
+      - name: Merge Upstream
+        uses: exions/merge-upstream@v1
+        with:
+          upstream: f-lab-edu/SSKA
+          upstream-branch: develop
+          branch: develop
+          token: ${{ secrets.TOKEN }}
