@@ -1,0 +1,16 @@
+
+=== 스케줄 예약
+
+operation::schedules/schedule-reserve[snippets='http-request,http-response']
+
+=== 예약된 스케줄 삭제
+
+operation::schedules/schedule-extract[snippets='http-request,http-response']
+
+=== 스케줄 업데이트
+
+operation::schedules/schedule-update[snippets='http-request,http-response']
+
+=== 스케줄 퇴실
+
+operation::schedules/schedule-checkout[snippets='http-request,http-response']
