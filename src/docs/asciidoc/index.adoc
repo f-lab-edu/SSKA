@@ -1,0 +1,14 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+= SKKA
+
+== StudySeat
+include::studyseat.adoc[]
+
