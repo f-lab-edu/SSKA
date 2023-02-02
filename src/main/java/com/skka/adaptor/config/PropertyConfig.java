@@ -1,4 +1,4 @@
-package com.skka.adaptor;
+package com.skka.adaptor.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
