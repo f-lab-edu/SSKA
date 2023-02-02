@@ -2,8 +2,8 @@ name: Sync to Upstream
 
 on:
   schedule:
-    - cron:  '30 22 * * 1,2,3,4,5'
-    # scheduled at 07:12 every weeks
+    - cron:  '36 22 * * 1,2,3,4,5'
+    # scheduled at 22:36 every weeks
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
     - name: Checkout HEAD
       uses: actions/checkout@v2
       with:
-        ref: main
+        ref: develop
 
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull upstream changes
