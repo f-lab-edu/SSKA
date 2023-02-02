@@ -18,10 +18,10 @@ jobs:
       with:
         ref: develop
 
-    # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
+    # Step 2: run this sync action
     - name: Pull upstream changes
       id: sync
-      uses: bdougie/Fork-Sync-With-Upstream-action@fork
+      uses: Taewoongjung/SSKA@fork
       with:
         upstream_repository: f-lab-edu/SSKA
         upstream_branch: develop
