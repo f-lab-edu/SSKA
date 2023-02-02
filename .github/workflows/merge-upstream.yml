@@ -1,33 +1,29 @@
-name: Manual Merge Remote Action
-on: 
+name: Sync to Upstream
+
+on:
+  schedule:
+    - cron:  '36 22 * * 1,2,3,4,5'
+    # scheduled at 22:36 every weeks
   workflow_dispatch:
-    inputs:
-      upstream:
-        description: 'Upstream repository owner/name. Eg. exions/merge-upstream'
-        required: true
-        default: 'Taewoongjung/SSKA'       # set the upstream repo
-      upstream:
-        description: 'Upstream branch to merge from. Eg. master'
-        required: true
-        default: 'develop'           # set the upstream branch to merge from
-      branch:
-        description: 'Branch to merge to'
-        required: true
-        default: 'develop'         # set the branch to merge to
 
 jobs:
-  merge-upstream:
+  sync_with_upstream:
     runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          ref: develop
-          fetch-depth: 0 
-      - name: Merge Upstream
-        uses: exions/merge-upstream@v1
-        with:
-          upstream: f-lab-edu/SSKA
-          upstream-branch: develop
-          branch: develop
-          token: ${{ secrets.TOKEN }}
+    name: Sync HEAD with upstream latest
+
+    steps:
+    # Step 1: run a standard checkout action, provided by github
+    - name: Checkout HEAD
+      uses: actions/checkout@v2
+      with:
+        ref: develop
+
+    # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
+    - name: Pull upstream changes
+      id: sync
+      uses: bdougie/Fork-Sync-With-Upstream-action@fork
+      with:
+        upstream_repository: f-lab-edu/SSKA
+        upstream_branch: develop
+        target_branch: develop
+        github_token: ${{ secrets.TOKEN }} 
