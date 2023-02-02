@@ -1,25 +1,31 @@
 name: Sync Fork
 
 on:
+  push:
+    branches: "**"
+  pull_request:
+    branches: [ "develop" ]
   workflow_dispatch:
   schedule:
   - cron:  '30 11,23 * * *'
   
 jobs:
-  sync:
+  merge:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Sync and merge upstream repository with your current repository
-        uses: dabreadman/sync-upstream-repo@v1.3.0
-        with:
-          # URL of gitHub public upstream repo
-          upstream_repo: https://github.com/f-lab-edu/SSKA
-          # Branch to merge from upstream (defaults to downstream branch)
-          upstream_branch: develop
-          # Branch to merge into downstream
-          downstream_branch: develop
-          # GitHub Bot token
-          token: ${{ secrets.TOKEN }}
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'Taewoongjung'
+          git config --global user.email 'aipooh8882@naver.com'
+          # "git checkout develop" is unnecessary, already here by default
+          git pull --unshallow  # this option is very important, you would get
+                                # complains about unrelated histories without it.
+                                # (but actions/checkout@v2 can also be instructed
+                                # to fetch all git depth right from the start)
+          git remote add upstream https://github.com/f-lab-edu/SSKA
+          git fetch upstream
+          git checkout develop
+          git merge -Xtheirs upstream/develop
+          git push origin develop
+          # etc
