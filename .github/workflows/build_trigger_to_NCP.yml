@@ -36,4 +36,4 @@ jobs:
           -H "x-ncp-apigw-timestamp:${vStr[0]}" \
           -H "x-ncp-iam-access-key:5E8B9D47ACFA970CA39A" \
           -H "x-ncp-apigw-signature-v2:${vStr[1]}" \
-          'https://sourcebuild.apigw.ntruss.com/api/v1/project/7834/build/'
+          'https://sourcebuild.apigw.ntruss.com/api/v1/project/7834/build'
