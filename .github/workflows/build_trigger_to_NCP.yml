@@ -32,7 +32,7 @@ jobs:
           ret_value=$(makeSignature)
           IFS=',' read -ra vStr <<< "$ret_value"
           
-          curl -i -X GET \
+          curl -i -X POST \
           -H "x-ncp-apigw-timestamp:${vStr[0]}" \
           -H "x-ncp-iam-access-key:5E8B9D47ACFA970CA39A" \
           -H "x-ncp-apigw-signature-v2:${vStr[1]}" \
