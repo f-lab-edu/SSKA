@@ -1,5 +1,5 @@
 server:
-  port: ${port}
+  port: ${PORT}
 
 spring:
   profiles:
@@ -33,13 +33,13 @@ spring:
       on-profile: deploy
   datasource:
     url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
-    username: ${cloud-db-user-id}
-    password: ${cloud-db-user-password}
+    username: ${CLOUD_DB_USERNAME}
+    password: ${CLOUD_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
-    user: ${cloud-db-user-id}
-    password: ${cloud-db-user-password}
+    user: ${CLOUD_DB_USERNAME}
+    password: ${CLOUD_DB_PASSWORD}
     url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -51,13 +51,13 @@ spring:
       on-profile: dev
   datasource:
     url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
-    username: skka
-    password: 123456
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
-    user: skka
-    password: 123456
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
