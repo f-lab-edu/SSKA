@@ -11,7 +11,29 @@ jobs:
       - uses: actions/checkout@v2
       - name: trigger to NCP
         run: |
-          curl --request POST \
-          --url http://skka-loadbalancer-15716487-9d5197e0463b.kr.lb.naverncp.com/ncp/building_trigger/7834 \
-          --header 'content-type: application/json' \
-          --fail
+          function makeSignature() {
+            nl=$'\\n'
+            TIMESTAMP=$(echo $(($(date +%s%N)/1000000)))
+            ACCESSKEY='5E8B9D47ACFA970CA39A'
+            SECRETKEY='FCEB0FEF848C16D0C50AC3DCD81176C76F8F9260'
+            
+            METHOD="POST"
+            URI="/api/v1/project/7834/build"
+            SIG="$METHOD"' '"$URI"${nl}
+            SIG+="$TIMESTAMP"${nl}
+            SIG+="$ACCESSKEY"
+            
+            SIGNATURE=$(echo -n -e "$SIG"|iconv -t utf8 |openssl dgst -sha256 -hmac $SECRETKEY -binary|openssl enc -base64)
+            my_list=("${TIMESTAMP}","${SIGNATURE}")
+            
+            echo "${my_list[@]}"
+          }
+
+          ret_value=$(makeSignature)
+          IFS=',' read -ra vStr <<< "$ret_value"
+          
+          curl -i -X GET \
+          -H "x-ncp-apigw-timestamp:${vStr[0]}" \
+          -H "x-ncp-iam-access-key:5E8B9D47ACFA970CA39A" \
+          -H "x-ncp-apigw-signature-v2:${vStr[1]}" \
+          'https://sourcebuild.apigw.ntruss.com/api/v1/project/7834/build/'
