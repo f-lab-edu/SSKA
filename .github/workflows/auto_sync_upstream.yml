@@ -27,9 +27,3 @@ jobs:
           git merge -Xtheirs upstream/develop
           git push origin develop
           # etc
-      - name: trigger to NCP
-        run: |
-          curl --request POST \
-          --url http://skka-loadbalancer-15716487-9d5197e0463b.kr.lb.naverncp.com/ncp/building_trigger/7834 \
-          --header 'content-type: application/json' \
-          --fail
