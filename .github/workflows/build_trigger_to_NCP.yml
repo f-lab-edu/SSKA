@@ -1,4 +1,4 @@
-name: Sync Fork
+name: send build_trigger to NCP
 
 on:
   push:
