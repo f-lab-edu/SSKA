@@ -66,6 +66,7 @@
 | 브랜치 전략 | https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow |
 | 트러블 슈팅 | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
 | 예약 시스템 9가지 경우의 수 검증 | https://github.com/f-lab-edu/SSKA/wiki/05.-Validation |
+| ER Diagram | https://github.com/f-lab-edu/SSKA/wiki/08.-ER-Diagram |
 
 </div>
 
