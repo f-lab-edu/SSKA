@@ -67,6 +67,7 @@
 | 트러블 슈팅 | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
 | 예약 시스템 9가지 경우의 수 검증 | https://github.com/f-lab-edu/SSKA/wiki/05.-Validation |
 | ER Diagram | https://github.com/f-lab-edu/SSKA/wiki/08.-ER-Diagram |
+| 프로젝트 소식 | https://github.com/f-lab-edu/SSKA/wiki/09.-%F0%9F%93%AE-Good-News |
 
 </div>
 
