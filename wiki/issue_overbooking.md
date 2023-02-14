@@ -82,3 +82,13 @@ ORM lock은 애플리케이션 레밸에서 구현이 되고, 데이터의 lock�
 
 ## 결과
 
+
+결국은 exclusive lock을 사용하면 된다. 
+
+그러므로
+
+```java
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+```
+
+을 사용해주면 되겠다.
