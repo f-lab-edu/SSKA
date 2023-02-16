@@ -90,5 +90,24 @@ ORM lock은 애플리케이션 레밸에서 구현이 되고, 데이터의 lock�
 ```java
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
 ```
-
 을 사용해주면 되겠다.
+
+그리고 하나의 트랜잭션이 지연되어 lock을 오랫동안 들고 있다면 Dead lock이 발생하여 시스템 장애로 이어질 수 있다.
+이를 해결하기 위해 
+
+```java
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "15000")})
+```
+또한 추가해야한다. <br><br>
+※ value의 단위는 m/s 이다.
+
+<br><br>
+
+즉,
+
+```java
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "15000")})
+```
+
+이렇게 해주면 된다.
