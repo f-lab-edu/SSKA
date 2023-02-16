@@ -1,14 +1,10 @@
 server:
-  port: 8080
+  port: ${PORT}
 
 spring:
   profiles:
     active: dev
-  datasource:
-    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
-    username: skka
-    password: Wjdxodnd1@
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: validate
@@ -22,14 +18,47 @@ spring:
         format_sql: true
         use_sql_comments: true
     database: mysql
-  flyway:
-    user: skka
-    password: Wjdxodnd1@
-    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
 management:
   endpoints:
     web:
       base-path: /actuator
       exposure:
         include: health
+---
+
+spring:
+  config:
+    activate:
+      on-profile: deploy
+  datasource:
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    username: ${CLOUD_DB_USERNAME}
+    password: ${CLOUD_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    user: ${CLOUD_DB_USERNAME}
+    password: ${CLOUD_DB_PASSWORD}
+    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    user: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+---
