@@ -18,9 +18,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.skka.adaptor.controller.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
-import com.skka.adaptor.controller.studyseat.webrequest.CommandCheckoutScheduleWebRequestV1;
-import com.skka.adaptor.controller.studyseat.webrequest.CommandReserveSeatWebRequestV1;
+import com.skka.adaptor.inbound.api.studyseat.StudySeatController;
+import com.skka.adaptor.inbound.api.studyseat.webrequest.CommandChangeStudyTimeWebRequestV1;
+import com.skka.adaptor.inbound.api.studyseat.webrequest.CommandCheckoutScheduleWebRequestV1;
+import com.skka.adaptor.inbound.api.studyseat.webrequest.CommandReserveSeatWebRequestV1;
 import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.response.CommandChangeStudyTimeResponse;
 import com.skka.application.studyseat.response.CommandCheckOutScheduleResponse;

@@ -1,4 +1,4 @@
-package com.skka.adaptor.controller.studyseat.webrequest;
+package com.skka.adaptor.inbound.api.studyseat.webrequest;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
