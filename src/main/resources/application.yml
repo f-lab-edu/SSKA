@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: deploy
 
   jpa:
     hibernate:
@@ -32,7 +32,7 @@ spring:
     activate:
       on-profile: deploy
   datasource:
-    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    url: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     username: ${CLOUD_DB_USERNAME}
     password: ${CLOUD_DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -40,7 +40,7 @@ spring:
   flyway:
     user: ${CLOUD_DB_USERNAME}
     password: ${CLOUD_DB_PASSWORD}
-    url: jdbc:mysql://db-f2rm7-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    url: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 ---
