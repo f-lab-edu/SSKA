@@ -1,16 +1,15 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
-import static com.skka.adaptor.util.Util.check;
-import static com.skka.adaptor.util.Util.checkTimeDifference;
-import static com.skka.adaptor.util.Util.require;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
+import static com.skka.adapter.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
+import static com.skka.adapter.util.Util.check;
+import static com.skka.adapter.util.Util.checkTimeDifference;
+import static com.skka.adapter.util.Util.require;
 
-import com.skka.adaptor.outbound.jpa.studyseat.StudySeatEntity;
+import com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +19,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@RequiredArgsConstructor
 @ToString
+@RequiredArgsConstructor
 public class StudySeat {
 
-    private final long id;
-    private final String seatNumber;
-    private final boolean occupied;
-    private final List<Schedule> schedules = new ArrayList<>();
+    private long id;
+    private String seatNumber;
+    private boolean occupied;
+    private List<Schedule> schedules = new ArrayList<>();
 
-//    private StudySeat(long id, String seatNumber, boolean occupied) {
-//        this.id = id;
-//        this.seatNumber = seatNumber;
-//        this.occupied = occupied;
-//    }
+    private StudySeat(long id, String seatNumber, boolean occupied) {
+        this.id = id;
+        this.seatNumber = seatNumber;
+        this.occupied = occupied;
+    }
 
     public static StudySeat of(
         final long id,
@@ -147,14 +146,13 @@ public class StudySeat {
         ;
     }
 
-    public StudySeatEntity toStudySeatEntity() {
-        StudySeatEntity a = StudySeatEntity.of(id, seatNumber, occupied, schedules);
-        a.setSchedules(schedules);
-        return a;
+    public StudySeatEntity toStudySeatEntityWithScheduleEntity() {
+        StudySeatEntity studySeatEntity = StudySeatEntity.of(id, seatNumber, occupied);
+        studySeatEntity.setScheduleInEntity(schedules);
+        return studySeatEntity;
     }
 
-    public StudySeatEntity toStudySeatEntity1() {
-        StudySeatEntity a = StudySeatEntity.of(id, seatNumber, occupied, schedules);
-        return a;
+    public StudySeatEntity toStudySeatEntity() {
+        return StudySeatEntity.of(id, seatNumber, occupied);
     }
 }

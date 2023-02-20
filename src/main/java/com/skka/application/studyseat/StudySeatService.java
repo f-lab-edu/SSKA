@@ -1,7 +1,7 @@
 package com.skka.application.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
-import static com.skka.adaptor.util.Util.check;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED;
+import static com.skka.adapter.util.Util.check;
 
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
@@ -32,8 +32,7 @@ public class StudySeatService {
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(studySeatId);
-        System.out.println("33 = " + customer);
-        System.out.println("44 = " + studySeat);
+
         check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
         ;
@@ -43,8 +42,6 @@ public class StudySeatService {
             command.getStartedTime(), command.getEndTime()
         );
 
-        System.out.println("55 = " + customer);
-        System.out.println("66 = " + studySeat);
         studySeatRepository.save(studySeat);
 
         return new CommandReserveSeatResponse(success, studySeatId);
@@ -105,6 +102,7 @@ public class StudySeatService {
         StudySeat studySeat = findByStudySeatId(studySeatId);
         studySeat.checkout(scheduleId, command.getScheduleState());
 
+        studySeatRepository.save(studySeat);
         return new CommandCheckOutScheduleResponse(success, scheduleId);
     }
 }

@@ -1,7 +1,7 @@
 package com.skka.domain.customer.error;
 
-import com.skka.adaptor.common.exception.BadRequestException;
-import com.skka.adaptor.common.exception.ErrorType;
+import com.skka.adapter.common.exception.BadRequestException;
+import com.skka.adapter.common.exception.ErrorType;
 
 public class InvalidCustomerException extends BadRequestException {
 
