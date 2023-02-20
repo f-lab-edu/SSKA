@@ -6,55 +6,24 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STUDY
 import static com.skka.adaptor.util.Util.checkTimeDifference;
 import static com.skka.adaptor.util.Util.require;
 
+import com.skka.adaptor.outbound.jpa.studyseat.schedule.ScheduleEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import java.time.LocalDateTime;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Where;
-import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity(name = "schedule")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@RequiredArgsConstructor
 @ToString(exclude = {"studySeat", "customer"})
-@Where(clause = "state = 'RESERVED' && started_time >= NOW()")
 public class Schedule {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
     private Customer customer;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "study_seat_id")
     private StudySeat studySeat;
-
-    @Column(name = "started_time")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startedTime;
-
-    @Column(name = "end_time")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
-
-    @Enumerated(value = EnumType.STRING)
     private ScheduleState state;
 
     private Schedule(
@@ -89,5 +58,14 @@ public class Schedule {
 
     public void checkout(final String scheduleState) {
         this.state = ScheduleState.from(scheduleState);
+    }
+
+    public ScheduleEntity toScheduleEntity() {
+        return ScheduleEntity.of(
+            customer.toCustomerEntity(),
+            studySeat.toStudySeatEntity(),
+            startedTime,
+            endTime
+        );
     }
 }

@@ -7,38 +7,25 @@ import static com.skka.adaptor.util.Util.check;
 import static com.skka.adaptor.util.Util.checkTimeDifference;
 import static com.skka.adaptor.util.Util.require;
 
+import com.skka.adaptor.outbound.jpa.studyseat.StudySeatEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@Entity
-@Table(name = "study_seat")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 @Getter
+@RequiredArgsConstructor
+@ToString
 public class StudySeat {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String seatNumber;
     private boolean occupied;
-
-    @OneToMany(mappedBy = "studySeat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
     private StudySeat(long id, String seatNumber, boolean occupied) {
@@ -157,5 +144,16 @@ public class StudySeat {
             checkTimeDifference(changingStartedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
+    }
+
+    public StudySeatEntity toStudySeatEntity() {
+        StudySeatEntity a = StudySeatEntity.of(id, seatNumber, occupied, schedules);
+        a.setSchedules(schedules);
+        return a;
+    }
+
+    public StudySeatEntity toStudySeatEntity1() {
+        StudySeatEntity a = StudySeatEntity.of(id, seatNumber, occupied, schedules);
+        return a;
     }
 }

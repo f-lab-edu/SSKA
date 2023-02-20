@@ -6,37 +6,26 @@ import static com.skka.adaptor.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
 import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.outbound.jpa.BaseEntity;
+import com.skka.adaptor.outbound.jpa.customer.CustomerEntity;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
-@Entity
-@Table(name = "customer")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
+@RequiredArgsConstructor
 public class Customer extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String name;
     private String email;
     private String password;
     private String tel;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
     private Customer(
@@ -68,5 +57,9 @@ public class Customer extends BaseEntity {
         require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
 
         return new Customer(id, name, email, password, tel);
+    }
+
+    public CustomerEntity toCustomerEntity() {
+        return CustomerEntity.of(id, name, email, password, tel);
     }
 }
