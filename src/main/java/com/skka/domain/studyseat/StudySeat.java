@@ -10,6 +10,7 @@ import static com.skka.adaptor.util.Util.require;
 import com.skka.adaptor.outbound.jpa.studyseat.StudySeatEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +24,16 @@ import lombok.ToString;
 @ToString
 public class StudySeat {
 
-    private long id;
-    private String seatNumber;
-    private boolean occupied;
-    private List<Schedule> schedules = new ArrayList<>();
+    private final long id;
+    private final String seatNumber;
+    private final boolean occupied;
+    private final List<Schedule> schedules = new ArrayList<>();
 
-    private StudySeat(long id, String seatNumber, boolean occupied) {
-        this.id = id;
-        this.seatNumber = seatNumber;
-        this.occupied = occupied;
-    }
+//    private StudySeat(long id, String seatNumber, boolean occupied) {
+//        this.id = id;
+//        this.seatNumber = seatNumber;
+//        this.occupied = occupied;
+//    }
 
     public static StudySeat of(
         final long id,
