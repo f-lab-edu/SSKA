@@ -8,6 +8,7 @@ import static com.skka.adaptor.util.Util.require;
 
 import com.skka.adaptor.outbound.jpa.customer.CustomerEntity;
 import com.skka.adaptor.outbound.jpa.studyseat.StudySeatEntity;
+import com.skka.domain.studyseat.schedule.Schedule;
 import com.skka.domain.studyseat.schedule.ScheduleState;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
@@ -86,5 +87,14 @@ public class ScheduleEntity {
         ;
 
         return new ScheduleEntity(customerEntity, studySeatEntity, startTime, endTime);
+    }
+
+    public Schedule toSchedule() {
+        return Schedule.of(
+            customer.toCustomer(),
+            studySeat.toStudySeat(),
+            startedTime,
+            endTime
+        );
     }
 }

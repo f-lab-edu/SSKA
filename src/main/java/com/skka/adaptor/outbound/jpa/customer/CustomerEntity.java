@@ -21,10 +21,12 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "customer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 @Getter
 public class CustomerEntity extends BaseEntity {
 
@@ -56,6 +58,25 @@ public class CustomerEntity extends BaseEntity {
         this.tel = tel;
     }
 
+    private CustomerEntity(
+        final long id,
+        final String name,
+        final String email,
+        final String password,
+        final String tel,
+        final ScheduleEntity schedule
+    ) {
+        super(LocalDateTime.now(), LocalDateTime.now());
+
+        setSchedules(schedule);
+
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.tel = tel;
+    }
+
     public static CustomerEntity of(
         final long id,
         final String name,
@@ -69,6 +90,26 @@ public class CustomerEntity extends BaseEntity {
         require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
 
         return new CustomerEntity(id, name, email, password, tel);
+    }
+
+    public static CustomerEntity of(
+        final long id,
+        final String name,
+        final String email,
+        final String password,
+        final String tel,
+        final ScheduleEntity schedule
+    ) {
+
+        require(o -> name == null, name, INVALID_CUSTOMER_NAME);
+        require(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
+        require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
+
+        return new CustomerEntity(id, name, email, password, tel, schedule);
+    }
+
+    public void setSchedules(ScheduleEntity schedule) {
+        this.schedules.add(schedule);
     }
 
     public Customer toCustomer() {

@@ -33,7 +33,7 @@ public class StudySeatEntity {
     private String seatNumber;
     private boolean occupied;
 
-    @OneToMany(mappedBy = "studySeat", cascade = {CascadeType.ALL, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "studySeat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleEntity> schedules = new ArrayList<>();
 
     private StudySeatEntity(long id, String seatNumber, boolean occupied) {
@@ -71,11 +71,16 @@ public class StudySeatEntity {
 
     public void setSchedules(final List<Schedule> schedule) {
         System.out.println("111 = " + schedule.get(0).getCustomer());
-        schedule.forEach(ss -> schedules.add(ScheduleEntity.of(
+        schedule.forEach(ss -> {
+            ScheduleEntity sa = ScheduleEntity.of(
                 ss.getCustomer().toCustomerEntity(),
                 ss.getStudySeat().toStudySeatEntity1(),
                 ss.getStartedTime(),
-                ss.getEndTime()
-            )));
+                ss.getEndTime());
+
+                sa.getCustomer().setSchedules(sa);
+
+                schedules.add(sa);
+        });
     }
 }

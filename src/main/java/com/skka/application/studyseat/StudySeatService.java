@@ -32,7 +32,8 @@ public class StudySeatService {
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
         Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatId(studySeatId);
-
+        System.out.println("33 = " + customer);
+        System.out.println("44 = " + studySeat);
         check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
         ;
@@ -42,6 +43,8 @@ public class StudySeatService {
             command.getStartedTime(), command.getEndTime()
         );
 
+        System.out.println("55 = " + customer);
+        System.out.println("66 = " + studySeat);
         studySeatRepository.save(studySeat);
 
         return new CommandReserveSeatResponse(success, studySeatId);

@@ -18,6 +18,7 @@ public class CustomerRepositoryAdapter implements CustomerRepository {
     @Override
     public Customer save(Customer customer) {
         CustomerEntity entity = customer.toCustomerEntity();
+        System.out.println("88 = " + entity);
         jpaRepository.save(entity);
         return entity.toCustomer();
     }
@@ -26,6 +27,7 @@ public class CustomerRepositoryAdapter implements CustomerRepository {
     public Customer findById(long id) {
         CustomerEntity foundEntity = jpaRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("고객을 찾지 못했습니다."));
+        System.out.println("77 = " + foundEntity);
         return foundEntity.toCustomer();
     }
 }
