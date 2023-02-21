@@ -5,8 +5,6 @@ import static com.skka.adapter.common.exception.ErrorType.INVALID_CUSTOMER_NAME;
 import static com.skka.adapter.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
 import static com.skka.adapter.util.Util.require;
 
-import com.skka.adapter.outbound.jpa.customer.CustomerEntity;
-import com.skka.adapter.outbound.jpa.studyseat.schedule.ScheduleEntity;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -62,21 +60,5 @@ public class Customer {
         require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
 
         return new Customer(id, name, email, password, tel, lastModified, createdAt);
-    }
-
-    public CustomerEntity toCustomerEntity() {
-        CustomerEntity customerEntity = CustomerEntity.of(id, name, email, password, tel);
-        schedules.forEach(scheduleDomain -> customerEntity.getSchedules().add(
-            ScheduleEntity.of(
-                scheduleDomain.getId(),
-                scheduleDomain.getCustomer().toCustomerEntity(),
-                scheduleDomain.getStudySeat().toStudySeatEntity(),
-                scheduleDomain.getStartedTime(),
-                scheduleDomain.getEndTime(),
-                scheduleDomain.getState()
-            )
-        ));
-
-        return customerEntity;
     }
 }

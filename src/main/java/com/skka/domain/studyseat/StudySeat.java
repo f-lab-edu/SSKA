@@ -7,7 +7,6 @@ import static com.skka.adapter.util.Util.check;
 import static com.skka.adapter.util.Util.checkTimeDifference;
 import static com.skka.adapter.util.Util.require;
 
-import com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.time.LocalDateTime;
@@ -144,15 +143,5 @@ public class StudySeat {
             checkTimeDifference(changingStartedTime, changingEndTime),
             INVALID_SCHEDULE_BEFORE_A_HOUR)
         ;
-    }
-
-    public StudySeatEntity toStudySeatEntityWithScheduleEntity() {
-        StudySeatEntity studySeatEntity = StudySeatEntity.of(id, seatNumber, occupied);
-        studySeatEntity.setScheduleInEntity(schedules);
-        return studySeatEntity;
-    }
-
-    public StudySeatEntity toStudySeatEntity() {
-        return StudySeatEntity.of(id, seatNumber, occupied);
     }
 }

@@ -6,7 +6,6 @@ import static com.skka.adapter.common.exception.ErrorType.INVALID_SCHEDULE_STUDY
 import static com.skka.adapter.util.Util.checkTimeDifference;
 import static com.skka.adapter.util.Util.require;
 
-import com.skka.adapter.outbound.jpa.studyseat.schedule.ScheduleEntity;
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import java.time.LocalDateTime;

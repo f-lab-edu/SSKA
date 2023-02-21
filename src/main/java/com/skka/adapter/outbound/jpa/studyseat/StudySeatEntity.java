@@ -1,9 +1,13 @@
 package com.skka.adapter.outbound.jpa.studyseat;
 
 import static com.skka.adapter.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
+import static com.skka.adapter.util.EntityConverter.toCustomerEntity;
+import static com.skka.adapter.util.EntityConverter.toStudySeatEntity;
 import static com.skka.adapter.util.Util.require;
 
+import com.skka.adapter.outbound.jpa.customer.CustomerEntity;
 import com.skka.adapter.outbound.jpa.studyseat.schedule.ScheduleEntity;
+import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.util.ArrayList;
@@ -77,10 +81,14 @@ public class StudySeatEntity {
 
     public void setScheduleInEntity(final List<Schedule> schedule) {
         schedule.forEach(domainSchedule -> {
+
+            StudySeatEntity studySeatEntity = toStudySeatEntity(domainSchedule.getStudySeat());
+            CustomerEntity customerEntity = toCustomerEntity(domainSchedule.getCustomer());
+
             ScheduleEntity scheduleEntity = ScheduleEntity.of(
                 domainSchedule.getId(),
-                domainSchedule.getCustomer().toCustomerEntity(),
-                domainSchedule.getStudySeat().toStudySeatEntity(),
+                customerEntity,
+                studySeatEntity,
                 domainSchedule.getStartedTime(),
                 domainSchedule.getEndTime(),
                 domainSchedule.getState()
@@ -91,4 +99,18 @@ public class StudySeatEntity {
             schedules.add(scheduleEntity);
         });
     }
+
+//    private CustomerEntity toCustomerEntity(Customer customer) {
+//        CustomerEntity customerEntity = CustomerEntity.of(
+//            customer.getId(),
+//            customer.getName(),
+//            customer.getEmail(),
+//            customer.getPassword(),
+//            customer.getTel()
+//        );
+//
+//        schedules.forEach(scheduleDomain -> customerEntity.getSchedules().add(scheduleDomain));
+//
+//        return customerEntity;
+//    }
 }

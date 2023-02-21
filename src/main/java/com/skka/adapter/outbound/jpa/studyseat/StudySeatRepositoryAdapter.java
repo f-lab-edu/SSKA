@@ -1,5 +1,7 @@
 package com.skka.adapter.outbound.jpa.studyseat;
 
+import static com.skka.adapter.util.EntityConverter.toStudySeatEntityWithScheduleEntity;
+
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import lombok.Getter;
@@ -15,7 +17,7 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
 
     @Override
     public StudySeat save(StudySeat studySeat) {
-        StudySeatEntity entity = studySeat.toStudySeatEntityWithScheduleEntity();
+        StudySeatEntity entity = toStudySeatEntityWithScheduleEntity(studySeat);
         jpaRepository.save(entity);
         return entity.toStudySeatReturn();
     }

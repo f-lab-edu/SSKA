@@ -1,5 +1,7 @@
 package com.skka.adapter.outbound.jpa.customer;
 
+import static com.skka.adapter.util.EntityConverter.toCustomerEntity;
+
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
 import lombok.Getter;
@@ -15,7 +17,7 @@ public class CustomerRepositoryAdapter implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        CustomerEntity entity = customer.toCustomerEntity();
+        CustomerEntity entity = toCustomerEntity(customer);
         jpaRepository.save(entity);
         return entity.toCustomerReturn();
     }
