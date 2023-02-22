@@ -45,7 +45,7 @@
 	
 ## 🌎 인프라 전체 구성도
 
-![image](https://user-images.githubusercontent.com/70272679/216142657-0af09892-135c-45ec-ad9c-a8abf268c9c5.png)
+![image](https://user-images.githubusercontent.com/70272679/216548097-31f83647-524f-4d90-90f1-bb456604c341.png)
 	
 </div>
 
