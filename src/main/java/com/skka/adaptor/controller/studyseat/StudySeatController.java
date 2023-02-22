@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StudySeatController {
 
-    private final StudySeatService customerService;
+    private final StudySeatService studySeatService;
 
     @PostMapping(value = "/seats/{studySeatId}")
     public ResponseEntity<CommandReserveSeatResponse> reserveSeat(
@@ -38,7 +38,7 @@ public class StudySeatController {
             command.getEndTime()
         );
 
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.reserveSeat(
+        return ResponseEntity.status(HttpStatus.OK).body(studySeatService.reserveSeat(
             commandService,
             studySeatId
         ));
@@ -49,7 +49,7 @@ public class StudySeatController {
         @PathVariable final long studySeatId,
         @PathVariable final long scheduleId
     ) {
-        customerService.extractSchedule(
+        studySeatService.extractSchedule(
             studySeatId,
             scheduleId
         );
@@ -69,7 +69,7 @@ public class StudySeatController {
             command.getChangingEndTime()
         );
 
-        return ResponseEntity.ok(customerService.changeStudyTime(
+        return ResponseEntity.ok(studySeatService.changeStudyTime(
             commandService,
             studySeatId,
             scheduleId
@@ -86,7 +86,7 @@ public class StudySeatController {
             command.getScheduleState()
         );
 
-        return ResponseEntity.ok(customerService.checkoutSchedule(
+        return ResponseEntity.ok(studySeatService.checkoutSchedule(
             commandService, studySeatId, scheduleId
         ));
     }
