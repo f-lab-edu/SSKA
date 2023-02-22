@@ -19,7 +19,6 @@ import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

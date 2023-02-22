@@ -4,8 +4,12 @@ import static com.skka.adapter.util.EntityConverter.toStudySeatEntityWithSchedul
 
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,6 +19,8 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
 
     private final StudySeatJpaRepository jpaRepository;
 
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "10000")})
     @Override
     public StudySeat save(StudySeat studySeat) {
         StudySeatEntity entity = toStudySeatEntityWithScheduleEntity(studySeat);

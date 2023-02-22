@@ -7,7 +7,6 @@ import static com.skka.adapter.util.Util.require;
 
 import com.skka.adapter.outbound.jpa.customer.CustomerEntity;
 import com.skka.adapter.outbound.jpa.studyseat.schedule.ScheduleEntity;
-import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.util.ArrayList;
@@ -99,18 +98,4 @@ public class StudySeatEntity {
             schedules.add(scheduleEntity);
         });
     }
-
-//    private CustomerEntity toCustomerEntity(Customer customer) {
-//        CustomerEntity customerEntity = CustomerEntity.of(
-//            customer.getId(),
-//            customer.getName(),
-//            customer.getEmail(),
-//            customer.getPassword(),
-//            customer.getTel()
-//        );
-//
-//        schedules.forEach(scheduleDomain -> customerEntity.getSchedules().add(scheduleDomain));
-//
-//        return customerEntity;
-//    }
 }
