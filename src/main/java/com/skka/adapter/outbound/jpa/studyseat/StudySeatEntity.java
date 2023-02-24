@@ -99,18 +99,4 @@ public class StudySeatEntity {
             schedules.add(scheduleEntity);
         });
     }
-
-//    private CustomerEntity toCustomerEntity(Customer customer) {
-//        CustomerEntity customerEntity = CustomerEntity.of(
-//            customer.getId(),
-//            customer.getName(),
-//            customer.getEmail(),
-//            customer.getPassword(),
-//            customer.getTel()
-//        );
-//
-//        schedules.forEach(scheduleDomain -> customerEntity.getSchedules().add(scheduleDomain));
-//
-//        return customerEntity;
-//    }
 }
