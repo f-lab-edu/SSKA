@@ -5,10 +5,12 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2
   datasource:
-    url: jdbc:h2:mem:Skka-for-test;MODE=MYSQL;
+    url: jdbc:h2:mem:skka-for-test;MODE=MYSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
     username: sa
     password:
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: validate
@@ -17,7 +19,7 @@ spring:
     open-in-view: false
     properties:
       hibernate:
-        diarect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
         format_sql: true
     database: h2
@@ -26,3 +28,5 @@ spring:
     encoding: UTF-8
     user: sa
     password:
+    driver-class-name: org.h2.Driver
+

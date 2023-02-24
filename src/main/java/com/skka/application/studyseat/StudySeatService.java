@@ -31,7 +31,7 @@ public class StudySeatService {
     @Transactional
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
         Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat studySeat = findByStudySeatId(studySeatId);
+        StudySeat studySeat = findByStudySeatIdForLock(studySeatId);
 
         check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
@@ -51,8 +51,8 @@ public class StudySeatService {
         return customerRepository.findById(customerId);
     }
 
-    private StudySeat findByStudySeatId(final long studySeatId) {
-        return studySeatRepository.findById(studySeatId);
+    private StudySeat findByStudySeatIdForLock(final long studySeatId) {
+        return studySeatRepository.findByIdForLock(studySeatId);
     }
 
     @Transactional
@@ -66,6 +66,10 @@ public class StudySeatService {
         studySeatRepository.save(studySeat);
 
         return new CommandExtractScheduleResponse(success, scheduleId, studySeatId);
+    }
+
+    private StudySeat findByStudySeatId(final long studySeatId) {
+        return studySeatRepository.findById(studySeatId);
     }
 
     @Transactional

@@ -21,6 +21,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,12 @@ import lombok.ToString;
 import org.hibernate.annotations.Where;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity(name = "schedule")
+@Entity
+@Table(name = "schedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"studySeat", "customer"})
-@Where(clause = "state = 'RESERVED' && started_time >= NOW()")
+@Where(clause = "state = 'RESERVED' AND started_time >= NOW()")
 public class ScheduleEntity {
 
     @Id

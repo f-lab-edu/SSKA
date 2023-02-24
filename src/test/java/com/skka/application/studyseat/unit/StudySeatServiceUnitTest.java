@@ -1,4 +1,4 @@
-package com.skka.application.studyseat;
+package com.skka.application.studyseat.unit;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.skka.adapter.common.exception.BadRequestException;
+import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
@@ -28,7 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class StudySeatServiceTest {
+class StudySeatServiceUnitTest {
 
     private CustomerRepository customerRepository = mock(CustomerRepository.class);
     private StudySeatRepository studySeatRepository = mock(StudySeatRepository.class);
@@ -65,7 +67,7 @@ class StudySeatServiceTest {
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
 
-        when(studySeatRepository.findById(studySeatId))
+        when(studySeatRepository.findByIdForLock(studySeatId))
             .thenReturn(STUDY_SEAT);
 
         // then
@@ -93,10 +95,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -116,10 +118,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -139,10 +141,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -162,10 +164,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -185,10 +187,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -208,10 +210,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -231,10 +233,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -254,10 +256,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -277,10 +279,10 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
-            assertThrows(IllegalStateException.class,
+            assertThrows(BadRequestException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
                 "다른 스케쥴과 겹칩니다.");
         }
@@ -319,7 +321,7 @@ class StudySeatServiceTest {
         when(studySeatRepository.findById(studySeatId))
             .thenReturn(STUDY_SEAT);
 
-        assertThrows(IllegalStateException.class,
+        assertThrows(BadRequestException.class,
             () -> studySeatService.extractSchedule(
                 studySeatId, scheduleId)
             , "스케줄이 존재하지 않습니다.");
@@ -346,6 +348,9 @@ class StudySeatServiceTest {
 
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
+
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(STUDY_SEAT);
 
         // then
         CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
@@ -384,7 +389,7 @@ class StudySeatServiceTest {
             .thenReturn(CUSTOMER);
 
         // then
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(BadRequestException.class,
             () -> studySeatService.changeStudyTime(
                 command, studySeatId, scheduleId),
             "이용 시간은 최소 1시간 이상 입니다.");
@@ -414,7 +419,10 @@ class StudySeatServiceTest {
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
 
-        assertThrows(IllegalStateException.class,
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(STUDY_SEAT);
+
+        assertThrows(BadRequestException.class,
             () -> studySeatService.changeStudyTime(
                 command, studySeatId, scheduleId),
             "다른 스케쥴과 겹칩니다.");
@@ -469,7 +477,7 @@ class StudySeatServiceTest {
             .thenReturn(STUDY_SEAT);
 
         // then
-        assertThrows(IllegalStateException.class,
+        assertThrows(BadRequestException.class,
             () -> studySeatService.checkoutSchedule(
                 command,
                 studySeatId,
@@ -496,7 +504,7 @@ class StudySeatServiceTest {
             .thenReturn(STUDY_SEAT);
 
         // then
-        assertThrows(IllegalStateException.class,
+        assertThrows(BadRequestException.class,
             () -> studySeatService.checkoutSchedule(
                 command,
                 studySeatId,

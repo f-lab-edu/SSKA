@@ -31,13 +31,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'junit:junit:4.13.1'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	// h2
-	testRuntimeOnly 'com.h2database:h2'
+	implementation 'com.h2database:h2'
 
 	// mysql
 	implementation 'mysql:mysql-connector-java:8.0.25'

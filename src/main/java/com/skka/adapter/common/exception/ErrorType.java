@@ -26,6 +26,7 @@ public enum ErrorType {
     INVALID_MY_SCHEDULE(4008, "자신의 예약 정보가 아닙니다."),
     INVALID_SCHEDULE_STATE(4009, "잘못된 스케줄 상태 입니다.");
 
+
     private final int code;
     private final String message;
 }
