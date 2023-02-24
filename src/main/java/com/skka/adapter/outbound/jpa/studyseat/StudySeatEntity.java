@@ -1,13 +1,11 @@
 package com.skka.adapter.outbound.jpa.studyseat;
 
 import static com.skka.adapter.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adapter.util.EntityConverter.toCustomerEntity;
-import static com.skka.adapter.util.EntityConverter.toStudySeatEntity;
+import static com.skka.adapter.outbound.jpa.customer.CustomerEntity.toCustomerEntity;
 import static com.skka.adapter.util.Util.require;
 
 import com.skka.adapter.outbound.jpa.customer.CustomerEntity;
 import com.skka.adapter.outbound.jpa.studyseat.schedule.ScheduleEntity;
-import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.schedule.Schedule;
 import java.util.ArrayList;
@@ -98,5 +96,33 @@ public class StudySeatEntity {
 
             schedules.add(scheduleEntity);
         });
+    }
+
+    public static StudySeatEntity toStudySeatEntity(StudySeat studySeat) {
+        return StudySeatEntity.of(
+            studySeat.getId(),
+            studySeat.getSeatNumber(),
+            studySeat.isOccupied()
+        );
+    }
+
+    public static StudySeatEntity toStudySeatEntity(StudySeatEntity studySeatEntity) {
+        return StudySeatEntity.of(
+            studySeatEntity.getId(),
+            studySeatEntity.getSeatNumber(),
+            studySeatEntity.isOccupied()
+        );
+    }
+
+    public static StudySeatEntity toStudySeatEntityWithScheduleEntity(StudySeat studySeat) {
+        StudySeatEntity studySeatEntity = StudySeatEntity.of(
+            studySeat.getId(),
+            studySeat.getSeatNumber(),
+            studySeat.isOccupied()
+        );
+
+        studySeatEntity.setScheduleInEntity(studySeat.getSchedules());
+
+        return studySeatEntity;
     }
 }

@@ -1,6 +1,6 @@
 package com.skka.adapter.outbound.jpa.customer;
 
-import static com.skka.adapter.util.EntityConverter.toCustomerEntity;
+import static com.skka.adapter.outbound.jpa.customer.CustomerEntity.toCustomerEntity;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;

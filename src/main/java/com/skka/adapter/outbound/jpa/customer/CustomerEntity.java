@@ -3,6 +3,7 @@ package com.skka.adapter.outbound.jpa.customer;
 import static com.skka.adapter.common.exception.ErrorType.INVALID_CUSTOMER_EMAIL;
 import static com.skka.adapter.common.exception.ErrorType.INVALID_CUSTOMER_NAME;
 import static com.skka.adapter.common.exception.ErrorType.INVALID_CUSTOMER_TEL;
+import static com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity.toStudySeatEntity;
 import static com.skka.adapter.util.Util.require;
 
 import com.skka.adapter.outbound.jpa.BaseEntity;
@@ -94,5 +95,28 @@ public class CustomerEntity extends BaseEntity {
         ));
 
         return customer;
+    }
+
+    public static CustomerEntity toCustomerEntity(Customer customer) {
+        CustomerEntity customerEntity = CustomerEntity.of(
+            customer.getId(),
+            customer.getName(),
+            customer.getEmail(),
+            customer.getPassword(),
+            customer.getTel()
+        );
+
+        customer.getSchedules().forEach(scheduleDomain -> customerEntity.getSchedules().add(
+            ScheduleEntity.of(
+                scheduleDomain.getId(),
+                customerEntity,
+                toStudySeatEntity(scheduleDomain.getStudySeat()),
+                scheduleDomain.getStartedTime(),
+                scheduleDomain.getEndTime(),
+                scheduleDomain.getState()
+            )
+        ));
+
+        return customerEntity;
     }
 }

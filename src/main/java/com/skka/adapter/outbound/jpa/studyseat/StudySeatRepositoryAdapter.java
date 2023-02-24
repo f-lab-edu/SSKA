@@ -1,6 +1,6 @@
 package com.skka.adapter.outbound.jpa.studyseat;
 
-import static com.skka.adapter.util.EntityConverter.toStudySeatEntityWithScheduleEntity;
+import static com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity.toStudySeatEntityWithScheduleEntity;
 
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
