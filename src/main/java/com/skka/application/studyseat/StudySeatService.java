@@ -30,8 +30,8 @@ public class StudySeatService {
 
     @Transactional
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
-        Customer customer = findByCustomerId(command.getCustomerId());
         StudySeat studySeat = findByStudySeatIdForLock(studySeatId);
+        Customer customer = findByCustomerId(command.getCustomerId());
 
         check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)

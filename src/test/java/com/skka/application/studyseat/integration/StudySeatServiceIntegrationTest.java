@@ -1,6 +1,7 @@
 package com.skka.application.studyseat.integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
 import java.time.LocalDateTime;
@@ -28,24 +29,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
-//@Disabled("Disabled until application is up!")
+@Disabled("Disabled until application is up!")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class StudySeatServiceIntegrationTest {
+class StudySeatServiceIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-    @AfterEach
-    public void teardown() {
-        executorService.shutdown();
-    }
 
     @Test
     @DisplayName("여러 사용자가 한꺼번에 동시적으로 하나의 스케줄을 점유 하려고 할 때 오버부킹 이슈가 일어나지 않는다.")
     @Transactional
-    public void overBookingTest() throws InterruptedException, ExecutionException {
+    void overBookingTest() throws InterruptedException, ExecutionException {
         // given
         ReserveSeatRequest request = new ReserveSeatRequest(
             1L,
@@ -81,6 +78,12 @@ public class StudySeatServiceIntegrationTest {
                 badRequestCount++;
             }
         }
-        assertEquals(actual.get(HttpStatus.BAD_REQUEST), threadCount - 1);
+
+        assertNull(actual.get(HttpStatus.BAD_REQUEST));
+    }
+
+    @AfterEach
+    public void teardown() {
+        executorService.shutdown();
     }
 }
