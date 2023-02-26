@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: deploy
+    active: dev
 
   jpa:
     hibernate:
@@ -59,11 +59,16 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    master:
+      jdbcUrl: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      jdbcUrl: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     user: ${DB_USERNAME}
     password: ${DB_PASSWORD}

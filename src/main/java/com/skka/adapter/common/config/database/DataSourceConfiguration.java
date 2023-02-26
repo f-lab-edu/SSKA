@@ -1,4 +1,4 @@
-package com.skka.adaptor.config;
+package com.skka.adapter.common.config.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;

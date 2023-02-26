@@ -1,4 +1,4 @@
-package com.skka.adaptor.config;
+package com.skka.adapter.common.config.database;
 
 import java.util.Objects;
 import org.slf4j.Logger;

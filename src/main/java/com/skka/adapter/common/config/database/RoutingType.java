@@ -1,4 +1,4 @@
-package com.skka.adaptor.config;
+package com.skka.adapter.common.config.database;
 
 public enum RoutingType {
     WRITE,
