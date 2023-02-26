@@ -6,9 +6,7 @@ import javax.persistence.QueryHint;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.QueryHints;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface StudySeatJpaLockRepository extends JpaRepository<StudySeatEntity, Long> {
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
