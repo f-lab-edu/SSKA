@@ -45,7 +45,7 @@
 	
 ## 🌎 인프라 전체 구성도
 
-![image](https://user-images.githubusercontent.com/70272679/216142657-0af09892-135c-45ec-ad9c-a8abf268c9c5.png)
+![image](https://user-images.githubusercontent.com/70272679/216548097-31f83647-524f-4d90-90f1-bb456604c341.png)
 	
 </div>
 
@@ -61,13 +61,14 @@
 | 내용             | 내용 링크                                                                |
 | ----------------- | ------------------------------------------------------------------ |
 | **API 문서** | https://taewoongjung.github.io/SKKA_RestDocs.github.io/ |
-| 유즈 케이스 | https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case |
-| 프로토타입 | https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType |
-| 브랜치 전략 | https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow |
-| 트러블 슈팅 | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
-| 예약 시스템 9가지 경우의 수 검증 | https://github.com/f-lab-edu/SSKA/wiki/05.-Validation |
-| ER Diagram | https://github.com/f-lab-edu/SSKA/wiki/08.-ER-Diagram |
-| 프로젝트 소식 | https://github.com/f-lab-edu/SSKA/wiki/09.-%F0%9F%93%AE-Good-News |
+| **유즈 케이스** | https://github.com/f-lab-edu/SSKA/wiki/01.-Use-Case |
+| **프로토타입** | https://github.com/f-lab-edu/SSKA/wiki/02.-ProtoType |
+| **브랜치 전략** | https://github.com/f-lab-edu/SSKA/wiki/03.-Branch-Strategy#git-flow |
+| **트러블 슈팅** | https://github.com/f-lab-edu/SSKA/wiki/04.-Trouble-Shooting |
+| **예약 시스템 9가지 경우의 수 검증** | https://github.com/f-lab-edu/SSKA/wiki/05.-Validation |
+| **인프라 구성기** | https://github.com/f-lab-edu/SSKA/wiki/06.-Infrastructure-building |
+| **ER Diagram** | https://github.com/f-lab-edu/SSKA/wiki/08.-ER-Diagram |
+| **프로젝트 소식** | https://github.com/f-lab-edu/SSKA/wiki/09.-%F0%9F%93%AE-Good-News |
 
 </div>
 

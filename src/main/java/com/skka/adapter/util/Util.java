@@ -1,6 +1,6 @@
-package com.skka.adaptor.util;
+package com.skka.adapter.util;
 
-import com.skka.adaptor.common.exception.ErrorType;
+import com.skka.adapter.common.exception.ErrorType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

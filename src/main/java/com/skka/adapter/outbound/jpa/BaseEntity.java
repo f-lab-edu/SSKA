@@ -1,4 +1,4 @@
-package com.skka.adaptor.common.domain;
+package com.skka.adapter.outbound.jpa;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;

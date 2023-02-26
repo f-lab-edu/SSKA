@@ -18,7 +18,9 @@ class CustomerTest {
             CUSTOMER.getName(),
             CUSTOMER.getEmail(),
             CUSTOMER.getPassword(),
-            CUSTOMER.getTel()
+            CUSTOMER.getTel(),
+            CUSTOMER.getLastModified(),
+            CUSTOMER.getCreatedAt()
         ));
     }
 
@@ -26,7 +28,14 @@ class CustomerTest {
     @Test
     void test2() {
         assertThatThrownBy(() -> Customer.of (
-            CUSTOMER.getId(), null, CUSTOMER.getEmail(), CUSTOMER.getPassword(), CUSTOMER.getTel()))
+            CUSTOMER.getId(),
+            null,
+            CUSTOMER.getEmail(),
+            CUSTOMER.getPassword(),
+            CUSTOMER.getTel(),
+            CUSTOMER.getLastModified(),
+            CUSTOMER.getCreatedAt()
+        ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 이름입니다.");
     }
@@ -35,7 +44,14 @@ class CustomerTest {
     @Test
     void test3() {
         assertThatThrownBy(() -> Customer.of (
-            CUSTOMER.getId(), CUSTOMER.getName(), null, CUSTOMER.getPassword(), CUSTOMER.getTel()))
+            CUSTOMER.getId(),
+            CUSTOMER.getName(),
+            null,
+            CUSTOMER.getPassword(),
+            CUSTOMER.getTel(),
+            CUSTOMER.getLastModified(),
+            CUSTOMER.getCreatedAt()
+        ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 이메일입니다.");
     }
@@ -44,7 +60,14 @@ class CustomerTest {
     @Test
     void test4() {
         assertThatThrownBy(() -> Customer.of (
-            CUSTOMER.getId(), CUSTOMER.getName(), CUSTOMER.getEmail(), CUSTOMER.getPassword(), null))
+            CUSTOMER.getId(),
+            CUSTOMER.getName(),
+            CUSTOMER.getEmail(),
+            CUSTOMER.getPassword(),
+            null,
+            CUSTOMER.getLastModified(),
+            CUSTOMER.getCreatedAt()
+        ))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("올바르지 않은 전화번호입니다.");
     }

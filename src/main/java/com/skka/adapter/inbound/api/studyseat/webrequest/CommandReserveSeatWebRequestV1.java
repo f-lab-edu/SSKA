@@ -1,4 +1,4 @@
-package com.skka.adaptor.controller.studyseat.webrequest;
+package com.skka.adapter.inbound.api.studyseat.webrequest;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
