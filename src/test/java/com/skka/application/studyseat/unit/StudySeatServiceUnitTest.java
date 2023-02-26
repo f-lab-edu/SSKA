@@ -1,4 +1,4 @@
-package com.skka.application.studyseat;
+package com.skka.application.studyseat.unit;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
@@ -19,7 +20,6 @@ import com.skka.application.studyseat.response.CommandReserveSeatResponse;
 import com.skka.domain.customer.repository.CustomerRepository;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class StudySeatServiceTest {
+class StudySeatServiceUnitTest {
 
     private CustomerRepository customerRepository = mock(CustomerRepository.class);
     private StudySeatRepository studySeatRepository = mock(StudySeatRepository.class);
@@ -66,7 +66,7 @@ class StudySeatServiceTest {
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
 
-        when(studySeatRepository.findById(studySeatId))
+        when(studySeatRepository.findByIdForLock(studySeatId))
             .thenReturn(STUDY_SEAT);
 
         // then
@@ -94,7 +94,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -117,7 +117,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -140,7 +140,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -163,7 +163,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -186,7 +186,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -209,7 +209,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -232,7 +232,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -255,7 +255,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -278,7 +278,7 @@ class StudySeatServiceTest {
             when(customerRepository.findById(command.getCustomerId()))
                 .thenReturn(CUSTOMER);
 
-            when(studySeatRepository.findById(studySeatId))
+            when(studySeatRepository.findByIdForLock(studySeatId))
                 .thenReturn(STUDY_SEAT);
 
             assertThrows(IllegalStateException.class,
@@ -348,6 +348,9 @@ class StudySeatServiceTest {
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
 
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(STUDY_SEAT);
+
         // then
         CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
             command, studySeatId, scheduleId);
@@ -414,6 +417,9 @@ class StudySeatServiceTest {
 
         when(customerRepository.findById(command.getCustomerId()))
             .thenReturn(CUSTOMER);
+
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(STUDY_SEAT);
 
         assertThrows(IllegalStateException.class,
             () -> studySeatService.changeStudyTime(
