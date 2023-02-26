@@ -1,4 +1,4 @@
-package com.skka.adaptor.common.exception;
+package com.skka.adapter.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

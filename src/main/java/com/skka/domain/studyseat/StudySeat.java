@@ -1,11 +1,11 @@
 package com.skka.domain.studyseat;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
-import static com.skka.adaptor.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
-import static com.skka.adaptor.util.Util.check;
-import static com.skka.adaptor.util.Util.checkTimeDifference;
-import static com.skka.adaptor.util.Util.require;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_SCHEDULE_BEFORE_A_HOUR;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_STUDY_SEAT_SEAT_NUMBER;
+import static com.skka.adapter.common.exception.ErrorType.SCHEDULE_NOT_EXISTED;
+import static com.skka.adapter.util.Util.check;
+import static com.skka.adapter.util.Util.checkTimeDifference;
+import static com.skka.adapter.util.Util.require;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.studyseat.schedule.Schedule;
@@ -13,32 +13,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
-@Entity
-@Table(name = "study_seat")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 @Getter
+@ToString
+@RequiredArgsConstructor
 public class StudySeat {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String seatNumber;
     private boolean occupied;
-
-    @OneToMany(mappedBy = "studySeat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Schedule> schedules = new ArrayList<>();
 
     private StudySeat(long id, String seatNumber, boolean occupied) {

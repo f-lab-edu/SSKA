@@ -1,14 +1,13 @@
 package com.skka.domain.studyseat.schedule;
 
-import static com.skka.adaptor.common.exception.ErrorType.INVALID_SCHEDULE_STATE;
+import static com.skka.adapter.common.exception.ErrorType.INVALID_SCHEDULE_STATE;
 
 import java.util.Arrays;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum ScheduleState {
     RESERVED("reserve"),
     CHECKED_OUT("check-out"),
