@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: deploy
+    active: dev
 
   jpa:
     hibernate:
@@ -35,10 +35,16 @@ spring:
     activate:
       on-profile: deploy
   datasource:
-    url: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
-    username: ${CLOUD_DB_USERNAME}
-    password: ${CLOUD_DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    master:
+      jdbcUrl: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+      username: ${CLOUD_DB_USERNAME}
+      password: ${CLOUD_DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      jdbcUrl: jdbc:mysql://db-fddqp-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+      username: ${CLOUD_DB_USERNAME}
+      password: ${CLOUD_DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
   flyway:
     user: ${CLOUD_DB_USERNAME}
@@ -53,11 +59,16 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    master:
+      jdbcUrl: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    slave:
+      jdbcUrl: jdbc:mysql://localhost:3308/skka?characterEncoding=utf8
+      username: ${DB_USERNAME}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
   flyway:
     user: ${DB_USERNAME}
     password: ${DB_PASSWORD}
