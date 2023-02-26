@@ -43,11 +43,6 @@ spring:
       password: ${CLOUD_DB_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
 
-    hikari:
-      maximum-pool-size: 30
-      auto-commit: false
-      connection-init-sql: SELECT 1
-
   flyway:
     user: ${CLOUD_DB_USERNAME}
     password: ${CLOUD_DB_PASSWORD}
