@@ -49,7 +49,7 @@ spring:
   flyway:
     user: ${CLOUD_DB_USERNAME}
     password: ${CLOUD_DB_PASSWORD}
-    url: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+    url: jdbc:mysql://db-ffarb-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 ---
