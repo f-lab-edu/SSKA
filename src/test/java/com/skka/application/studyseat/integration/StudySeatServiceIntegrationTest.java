@@ -86,21 +86,21 @@ class StudySeatServiceIntegrationTest {
         Schedule actual = getSchedulesBy(foundStudySeat);
 
         // then
-//        assertThat(actual).isNotNull();
-//        assertThat(actualSize).isEqualTo(1);
-//        assertThat(actual.getId()).isEqualTo(1L);
-//
-//        Customer actualCustomer = actual.getCustomer();
-//        assertThat(actualCustomer.getId()).isEqualTo(1L);
-//        assertThat(actualCustomer.getName()).isEqualTo("용용");
-//        assertThat(actualCustomer.getEmail()).isEqualTo("yongyong@naver.com");
-//        assertThat(actualCustomer.getTel()).isEqualTo("010-1111-7777");
-//
-//        StudySeat actualStudySeat = actual.getStudySeat();
-//        assertThat(actualStudySeat.getId()).isEqualTo(2L);
-//        assertThat(actualStudySeat.getSeatNumber()).isEqualTo("2");
-//        assertThat(actual.getStartedTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 13, 10));
-//        assertThat(actual.getEndTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 17, 10));
+        assertThat(actual).isNotNull();
+        assertThat(actualSize).isEqualTo(1);
+        assertThat(actual.getId()).isEqualTo(1L);
+
+        Customer actualCustomer = actual.getCustomer();
+        assertThat(actualCustomer.getId()).isEqualTo(1L);
+        assertThat(actualCustomer.getName()).isEqualTo("용용");
+        assertThat(actualCustomer.getEmail()).isEqualTo("yongyong@naver.com");
+        assertThat(actualCustomer.getTel()).isEqualTo("010-1111-7777");
+
+        StudySeat actualStudySeat = actual.getStudySeat();
+        assertThat(actualStudySeat.getId()).isEqualTo(2L);
+        assertThat(actualStudySeat.getSeatNumber()).isEqualTo("2");
+        assertThat(actual.getStartedTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 13, 10));
+        assertThat(actual.getEndTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 17, 10));
     }
 
     private Integer getSizeBy(Optional<StudySeat> studySeatOptionalSeat) {
