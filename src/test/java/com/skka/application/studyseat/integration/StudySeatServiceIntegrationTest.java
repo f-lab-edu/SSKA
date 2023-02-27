@@ -31,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DisplayName("여러 사용자가 한꺼번에 동시적으로 하나의 스케줄을 점유 하려고 할 때")
 class StudySeatServiceIntegrationTest {
 
     @Autowired
@@ -51,7 +52,7 @@ class StudySeatServiceIntegrationTest {
 
 
     @Test
-    @DisplayName("여러 사용자가 한꺼번에 동시적으로 하나의 스케줄을 점유 하려고 할 때 오버부킹 이슈가 일어나지 않는다.")
+    @DisplayName("오버부킹 이슈가 일어나지 않는다.")
     @Transactional
     void overBookingTest() throws InterruptedException, URISyntaxException {
         // given
