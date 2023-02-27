@@ -36,12 +36,12 @@ spring:
       on-profile: deploy
   datasource:
     master:
-      jdbcUrl: jdbc:mysql://db-fcibo-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+      jdbcUrl: jdbc:mysql://db-ffarb-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
       username: ${CLOUD_DB_USERNAME}
       password: ${CLOUD_DB_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
     slave:
-      jdbcUrl: jdbc:mysql://db-fddqp-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
+      jdbcUrl: jdbc:mysql://db-ffaua-kr.vpc-pub-cdb.ntruss.com/skka?characterEncoding=utf8
       username: ${CLOUD_DB_USERNAME}
       password: ${CLOUD_DB_PASSWORD}
       driver-class-name: com.mysql.cj.jdbc.Driver
