@@ -39,7 +39,6 @@ class StudySeatServiceIntegrationTest {
     @Autowired
     private StudySeatRepository studySeatRepository;
 
-
     @LocalServerPort
     int randomServerPort;
 
@@ -83,10 +82,12 @@ class StudySeatServiceIntegrationTest {
 
         Optional<StudySeat> foundStudySeat = studySeatRepository.findById(studySeatId);
 
+        int actualSize = getSizeBy(foundStudySeat);
         Schedule actual = getSchedulesBy(foundStudySeat);
 
         // then
         assertThat(actual).isNotNull();
+        assertThat(actualSize).isEqualTo(1);
         assertThat(actual.getId()).isEqualTo(1L);
 
         Customer actualCustomer = actual.getCustomer();
@@ -100,6 +101,12 @@ class StudySeatServiceIntegrationTest {
         assertThat(actualStudySeat.getSeatNumber()).isEqualTo("2");
         assertThat(actual.getStartedTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 13, 10));
         assertThat(actual.getEndTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 17, 10));
+    }
+
+    private Integer getSizeBy(Optional<StudySeat> studySeatOptionalSeat) {
+        return studySeatOptionalSeat
+            .map(seat -> seat.getSchedules().size())
+            .orElse(null);
     }
 
     private Schedule getSchedulesBy(Optional<StudySeat> studySeatOptionalSeat) {
