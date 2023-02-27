@@ -48,11 +48,13 @@ public class StudySeatService {
     }
 
     private Customer findByCustomerId(final long customerId) {
-        return customerRepository.findById(customerId);
+        return customerRepository.findById(customerId)
+            .orElseThrow(() -> new IllegalArgumentException("고객을 찾지 못했습니다."));
     }
 
     private StudySeat findByStudySeatIdForLock(final long studySeatId) {
-        return studySeatRepository.findByIdForLock(studySeatId);
+        return studySeatRepository.findByIdForLock(studySeatId)
+            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
     @Transactional
@@ -69,7 +71,8 @@ public class StudySeatService {
     }
 
     private StudySeat findByStudySeatId(final long studySeatId) {
-        return studySeatRepository.findById(studySeatId);
+        return studySeatRepository.findById(studySeatId)
+            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
     @Transactional

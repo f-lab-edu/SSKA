@@ -4,6 +4,7 @@ import static com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity.toStudySea
 
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -25,16 +26,16 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
     }
 
     @Override
-    public StudySeat findById(long id) {
+    public Optional<StudySeat> findById(long id) {
         StudySeatEntity foundEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
-        return foundEntity.toStudySeatReturn();
+            .orElseThrow(() -> null);
+        return Optional.ofNullable(foundEntity.toStudySeatReturn());
     }
 
     @Override
-    public StudySeat findByIdForLock(long id) {
+    public Optional<StudySeat> findByIdForLock(long id) {
         StudySeatEntity foundEntity = studySeatJpaLockRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
-        return foundEntity.toStudySeatReturn();
+            .orElseThrow(() -> null); // new IllegalArgumentException("좌석을 찾지 못했습니다.")
+        return Optional.ofNullable(foundEntity.toStudySeatReturn());
     }
 }

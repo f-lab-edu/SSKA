@@ -1,48 +1,60 @@
 package com.skka.application.studyseat.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
+import com.skka.domain.customer.Customer;
+import com.skka.domain.studyseat.StudySeat;
+import com.skka.domain.studyseat.repository.StudySeatRepository;
+import com.skka.domain.studyseat.schedule.Schedule;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
-@Disabled("Disabled until application is up!")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StudySeatServiceIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
+    @Autowired
+    private StudySeatRepository studySeatRepository;
+
+
+    @LocalServerPort
+    int randomServerPort;
+
+    private ExecutorService executorService;
+
+    @BeforeEach
+    void init() {
+        executorService = Executors.newFixedThreadPool(5);
+    }
 
 
     @Test
     @DisplayName("여러 사용자가 한꺼번에 동시적으로 하나의 스케줄을 점유 하려고 할 때 오버부킹 이슈가 일어나지 않는다.")
     @Transactional
-    void overBookingTest() throws InterruptedException, ExecutionException {
+    void overBookingTest() throws InterruptedException, URISyntaxException {
         // given
         ReserveSeatRequest request = new ReserveSeatRequest(
             1L,
@@ -52,34 +64,48 @@ class StudySeatServiceIntegrationTest {
 
         long studySeatId = 2L;
 
-        List<Callable<ResponseEntity<String>>> tasks = new ArrayList<>();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ReserveSeatRequest> httpEntity = new HttpEntity<>(request, headers);
 
+        final String baseUrl = "http://localhost:"+ randomServerPort + "/seats/" + studySeatId;
+        URI uri = new URI(baseUrl);
+
         int threadCount = 5;
+        List<Callable<ResponseEntity<String>>> tasks = new ArrayList<>();
 
         // when
         for (int i = 0; i < threadCount; i++) {
-            tasks.add(() -> restTemplate.exchange("http://localhost:8080/seats/" + studySeatId, HttpMethod.POST, httpEntity, String.class));
+            tasks.add(() -> restTemplate.postForEntity(uri, httpEntity, String.class));
         }
 
-        List<Future<ResponseEntity<String>>> results = executorService.invokeAll(tasks);
+        executorService.invokeAll(tasks);
+
+        Optional<StudySeat> foundStudySeat = studySeatRepository.findById(studySeatId);
+
+        Schedule actual = getSchedulesBy(foundStudySeat);
 
         // then
-        Map<HttpStatus, Integer> actual = new HashMap<>();
+        assertThat(actual).isNotNull();
+        assertThat(actual.getId()).isEqualTo(1L);
 
-        int badRequestCount = 1;
-        for (Future<ResponseEntity<String>> result : results) {
-            ResponseEntity<String> response = result.get();
-            if (HttpStatus.BAD_REQUEST.equals(response.getStatusCode())) {
-                actual.put(HttpStatus.BAD_REQUEST, badRequestCount);
-                badRequestCount++;
-            }
-        }
+        Customer actualCustomer = actual.getCustomer();
+        assertThat(actualCustomer.getId()).isEqualTo(1L);
+        assertThat(actualCustomer.getName()).isEqualTo("용용");
+        assertThat(actualCustomer.getEmail()).isEqualTo("yongyong@naver.com");
+        assertThat(actualCustomer.getTel()).isEqualTo("010-1111-7777");
 
-        assertNull(actual.get(HttpStatus.BAD_REQUEST));
+        StudySeat actualStudySeat = actual.getStudySeat();
+        assertThat(actualStudySeat.getId()).isEqualTo(2L);
+        assertThat(actualStudySeat.getSeatNumber()).isEqualTo("2");
+        assertThat(actual.getStartedTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 13, 10));
+        assertThat(actual.getEndTime()).isEqualTo(LocalDateTime.of(2023, 5, 10, 17, 10));
+    }
+
+    private Schedule getSchedulesBy(Optional<StudySeat> studySeatOptionalSeat) {
+        return studySeatOptionalSeat
+            .map(seat -> seat.getSchedules().get(0))
+            .orElse(null);
     }
 
     @AfterEach

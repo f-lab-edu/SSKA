@@ -1,9 +1,11 @@
 package com.skka.adapter.outbound.jpa.customer;
 
 import static com.skka.adapter.outbound.jpa.customer.CustomerEntity.toCustomerEntity;
+import static java.util.Optional.empty;
 
 import com.skka.domain.customer.Customer;
 import com.skka.domain.customer.repository.CustomerRepository;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -23,9 +25,9 @@ public class CustomerRepositoryAdapter implements CustomerRepository {
     }
 
     @Override
-    public Customer findById(long id) {
+    public Optional<Customer> findById(long id) {
         CustomerEntity foundEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("고객을 찾지 못했습니다."));
-        return foundEntity.toCustomerReturn();
+            .orElseThrow(() -> null); // new IllegalArgumentException("고객을 찾지 못했습니다.")
+        return Optional.ofNullable(foundEntity.toCustomerReturn());
     }
 }

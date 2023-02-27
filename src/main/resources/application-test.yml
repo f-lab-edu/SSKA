@@ -6,18 +6,18 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:mem:Skka-for-test;MODE=MYSQL;
+    url: jdbc:h2:mem:skka;MODE=MYSQL;
     username: sa
     password:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     open-in-view: false
     properties:
       hibernate:
-        diarect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
         format_sql: true
     database: h2
