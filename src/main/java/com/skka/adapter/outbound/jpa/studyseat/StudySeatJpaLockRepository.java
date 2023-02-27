@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.QueryHints;
 public interface StudySeatJpaLockRepository extends JpaRepository<StudySeatEntity, Long> {
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "10000")})
+    @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "3000")})
     Optional<StudySeatEntity> findById(long id);
 }
