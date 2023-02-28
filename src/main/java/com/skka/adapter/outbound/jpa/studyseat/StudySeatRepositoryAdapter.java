@@ -27,15 +27,13 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
 
     @Override
     public Optional<StudySeat> findById(long id) {
-        StudySeatEntity foundEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> null);
-        return Optional.ofNullable(foundEntity.toStudySeatReturn());
+        return jpaRepository.findById(id)
+            .map(StudySeatEntity::toStudySeatReturn);
     }
 
     @Override
     public Optional<StudySeat> findByIdForLock(long id) {
-        StudySeatEntity foundEntity = studySeatJpaLockRepository.findById(id)
-            .orElseThrow(() -> null); // new IllegalArgumentException("좌석을 찾지 못했습니다.")
-        return Optional.ofNullable(foundEntity.toStudySeatReturn());
+        return studySeatJpaLockRepository.findById(id)
+            .map(StudySeatEntity::toStudySeatReturn);
     }
 }
