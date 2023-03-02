@@ -68,7 +68,7 @@ class StudySeatServiceIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<ReserveSeatRequest> httpEntity = new HttpEntity<>(request, headers);
 
-        final String baseUrl = "http://localhost:"+ randomServerPort + "/seats/" + studySeatId;
+        final String baseUrl = "/seats/" + studySeatId;
         URI uri = new URI(baseUrl);
 
         int threadCount = 5;
