@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -75,10 +76,10 @@ class StudySeatServiceIntegrationTest {
         List<Callable<ResponseEntity<String>>> tasks = new ArrayList<>();
 
         // when
-        for (int i = 0; i < threadCount; i++) {
-            tasks.add(() -> restTemplate.postForEntity(uri, httpEntity, String.class));
-        }
-
+        IntStream.range(0, threadCount)
+            .mapToObj(i -> executorService.submit(() -> restTemplate.postForEntity(uri, httpEntity, String.class)))
+            .forEach(future -> tasks.add(future::get));
+        
         executorService.invokeAll(tasks);
 
         Optional<StudySeat> foundStudySeat = studySeatRepository.findById(studySeatId);

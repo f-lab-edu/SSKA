@@ -65,10 +65,10 @@ class StudySeatServiceUnitTest {
 
         // when
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+            .thenReturn(Optional.of(CUSTOMER));
 
         when(studySeatRepository.findByIdForLock(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandReserveSeatResponse actual = studySeatService.reserveSeat(command, studySeatId);
@@ -93,10 +93,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -116,10 +116,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -139,10 +139,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -162,10 +162,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -185,10 +185,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -208,10 +208,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -231,10 +231,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -254,10 +254,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -277,10 +277,10 @@ class StudySeatServiceUnitTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(Optional.ofNullable(CUSTOMER));
+                .thenReturn(Optional.of(CUSTOMER));
 
             when(studySeatRepository.findByIdForLock(studySeatId))
-                .thenReturn(Optional.ofNullable(STUDY_SEAT));
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -298,7 +298,7 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(extractingStudySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandExtractScheduleResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
@@ -319,7 +319,7 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
             () -> studySeatService.extractSchedule(
@@ -344,13 +344,13 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+            .thenReturn(Optional.of(CUSTOMER));
 
         when(studySeatRepository.findByIdForLock(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
@@ -383,10 +383,10 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+            .thenReturn(Optional.of(CUSTOMER));
 
         // then
         assertThrows(IllegalArgumentException.class,
@@ -414,13 +414,13 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(Optional.ofNullable(CUSTOMER));
+            .thenReturn(Optional.of(CUSTOMER));
 
         when(studySeatRepository.findByIdForLock(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
             () -> studySeatService.changeStudyTime(
@@ -445,7 +445,7 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandCheckOutScheduleResponse actual = studySeatService.checkoutSchedule(
@@ -474,7 +474,7 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         assertThrows(IllegalStateException.class,
@@ -501,7 +501,7 @@ class StudySeatServiceUnitTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(Optional.ofNullable(STUDY_SEAT));
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         assertThrows(IllegalStateException.class,
