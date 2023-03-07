@@ -1,5 +1,8 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=200&section=header&text=SKKA&fontSize=90&animation=twinkling)
 
+
+<br>
+
 <div align="center">
 	
 ## 프로젝트 설명
@@ -86,5 +89,8 @@
 | **프로젝트 소식** | https://github.com/f-lab-edu/SSKA/wiki/09.-%F0%9F%93%AE-Good-News |
 
 </div>
+
+
+<br>
 
 ![footer](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=200&section=footer)
