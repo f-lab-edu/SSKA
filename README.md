@@ -9,7 +9,7 @@
 
 **SKKA**는 말 그대로 '스카' = '스'터디 + '카'페 이므로 스터디 카페를 뜻합니다.
 
-[프론트](https://github.com/Taewoongjung/skka-front)와 상응하는 백앤드 프로젝트 입니다.
+[프론트](https://github.com/Taewoongjung/skka-front)와 상응하는 RESTful API 백앤드 프로젝트 입니다.
 
 </div>
 
