@@ -16,20 +16,6 @@
 <br><br>
 
 ---------------------------------------  
-
-<br><br>  
-
-## 🖥️ Front
-
-![image](https://user-images.githubusercontent.com/70272679/224104061-f8f9dd59-4d88-4199-936f-9c32d4c8a795.png)
-
-![image](https://user-images.githubusercontent.com/70272679/224104099-6d154995-0acf-44e3-8703-079e81f4bac6.png)
-
-레포지토리 링크: https://github.com/Taewoongjung/skka-front
-
-<br><br>
-
----------------------------------------  
 <br><br>
 
 <div align="center">
@@ -80,8 +66,21 @@
 	
 </div>
 
----------------------------------------  
+---------------------------------------   
 
+<br><br>  
+
+## 🖥️ Front
+
+![image](https://user-images.githubusercontent.com/70272679/224104061-f8f9dd59-4d88-4199-936f-9c32d4c8a795.png)
+
+![image](https://user-images.githubusercontent.com/70272679/224104099-6d154995-0acf-44e3-8703-079e81f4bac6.png)
+
+레포지토리 링크: https://github.com/Taewoongjung/skka-front
+
+<br><br>
+
+---------------------------------------   
 
 <br><br>
 	
