@@ -29,8 +29,8 @@ public class StudySeatService {
 
     @Transactional
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
+        StudySeat studySeat = findByStudySeatIdForLock(studySeatId);
         Customer customer = findByCustomerId(command.getCustomerId());
-        StudySeat studySeat = findByStudySeatId(studySeatId);
 
         check(studySeat.isReservable(command.getStartedTime(), command.getEndTime())
             , INVALID_SCHEDULE_RESERVATION_ALREADY_OCCUPIED)
@@ -47,11 +47,13 @@ public class StudySeatService {
     }
 
     private Customer findByCustomerId(final long customerId) {
-        return customerRepository.findById(customerId);
+        return customerRepository.findById(customerId)
+            .orElseThrow(() -> new IllegalArgumentException("고객을 찾지 못했습니다."));
     }
 
-    private StudySeat findByStudySeatId(final long studySeatId) {
-        return studySeatRepository.findById(studySeatId);
+    private StudySeat findByStudySeatIdForLock(final long studySeatId) {
+        return studySeatRepository.findByIdForLock(studySeatId)
+            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
     @Transactional
@@ -65,6 +67,11 @@ public class StudySeatService {
         studySeatRepository.save(studySeat);
 
         return new CommandExtractScheduleResponse(success, scheduleId, studySeatId);
+    }
+
+    private StudySeat findByStudySeatId(final long studySeatId) {
+        return studySeatRepository.findById(studySeatId)
+            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
     }
 
     @Transactional

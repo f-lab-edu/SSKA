@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles:
-    active: deploy
+    active: dev
 
   jpa:
     hibernate:

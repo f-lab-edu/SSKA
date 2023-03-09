@@ -4,6 +4,7 @@ import static com.skka.adapter.outbound.jpa.studyseat.StudySeatEntity.toStudySea
 
 import com.skka.domain.studyseat.StudySeat;
 import com.skka.domain.studyseat.repository.StudySeatRepository;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,8 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
 
     private final StudySeatJpaRepository jpaRepository;
 
+    private final StudySeatJpaLockRepository studySeatJpaLockRepository;
+
     @Override
     public StudySeat save(StudySeat studySeat) {
         StudySeatEntity entity = toStudySeatEntityWithScheduleEntity(studySeat);
@@ -23,9 +26,14 @@ public class StudySeatRepositoryAdapter implements StudySeatRepository {
     }
 
     @Override
-    public StudySeat findById(long id) {
-        StudySeatEntity foundEntity = jpaRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("좌석을 찾지 못했습니다."));
-        return foundEntity.toStudySeatReturn();
+    public Optional<StudySeat> findById(long id) {
+        return jpaRepository.findById(id)
+            .map(StudySeatEntity::toStudySeatReturn);
+    }
+
+    @Override
+    public Optional<StudySeat> findByIdForLock(long id) {
+        return studySeatJpaLockRepository.findById(id)
+            .map(StudySeatEntity::toStudySeatReturn);
     }
 }

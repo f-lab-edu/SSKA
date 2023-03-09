@@ -32,7 +32,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(exclude = {"studySeat", "customer"})
-@Where(clause = "state = 'RESERVED' && started_time >= NOW()")
+@Where(clause = "state = 'RESERVED' AND started_time >= NOW()")
 public class ScheduleEntity {
 
     @Id

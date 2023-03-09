@@ -1,4 +1,4 @@
-package com.skka.application.studyseat;
+package com.skka.application.studyseat.unit;
 
 import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static com.skka.schedule.ScheduleFixture.SCHEDULE;
@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.skka.application.studyseat.StudySeatService;
 import com.skka.application.studyseat.dto.ChangeStudyTimeRequest;
 import com.skka.application.studyseat.dto.CheckoutScheduleRequest;
 import com.skka.application.studyseat.dto.ReserveSeatRequest;
@@ -29,7 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class StudySeatServiceTest {
+class StudySeatServiceUnitTest {
 
     private CustomerRepository customerRepository = mock(CustomerRepository.class);
     private StudySeatRepository studySeatRepository = mock(StudySeatRepository.class);
@@ -64,10 +65,10 @@ class StudySeatServiceTest {
 
         // when
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(CUSTOMER);
+            .thenReturn(Optional.of(CUSTOMER));
 
-        when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandReserveSeatResponse actual = studySeatService.reserveSeat(command, studySeatId);
@@ -92,10 +93,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -115,10 +116,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -138,10 +139,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -161,10 +162,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -184,10 +185,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -207,10 +208,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -230,10 +231,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -253,10 +254,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -276,10 +277,10 @@ class StudySeatServiceTest {
             long studySeatId = 1L;
 
             when(customerRepository.findById(command.getCustomerId()))
-                .thenReturn(CUSTOMER);
+                .thenReturn(Optional.of(CUSTOMER));
 
-            when(studySeatRepository.findById(studySeatId))
-                .thenReturn(STUDY_SEAT);
+            when(studySeatRepository.findByIdForLock(studySeatId))
+                .thenReturn(Optional.of(STUDY_SEAT));
 
             assertThrows(IllegalStateException.class,
                 () -> studySeatService.reserveSeat(command, studySeatId),
@@ -297,7 +298,7 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(extractingStudySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandExtractScheduleResponse actual = studySeatService.extractSchedule(extractingStudySeatId, scheduleId);
@@ -318,7 +319,7 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
             () -> studySeatService.extractSchedule(
@@ -343,10 +344,13 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(CUSTOMER);
+            .thenReturn(Optional.of(CUSTOMER));
+
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandChangeStudyTimeResponse actual = studySeatService.changeStudyTime(
@@ -379,10 +383,10 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(CUSTOMER);
+            .thenReturn(Optional.of(CUSTOMER));
 
         // then
         assertThrows(IllegalArgumentException.class,
@@ -410,10 +414,13 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         when(customerRepository.findById(command.getCustomerId()))
-            .thenReturn(CUSTOMER);
+            .thenReturn(Optional.of(CUSTOMER));
+
+        when(studySeatRepository.findByIdForLock(studySeatId))
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         assertThrows(IllegalStateException.class,
             () -> studySeatService.changeStudyTime(
@@ -438,7 +445,7 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         CommandCheckOutScheduleResponse actual = studySeatService.checkoutSchedule(
@@ -467,7 +474,7 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         assertThrows(IllegalStateException.class,
@@ -494,7 +501,7 @@ class StudySeatServiceTest {
 
         // when
         when(studySeatRepository.findById(studySeatId))
-            .thenReturn(STUDY_SEAT);
+            .thenReturn(Optional.of(STUDY_SEAT));
 
         // then
         assertThrows(IllegalStateException.class,
