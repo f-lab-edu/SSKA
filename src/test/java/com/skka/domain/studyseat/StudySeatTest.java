@@ -4,6 +4,7 @@ import static com.skka.studyseat.StudySeatFixture.STUDY_SEAT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import com.skka.adapter.common.exception.BadRequestException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -24,12 +25,12 @@ class StudySeatTest {
     @Test
     void test2() {
 
-            assertThatThrownBy(() -> StudySeat.of(
+        assertThatThrownBy(() -> StudySeat.of(
             STUDY_SEAT.getId(),
             null,
             STUDY_SEAT.isOccupied()
         ))
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(BadRequestException.class)
             .hasMessage("올바르지 않은 좌석 번호 입니다.");
     }
 }
