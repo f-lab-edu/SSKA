@@ -1,18 +1,13 @@
 package com.skka.adapter.common.exception;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ErrorResponse {
 
     private int errorCode;
     private String message;
-
-    public ErrorResponse(final int errorCode, final String message) {
-        this.errorCode = errorCode;
-        this.message = message;
-    }
 }

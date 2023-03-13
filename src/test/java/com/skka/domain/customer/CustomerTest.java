@@ -4,7 +4,7 @@ import static com.skka.customer.CustomerFixture.CUSTOMER;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.skka.adapter.common.exception.BadRequestException;
+import com.skka.adapter.common.exception.InvalidInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +37,7 @@ class CustomerTest {
             CUSTOMER.getLastModified(),
             CUSTOMER.getCreatedAt()
         ))
-            .isInstanceOf(BadRequestException.class)
+            .isInstanceOf(InvalidInputException.class)
             .hasMessage("올바르지 않은 이름입니다.");
     }
 
@@ -53,7 +53,7 @@ class CustomerTest {
             CUSTOMER.getLastModified(),
             CUSTOMER.getCreatedAt()
         ))
-            .isInstanceOf(BadRequestException.class)
+            .isInstanceOf(InvalidInputException.class)
             .hasMessage("올바르지 않은 이메일입니다.");
     }
 
@@ -69,7 +69,7 @@ class CustomerTest {
             CUSTOMER.getLastModified(),
             CUSTOMER.getCreatedAt()
         ))
-            .isInstanceOf(BadRequestException.class)
+            .isInstanceOf(InvalidInputException.class)
             .hasMessage("올바르지 않은 전화번호입니다.");
     }
 }
