@@ -22,10 +22,10 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class StudySeat {
 
-    private final long id;
-    private final String seatNumber;
-    private final boolean occupied;
-    private final List<Schedule> schedules = new ArrayList<>();
+    private long id;
+    private String seatNumber;
+    private boolean occupied;
+    private List<Schedule> schedules = new ArrayList<>();
 
     private StudySeat(final long id, final String seatNumber, final boolean occupied) {
         this.id = id;
