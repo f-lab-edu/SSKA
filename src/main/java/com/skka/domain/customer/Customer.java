@@ -18,14 +18,14 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class Customer {
 
-    private final long id;
-    private final String name;
-    private final String email;
-    private final String password;
-    private final String tel;
-    private final List<Schedule> schedules = new ArrayList<>();
-    private final LocalDateTime lastModified;
-    private final LocalDateTime createdAt;
+    private long id;
+    private String name;
+    private String email;
+    private String password;
+    private String tel;
+    private List<Schedule> schedules = new ArrayList<>();
+    private LocalDateTime lastModified;
+    private LocalDateTime createdAt;
 
     private Customer(
         final long id,
