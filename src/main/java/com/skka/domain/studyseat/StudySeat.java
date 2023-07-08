@@ -27,7 +27,7 @@ public class StudySeat {
     private boolean occupied;
     private List<Schedule> schedules = new ArrayList<>();
 
-    private StudySeat(final long id, final String seatNumber, final boolean occupied) {
+    private StudySeat(long id, String seatNumber, boolean occupied) {
         this.id = id;
         this.seatNumber = seatNumber;
         this.occupied = occupied;
