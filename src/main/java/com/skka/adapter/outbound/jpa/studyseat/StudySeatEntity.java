@@ -32,7 +32,9 @@ public class StudySeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String seatNumber;
+
     private boolean occupied;
 
     @OneToMany(mappedBy = "studySeat", cascade = CascadeType.ALL, orphanRemoval = true)

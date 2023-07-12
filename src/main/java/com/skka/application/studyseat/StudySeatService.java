@@ -25,7 +25,7 @@ public class StudySeatService {
     private final CustomerRepository customerRepository;
     private final StudySeatRepository studySeatRepository;
 
-    private String success = "success";
+    private final String success = "success";
 
     @Transactional
     public CommandReserveSeatResponse reserveSeat(final ReserveSeatRequest command, final long studySeatId) {
