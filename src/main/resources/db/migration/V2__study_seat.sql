@@ -6,6 +6,7 @@ CREATE TABLE `study_seat`
     `occupied`      BIT(1)              NOT NULL                  COMMENT '좌석 차지 여부',
     `started_time`  DATETIME(6)             NULL                  COMMENT '해당 자리에서 시작 날짜, 시간',
     `end_time`      DATETIME(6)             NULL                  COMMENT '해당 자리에서 끝나는 날짜, 시간',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (customer_id) REFERENCES customer (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '좌석 정보';
